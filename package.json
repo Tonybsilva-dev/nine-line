@@ -5,10 +5,21 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "prepare": "husky install",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,css,md,json}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "turbo": "^2.5.4",
     "typescript": "5.8.3"
@@ -21,5 +32,8 @@
     "apps/*",
     "packages/*",
     "packages/config/*"
-  ]
+  ],
+  "dependencies": {
+    "git-commit-msg-linter": "^5.0.8"
+  }
 }
