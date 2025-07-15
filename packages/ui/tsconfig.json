@@ -1,6 +1,7 @@
 {
   "extends": "@nine-line/tsconfig/react",
   "compilerOptions": {
+    "jsx": "react-jsx",
     "outDir": "dist"
   },
   "include": [
