@@ -1,12 +1,5 @@
 {
   "extends": "@nine-line/tsconfig/react",
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
   "include": [
     "**/*.ts",
     "**/*.tsx",

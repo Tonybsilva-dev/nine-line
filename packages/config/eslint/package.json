@@ -9,6 +9,9 @@
     "./lib": "./lib.js",
     "./node": "./node.js"
   },
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules/.cache"
+  },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "@next/eslint-plugin-next": "^15.3.0",

@@ -11,5 +11,8 @@
     "./node": "./node.tsconfig.json",
     "./lib": "./lib.tsconfig.json",
     "./base": "./base.json"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules/.cache"
   }
 }
