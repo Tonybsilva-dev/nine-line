@@ -19,10 +19,12 @@ nine-line/
 ```
 
 ### Apps
+
 - **web**: Main Next.js application.
 - **docs**: Next.js application for documentation.
 
 ### Shared Packages
+
 - **@nine-line/ui**: Reusable React component library.
 - **@nine-line/eslint**: Centralized ESLint configurations for the entire monorepo.
 - **@nine-line/tsconfig**: Centralized TypeScript configurations for the entire monorepo.
@@ -34,7 +36,7 @@ ESLint and TypeScript configurations are located in `packages/config` and are us
 - To use the centralized ESLint config, each app has a `.eslintrc.js` like:
   ```js
   module.exports = {
-    extends: ["@nine-line/eslint/react"]
+    extends: ["@nine-line/eslint/react"],
   };
   ```
 - To use the centralized TypeScript config, each app has a `tsconfig.json` like:
@@ -47,12 +49,14 @@ ESLint and TypeScript configurations are located in `packages/config` and are us
 ## How to Start the Project
 
 1. **Clone the repository:**
+
    ```sh
    git clone <repo-url>
    cd nine-line
    ```
 
 2. **Install dependencies at the root of the monorepo:**
+
    ```sh
    npm install
    # or
@@ -63,6 +67,7 @@ ESLint and TypeScript configurations are located in `packages/config` and are us
 
 3. **Development**
    To run all applications in development mode:
+
    ```sh
    npm run dev
    # or
@@ -70,7 +75,9 @@ ESLint and TypeScript configurations are located in `packages/config` and are us
    # or
    yarn dev
    ```
+
    To run a specific application:
+
    ```sh
    npm run dev --filter=web
    npm run dev --filter=docs
@@ -83,6 +90,7 @@ ESLint and TypeScript configurations are located in `packages/config` and are us
    ```
 
 ## Notes
+
 - Always install dependencies from the root of the monorepo to ensure workspaces function correctly.
 - Centralized configurations make code maintenance and standardization easier.
 
