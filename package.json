@@ -2,10 +2,10 @@
   "name": "nine-line",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "prepare": "husky install",
+    "build": "tsc --noEmit && turbo build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "prepare": "husky install",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
@@ -18,8 +18,8 @@
     ]
   },
   "devDependencies": {
-    "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
     "prettier": "^3.6.2",
     "turbo": "^2.5.4",
     "typescript": "5.8.3"
