@@ -1,5 +1,15 @@
 {
   "extends": "@nine-line/tsconfig/react",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
   "include": [
     "**/*.ts",
     "**/*.tsx",
