@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "nine-line/tsconfig/*": [
+        "config/tsconfig/*"
+      ],
+      "nine-line/eslint/*": [
+        "config/eslint/*"
+      ]
+    }
+  }
+}

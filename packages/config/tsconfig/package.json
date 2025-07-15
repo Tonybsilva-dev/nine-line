@@ -1,0 +1,15 @@
+{
+  "name": "@nine-line/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./react": "./react.tsconfig.json",
+    "./node": "./node.tsconfig.json",
+    "./lib": "./lib.tsconfig.json",
+    "./base": "./base.json"
+  }
+}
