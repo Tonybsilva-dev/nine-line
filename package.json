@@ -1,11 +1,12 @@
 {
   "name": "nine-line",
+  "type": "module",
   "private": true,
   "scripts": {
     "prepare": "husky install",
     "build": "tsc --noEmit && turbo build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint -- --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },

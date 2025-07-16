@@ -1,5 +1,6 @@
 {
   "name": "@nine-line/ui",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -8,7 +9,7 @@
     "./code": "./src/code.tsx"
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
+    "lint": "eslint . --fix --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
     "clean": "rm -rf dist .turbo node_modules/.cache"

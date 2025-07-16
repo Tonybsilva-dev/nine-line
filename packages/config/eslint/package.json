@@ -4,10 +4,14 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./base": "./base.js",
-    "./react": "./react.js",
-    "./lib": "./lib.js",
-    "./node": "./node.js"
+    "./flat/base": "./flat/base.config.js",
+    "./flat/react": "./flat/react.config.js",
+    "./flat/lib": "./flat/lib.config.js",
+    "./flat/node": "./flat/node.config.js",
+    "./legacy/base": "./legacy/base.js",
+    "./legacy/react": "./legacy/react.js",
+    "./legacy/lib": "./legacy/lib.js",
+    "./legacy/node": "./legacy/node.js"
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules/.cache"
@@ -24,5 +28,6 @@
     "globals": "^16.3.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.36.0"
-  }
+  },
+  "readme": "\n# @nine-line/eslint\n\n## Configurações Flat (ESLint 9+)\n\nImporte assim nos seus projetos:\n\n```js\nimport config from '@nine-line/eslint/flat/react'\nexport default config;\n```\n\nDisponíveis:\n- @nine-line/eslint/flat/base\n- @nine-line/eslint/flat/react\n- @nine-line/eslint/flat/lib\n- @nine-line/eslint/flat/node\n\n## Configurações Legacy (CommonJS, ESLint <9)\n\nImporte assim nos seus projetos:\n\n```js\nmodule.exports = require('@nine-line/eslint/legacy/react');\n```\n\nDisponíveis:\n- @nine-line/eslint/legacy/base\n- @nine-line/eslint/legacy/react\n- @nine-line/eslint/legacy/lib\n- @nine-line/eslint/legacy/node\n\n"
 }
