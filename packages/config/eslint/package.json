@@ -14,6 +14,9 @@
     "./legacy/node": "./legacy/node.js"
   },
   "scripts": {
+    "test": "echo 'No tests configured' && exit 0",
+    "test:watch": "echo 'No tests configured' && exit 0",
+    "test:coverage": "echo 'No tests configured' && exit 0",
     "clean": "rm -rf .turbo node_modules/.cache"
   },
   "devDependencies": {

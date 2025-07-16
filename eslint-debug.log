@@ -1,0 +1,14 @@
+2025-07-16T18:05:22.078Z eslint:cli CLI args: [ '--debug', 'src' ]
+2025-07-16T18:05:22.079Z eslint:cli Using flat config? true
+2025-07-16T18:05:22.081Z eslint:cli Running on files
+2025-07-16T18:05:22.082Z eslint:eslint Using config loader LegacyConfigLoader
+2025-07-16T18:05:22.082Z eslint:eslint Using file patterns: src
+2025-07-16T18:05:22.082Z eslint:eslint Deleting cache file at /Users/antonio-s/Desktop/nine-line/.eslintcache
+
+Oops! Something went wrong! :(
+
+ESLint: 9.31.0
+
+No files matching the pattern "src" were found.
+Please check for typing mistakes in the pattern.
+

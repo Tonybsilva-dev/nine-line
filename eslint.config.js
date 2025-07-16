@@ -15,6 +15,8 @@ export default [
       "*.config.cjs",
       ".env*",
       "coverage/",
+      "prisma/",
+      "test/",
     ],
   },
   // ...restante da configuração

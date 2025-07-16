@@ -9,6 +9,9 @@
     "start": "next start",
     "lint": "next lint --fix --max-warnings 0",
     "check-types": "tsc --noEmit",
+    "test": "echo 'No tests configured' && exit 0",
+    "test:watch": "echo 'No tests configured' && exit 0",
+    "test:coverage": "echo 'No tests configured' && exit 0",
     "clean": "rm -rf .next .turbo node_modules/.cache"
   },
   "dependencies": {

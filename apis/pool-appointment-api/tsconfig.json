@@ -1,0 +1,13 @@
+{
+  "extends": "@nine-line/tsconfig/node",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "types": ["node"]
+  },
+  "include": ["src", "test"]
+}
