@@ -37,11 +37,10 @@ To get a local copy up and running follow these simple steps.
 
 This is an example of how to list things you need to use the software and how to install them.
 
-- npm
-
-  ```sh
-  npm install npm@latest -g
-  ```
+- **Node.js** (v18 or higher)
+- **npm** or **yarn**
+- **Docker** (for Redis)
+- **PostgreSQL** (for database)
 
 ### Installation
 
@@ -49,6 +48,7 @@ This is an example of how to list things you need to use the software and how to
 
    ```sh
    git clone https://github.com/Tonybsilva-dev/pool-appointment-api.git
+   cd pool-appointment-api
    ```
 
 2. Install NPM packages
@@ -57,11 +57,86 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 
+3. Setup Redis (Required)
+
+   ```sh
+   # Option A: Using the setup script (Recommended)
+   ./scripts/setup-redis.sh
+
+   # Option B: Manual setup
+   docker-compose -f docker-compose.redis.yml up -d
+   ```
+
+4. Install optional development dependencies
+
+   ```sh
+   # For colored logs and better development experience
+   ./scripts/install-dev-deps.sh
+   ```
+
+5. Configure environment variables
+
+   ```sh
+   # Copy the example file
+   cp env.example .env
+
+   # Edit the file with your database configuration
+   nano .env
+   ```
+
+6. Run database migrations
+
+   ```sh
+   npm run db:migrate
+   ```
+
    <!-- USAGE EXAMPLES -->
 
 ## Usage
 
-_For more examples, please refer to the [Documentation](#)_
+### Development
+
+```sh
+# Start development server
+npm run dev
+
+# Run tests
+npm run test
+
+# Check types
+npm run check-types
+
+# Run linting
+npm run lint
+```
+
+### Production
+
+```sh
+# Build the application
+npm run build
+
+# Start production server
+npm start
+```
+
+### Health Check
+
+The API provides a health check endpoint:
+
+```sh
+curl http://localhost:3000/api/health
+```
+
+### API Documentation
+
+Once the server is running, you can access the Swagger documentation at:
+
+```
+http://localhost:3000/api-docs
+```
+
+_For more examples, please refer to the [Documentation](docs/)_
 
 ## Download API
 
@@ -71,7 +146,7 @@ _For more examples, please refer to the [Documentation](#)_
 
 See the [open issues](https://github.com/Tonybsilva-dev/pool-appointment-api/issues) for a list of proposed features (and known issues).
 
-## Details
+## Features
 
 ```bash
 📝 Notes.
@@ -81,10 +156,35 @@ See the [open issues](https://github.com/Tonybsilva-dev/pool-appointment-api/iss
 - [x] Clean Architecture
 - [x] Functional Error Handling
 - [x] Factory and Repository Pattern
-- [x] Swagger
+- [x] Swagger Documentation
+- [x] Redis Caching
+- [x] Structured Logging
+- [x] Health Checks
+- [x] Graceful Shutdown
+- [x] Request/Response Logging
+- [x] Performance Monitoring
 - [ ] Docker
 - [ ] CI/CD
 ```
+
+## Architecture
+
+The API follows Clean Architecture principles with:
+
+- **Domain Layer**: Business logic and entities
+- **Application Layer**: Use cases and application services
+- **Infrastructure Layer**: External services (database, Redis, etc.)
+- **Presentation Layer**: Controllers and routes
+
+### Logging & Monitoring
+
+The API includes comprehensive logging and monitoring:
+
+- **Request Logging**: All HTTP requests are logged with performance metrics
+- **Error Logging**: Structured error logging with stack traces
+- **Performance Monitoring**: Automatic detection of slow requests and queries
+- **Health Checks**: Database and Redis connectivity monitoring
+- **Graceful Shutdown**: Proper cleanup of connections and resources
 
 <!-- CONTACT -->
 

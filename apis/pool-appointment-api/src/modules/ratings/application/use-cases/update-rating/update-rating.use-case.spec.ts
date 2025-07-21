@@ -66,7 +66,7 @@ describe('UpdateRatingUseCase', () => {
         id: 'non-existent-id',
         score: 4,
       }),
-    ).rejects.toThrow('Rating not found');
+    ).rejects.toThrow("Rating with identifier 'non-existent-id' not found");
   });
 
   it('should throw error if score is less than 1', async () => {

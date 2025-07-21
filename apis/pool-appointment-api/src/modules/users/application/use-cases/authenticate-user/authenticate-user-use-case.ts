@@ -1,5 +1,6 @@
 import { UserRepository } from '../../../domain/repositories/user-repository';
 import { User } from '../../../domain/entities/user';
+import { UnauthorizedError } from '@/core/errors';
 
 interface AuthenticateDTO {
   email: string;
@@ -13,17 +14,17 @@ export class AuthenticateUserUseCase {
     const user = await this.userRepository.findByEmail(data.email);
 
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     if (user.status === 'INACTIVE' || user.deletedAt) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     const isPasswordValid = await user.password.compare(data.password);
 
     if (!isPasswordValid) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     return user;

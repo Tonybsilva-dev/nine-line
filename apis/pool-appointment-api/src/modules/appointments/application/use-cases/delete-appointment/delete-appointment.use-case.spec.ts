@@ -33,7 +33,9 @@ describe('DeleteAppointmentUseCase', () => {
   it('should throw error when appointment not found', async () => {
     await expect(() =>
       deleteAppointmentUseCase.execute('non-existent-id'),
-    ).rejects.toThrow('Appointment not found');
+    ).rejects.toThrow(
+      "Appointment with identifier 'non-existent-id' not found",
+    );
   });
 
   it('should delete appointment with different statuses', async () => {

@@ -3,9 +3,14 @@ import { userRoutes } from '@/modules/users/presentation/routes/user-routes';
 import { spaceRoutes } from '@/modules/spaces/presentation/routes/space-routes';
 import { ratingRoutes } from '@/modules/ratings/presentation/routes/rating-routes';
 import { appointmentRoutes } from '@/modules/appointments/presentation/routes/appointment-routes';
+import { healthCheck } from '../middlewares/health-check';
 
 export const routes = Router();
 
+// Health check endpoint
+routes.get('/health', healthCheck);
+
+// Legacy status endpoint
 routes.get('/status', (req, res) => {
   res.json({ status: 'ok' });
 });

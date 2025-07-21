@@ -2,6 +2,7 @@ import { RatingRepository } from '../../../domain/repositories/rating-repository
 import { Rating } from '../../../domain/entities/rating';
 import { UpdateSpaceAverageRating } from '../../../domain/services/update-space-average-rating';
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
+import { EntityNotFoundError } from '@/core/errors';
 
 interface UpdateRatingDTO {
   id: string;
@@ -26,7 +27,7 @@ export class UpdateRatingUseCase {
     const rating = await this.ratingRepository.findById(data.id);
 
     if (!rating) {
-      throw new Error('Rating not found');
+      throw new EntityNotFoundError('Rating', data.id);
     }
 
     if (data.score !== undefined) {

@@ -1,5 +1,6 @@
 import { RatingRepository } from '../repositories/rating-repository';
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
+import { EntityNotFoundError } from '@/core/errors';
 
 export class UpdateSpaceAverageRating {
   constructor(
@@ -13,7 +14,7 @@ export class UpdateSpaceAverageRating {
     const space = await this.spaceRepository.findById(spaceId);
 
     if (!space) {
-      throw new Error('Space not found');
+      throw new EntityNotFoundError('Space', spaceId);
     }
 
     space.averageRating = averageRating;

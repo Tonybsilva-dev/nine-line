@@ -88,7 +88,9 @@ describe('UpdateAppointmentUseCase', () => {
         id: 'non-existent-id',
         status: AppointmentStatus.CONFIRMED,
       }),
-    ).rejects.toThrow('Appointment not found');
+    ).rejects.toThrow(
+      "Appointment with identifier 'non-existent-id' not found",
+    );
   });
 
   it('should throw error if new date is in the past', async () => {

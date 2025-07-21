@@ -31,7 +31,7 @@ describe('DeleteUserUseCase', () => {
   it('should throw error when user not found', async () => {
     await expect(() =>
       deleteUserUseCase.execute('non-existent-id'),
-    ).rejects.toThrow('User not found');
+    ).rejects.toThrow("User with identifier 'non-existent-id' not found");
   });
 
   it('should delete user with different statuses', async () => {

@@ -9,6 +9,9 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   REDIS_URL: z.string(),
   DOCKER: z.string().default('false'),
+  LOG_LEVEL: z
+    .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
+    .default('info'),
 });
 
 export const ENV_CONFIG = envSchema.parse(process.env);

@@ -82,7 +82,7 @@ describe('CreateAppointmentUseCase', () => {
         startTime,
         endTime,
       }),
-    ).rejects.toThrow('User not found');
+    ).rejects.toThrow("User with identifier 'non-existent-user' not found");
   });
 
   it('should throw error if space does not exist', async () => {
@@ -106,7 +106,7 @@ describe('CreateAppointmentUseCase', () => {
         startTime,
         endTime,
       }),
-    ).rejects.toThrow('Space not found');
+    ).rejects.toThrow("Space with identifier 'non-existent-space' not found");
   });
 
   it('should throw error if appointment date is in the past', async () => {

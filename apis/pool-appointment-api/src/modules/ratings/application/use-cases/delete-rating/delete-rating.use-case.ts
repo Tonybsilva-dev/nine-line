@@ -1,6 +1,7 @@
 import { RatingRepository } from '../../../domain/repositories/rating-repository';
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
 import { UpdateSpaceAverageRating } from '../../../domain/services/update-space-average-rating';
+import { EntityNotFoundError } from '@/core/errors';
 
 interface DeleteRatingDTO {
   id: string;
@@ -23,7 +24,7 @@ export class DeleteRatingUseCase {
     const rating = await this.ratingRepository.findById(id);
 
     if (!rating) {
-      throw new Error('Rating not found');
+      throw new EntityNotFoundError('Rating', id);
     }
 
     await this.ratingRepository.delete(id);

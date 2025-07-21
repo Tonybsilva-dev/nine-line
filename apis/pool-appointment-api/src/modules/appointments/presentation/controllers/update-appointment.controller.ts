@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { PrismaAppointmentRepository } from '../../infra/repositories/prisma-appointment-repository';
 import { UpdateAppointmentUseCase } from '../../application/use-cases/update-appointment/update-appointment.use-case';
+import { ResponseMapper } from '@/core/presentation/responses';
+import { eventBus } from '@/core/events';
 import { prisma } from '@/config/prisma';
 
 export async function updateAppointmentController(req: Request, res: Response) {
@@ -8,7 +10,7 @@ export async function updateAppointmentController(req: Request, res: Response) {
   const { date, startTime, endTime, status } = req.body;
 
   const appointmentRepo = new PrismaAppointmentRepository(prisma);
-  const useCase = new UpdateAppointmentUseCase(appointmentRepo);
+  const useCase = new UpdateAppointmentUseCase(appointmentRepo, eventBus);
 
   const appointment = await useCase.execute({
     id,
@@ -18,5 +20,16 @@ export async function updateAppointmentController(req: Request, res: Response) {
     status,
   });
 
-  return res.status(200).json(appointment);
+  const appointmentData = {
+    id: appointment.id.toString(),
+    userId: appointment.userId,
+    spaceId: appointment.spaceId,
+    date: appointment.date,
+    startTime: appointment.startTime,
+    endTime: appointment.endTime,
+    status: appointment.status,
+    updatedAt: appointment.updatedAt,
+  };
+
+  return ResponseMapper.ok(res, appointmentData, req.requestId);
 }

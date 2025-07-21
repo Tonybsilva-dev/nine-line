@@ -98,7 +98,7 @@ describe('CreateUserUseCase', () => {
         status: UserStatus.ACTIVE,
         role: UserRole.USER,
       }),
-    ).rejects.toThrow('User already exists');
+    ).rejects.toThrow("User with email 'john@example.com' already exists");
   });
 
   it('should create multiple users with different emails', async () => {

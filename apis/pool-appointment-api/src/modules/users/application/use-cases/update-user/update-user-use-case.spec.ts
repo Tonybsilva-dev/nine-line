@@ -85,7 +85,7 @@ describe('UpdateUserUseCase', () => {
   it('should throw error when user not found', async () => {
     await expect(() =>
       useCase.execute({ id: 'non-existent-id', name: 'Updated' }),
-    ).rejects.toThrow('User not found');
+    ).rejects.toThrow("User with identifier 'non-existent-id' not found");
   });
 
   it('should update multiple fields at once', async () => {

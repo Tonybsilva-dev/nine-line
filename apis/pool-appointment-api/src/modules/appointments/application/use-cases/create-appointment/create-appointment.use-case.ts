@@ -2,7 +2,9 @@ import { AppointmentRepository } from '../../../domain/repositories/appointment-
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
 import { UserRepository } from '@/modules/users/domain/repositories/user-repository';
 import { Appointment } from '../../../domain/entities/appointment';
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
+import { EntityNotFoundError } from '@/core/errors';
+import { EventBus } from '@/core/events';
+import { AppointmentCreatedEvent } from '../../../domain/events';
 
 interface CreateAppointmentDTO {
   userId: string;
@@ -17,17 +19,18 @@ export class CreateAppointmentUseCase {
     private readonly appointmentRepository: AppointmentRepository,
     private readonly spaceRepository: SpaceRepository,
     private readonly userRepository: UserRepository,
+    private readonly eventBus?: EventBus,
   ) {}
 
   async execute(data: CreateAppointmentDTO): Promise<Appointment> {
     const user = await this.userRepository.findById(data.userId);
     if (!user) {
-      throw new ResourceNotFoundError('User');
+      throw new EntityNotFoundError('User', data.userId);
     }
 
     const space = await this.spaceRepository.findById(data.spaceId);
     if (!space) {
-      throw new ResourceNotFoundError('Space');
+      throw new EntityNotFoundError('Space', data.spaceId);
     }
 
     const appointment = Appointment.create({
@@ -39,6 +42,13 @@ export class CreateAppointmentUseCase {
     });
 
     await this.appointmentRepository.create(appointment);
+
+    // Disparar evento de appointment criado se eventBus estiver disponível
+    if (this.eventBus) {
+      const appointmentCreatedEvent = new AppointmentCreatedEvent(appointment);
+      await this.eventBus.publish(appointmentCreatedEvent);
+    }
+
     return appointment;
   }
 }

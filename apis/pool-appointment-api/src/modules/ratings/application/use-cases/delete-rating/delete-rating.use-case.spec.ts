@@ -39,7 +39,7 @@ describe('DeleteRatingUseCase', () => {
       useCase.execute({
         id: 'non-existent-id',
       }),
-    ).rejects.toThrow('Rating not found');
+    ).rejects.toThrow("Rating with identifier 'non-existent-id' not found");
   });
 
   it('should update space average rating when multiple ratings are deleted', async () => {
