@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaSpaceRepository } from '../../infra/repositories/prisma-space-repository';
+import { PrismaSpaceRepository } from '../../infra/repositories/prisma-space.repository';
 import { FindSpaceByIdUseCase } from '../../application/use-cases/find-space/find-space-by-id.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 

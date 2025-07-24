@@ -12,6 +12,9 @@ const envSchema = z.object({
   LOG_LEVEL: z
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
     .default('info'),
+  JWT_SECRET: z.string(),
+  JWT_REFRESH_SECRET: z.string(),
+  ALLOWED_ORIGINS: z.string().default('http://localhost:3000'),
 });
 
 export const ENV_CONFIG = envSchema.parse(process.env);

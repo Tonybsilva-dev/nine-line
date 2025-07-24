@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaAppointmentRepository } from '../../infra/repositories/prisma-appointment-repository';
+import { PrismaAppointmentRepository } from '../../infra/repositories';
 import { FindAppointmentsBySpaceIdUseCase } from '../../application/use-cases/find-appointment/find-appointments-by-space-id.use-case';
 import { prisma } from '@/config/prisma';
 

@@ -30,12 +30,8 @@ ratingRoutes.put(
 ratingRoutes.delete('/:id', validateParamsId, deleteRatingController);
 ratingRoutes.get('/:id', validateParamsId, findRatingByIdController);
 ratingRoutes.get(
-  '/space/:spaceId',
+  '/space/:id',
   validateParamsId,
   findRatingsBySpaceIdController,
 );
-ratingRoutes.get(
-  '/user/:userId',
-  validateParamsId,
-  findRatingsByUserIdController,
-);
+ratingRoutes.get('/user/:id', validateParamsId, findRatingsByUserIdController);

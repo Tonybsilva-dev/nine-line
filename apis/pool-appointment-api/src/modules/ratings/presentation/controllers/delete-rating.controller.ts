@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { PrismaRatingRepository } from '../../infra/repositories/prisma-rating-repository';
-import { PrismaSpaceRepository } from '@/modules/spaces/infra/repositories/prisma-space-repository';
+import { PrismaRatingRepository } from '../../infra/repositories/prisma-rating.repository';
+import { PrismaSpaceRepository } from '@/modules/spaces/infra/repositories/prisma-space.repository';
 import { DeleteRatingUseCase } from '../../application/use-cases/delete-rating/delete-rating.use-case';
 import { prisma } from '@/config/prisma';
 

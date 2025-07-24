@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { CreateSpaceUseCase } from '@/modules/spaces/application/use-cases/create-space/create-space.use-case';
-import { PrismaSpaceRepository } from '../../infra/repositories/prisma-space-repository';
+import { PrismaSpaceRepository } from '../../infra/repositories/prisma-space.repository';
 import { ResponseMapper } from '@/core/presentation/responses';
 import { eventBus } from '@/core/events';
 

@@ -1,2 +1,2 @@
-export { validateCreateAppointment } from './create-appointment-validator';
-export { validateUpdateAppointment } from './update-appointment-validator';
+export * from './create-appointment.validator';
+export * from './update-appointment.validator';

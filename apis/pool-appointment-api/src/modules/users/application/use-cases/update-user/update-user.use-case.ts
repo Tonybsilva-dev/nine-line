@@ -1,4 +1,4 @@
-import { UserRepository } from '@/modules/users/domain/repositories/user-repository';
+import { UserRepository } from '@/modules/users/domain/repositories/user.repository';
 import { UserStatus, UserRole } from '@prisma/client';
 import { EntityNotFoundError } from '@/core/errors';
 import { EventBus } from '@/core/events';

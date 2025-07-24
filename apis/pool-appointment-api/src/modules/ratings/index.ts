@@ -1,6 +1,6 @@
 export * from './domain/entities/rating';
 export * from './domain/repositories/rating-repository';
-export * from './infra/repositories/prisma-rating-repository';
+export * from './infra/repositories/prisma-rating.repository';
 export * from './application/use-cases/create-rating/create-rating.use-case';
 export * from './application/use-cases/update-rating/update-rating.use-case';
 export * from './application/use-cases/delete-rating/delete-rating.use-case';

@@ -1,6 +1,6 @@
 import { PaginationParams } from '@/core/repositories/pagination-params';
 import { User } from '@/modules/users/domain/entities/user';
-import { UserRepository } from '@/modules/users/domain/repositories/user-repository';
+import { UserRepository } from '@/modules/users/domain/repositories/user.repository';
 
 export class InMemoryUserRepository implements UserRepository {
   private users: User[] = [];

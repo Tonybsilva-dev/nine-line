@@ -1,4 +1,4 @@
-import { UserRepository } from '@/modules/users/domain/repositories/user-repository';
+import { UserRepository } from '@/modules/users/domain/repositories/user.repository';
 
 export class CountUsersUseCase {
   constructor(private readonly userRepository: UserRepository) {}

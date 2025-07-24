@@ -20,7 +20,7 @@ export default defineConfig({
         '**/core/routes/**',
         '**/core/types/**',
         '**/core/middlewares/error-handling.ts',
-        '**/infra/repositories/prisma-user-repository.ts',
+        '**/infra/repositories/prisma-user.repository.ts',
         '**/presentation/controllers/**',
         '**/presentation/routes/**',
         '**/presentation/validators/**',
@@ -31,6 +31,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      '@/test': path.resolve(__dirname, 'test'),
     },
   },
 });

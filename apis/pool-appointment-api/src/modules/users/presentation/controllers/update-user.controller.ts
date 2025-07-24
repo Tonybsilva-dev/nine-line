@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaUserRepository } from '../../infra/repositories/prisma-user-repository';
+import { PrismaUserRepository } from '../../infra/repositories';
 import { UpdateUserUseCase } from '../../application/use-cases/update-user/update-user.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 import { eventBus } from '@/core/events';

@@ -1,8 +1,8 @@
 import { AppointmentRepository } from '../../../domain/repositories/appointment-repository';
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
-import { UserRepository } from '@/modules/users/domain/repositories/user-repository';
+import { UserRepository } from '@/modules/users/domain/repositories/user.repository';
 import { Appointment } from '../../../domain/entities/appointment';
-import { EntityNotFoundError } from '@/core/errors';
+import { EntityNotFoundError, InvalidOperationError } from '@/core/errors';
 import { EventBus } from '@/core/events';
 import { AppointmentCreatedEvent } from '../../../domain/events';
 
@@ -31,6 +31,21 @@ export class CreateAppointmentUseCase {
     const space = await this.spaceRepository.findById(data.spaceId);
     if (!space) {
       throw new EntityNotFoundError('Space', data.spaceId);
+    }
+
+    // Validação: Não é possível agendar para datas passadas
+    const now = new Date();
+    if (data.date < now) {
+      throw new InvalidOperationError(
+        'Não é possível agendar para datas passadas',
+      );
+    }
+
+    // Validação: Horário de início deve ser menor que o horário de fim
+    if (data.startTime >= data.endTime) {
+      throw new InvalidOperationError(
+        'O horário de início deve ser menor que o horário de fim',
+      );
     }
 
     const appointment = Appointment.create({

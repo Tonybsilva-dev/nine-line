@@ -11,6 +11,8 @@ import {
   findAppointmentsBySpaceIdController,
   updateAppointmentController,
   deleteAppointmentController,
+  approveAppointmentController,
+  rejectAppointmentController,
 } from '../controllers';
 
 export const appointmentRoutes = Router();
@@ -40,3 +42,13 @@ appointmentRoutes.put(
   updateAppointmentController,
 );
 appointmentRoutes.delete('/:id', validateParamsId, deleteAppointmentController);
+appointmentRoutes.patch(
+  '/:id/approve',
+  validateParamsId,
+  approveAppointmentController,
+);
+appointmentRoutes.patch(
+  '/:id/reject',
+  validateParamsId,
+  rejectAppointmentController,
+);

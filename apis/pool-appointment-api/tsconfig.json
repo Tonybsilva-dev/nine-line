@@ -4,10 +4,11 @@
     "outDir": "dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/test/*": ["./test/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "types": ["node"]
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "src/@types/**/*.d.ts"]
 }

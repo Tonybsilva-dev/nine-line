@@ -64,28 +64,30 @@ describe('FindAppointmentsByUserIdUseCase', () => {
   it('should return appointments with different statuses', async () => {
     const userId = 'user-123';
 
-    await appointmentRepository.create(
+    const appointments = [
       makeAppointment({ userId, status: AppointmentStatus.PENDING }),
-    );
-    await appointmentRepository.create(
       makeAppointment({ userId, status: AppointmentStatus.CONFIRMED }),
-    );
-    await appointmentRepository.create(
       makeAppointment({ userId, status: AppointmentStatus.CANCELLED }),
-    );
+      makeAppointment({ userId, status: AppointmentStatus.REJECTED }),
+    ];
+
+    for (const appointment of appointments) {
+      await appointmentRepository.create(appointment);
+    }
 
     const result = await findAppointmentsByUserIdUseCase.execute(userId, {
       page: 1,
       perPage: 10,
     });
 
-    expect(result.total).toBe(3);
-    expect(result.appointments).toHaveLength(3);
+    expect(result.total).toBe(4);
+    expect(result.appointments).toHaveLength(4);
 
     const statuses = result.appointments.map((a) => a.status);
     expect(statuses).toContain(AppointmentStatus.PENDING);
     expect(statuses).toContain(AppointmentStatus.CONFIRMED);
     expect(statuses).toContain(AppointmentStatus.CANCELLED);
+    expect(statuses).toContain(AppointmentStatus.REJECTED);
   });
 
   it('should return last page correctly', async () => {

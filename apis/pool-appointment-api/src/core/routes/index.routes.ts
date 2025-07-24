@@ -1,21 +1,21 @@
 import { Router } from 'express';
-import { userRoutes } from '@/modules/users/presentation/routes/user-routes';
-import { spaceRoutes } from '@/modules/spaces/presentation/routes/space-routes';
+import { userRoutes } from '@/modules/users/presentation/routes/user.routes';
+import { spaceRoutes } from '@/modules/spaces/presentation/routes/space.routes';
 import { ratingRoutes } from '@/modules/ratings/presentation/routes/rating-routes';
 import { appointmentRoutes } from '@/modules/appointments/presentation/routes/appointment-routes';
+import { rbacRoutes } from '@/modules/rbac/presentation/routes/rbac.routes';
+import { authRoutes } from '@/modules/auth/presentation/routes/auth.routes';
 import { healthCheck } from '../middlewares/health-check';
+import { ensureAuthenticated } from '@/modules/auth/presentation/middlewares/ensure-authenticated';
 
 export const routes = Router();
 
 // Health check endpoint
 routes.get('/health', healthCheck);
 
-// Legacy status endpoint
-routes.get('/status', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-routes.use('/users', userRoutes);
-routes.use('/spaces', spaceRoutes);
-routes.use('/ratings', ratingRoutes);
-routes.use('/appointments', appointmentRoutes);
+routes.use('/users', ensureAuthenticated, userRoutes);
+routes.use('/spaces', ensureAuthenticated, spaceRoutes);
+routes.use('/ratings', ensureAuthenticated, ratingRoutes);
+routes.use('/appointments', ensureAuthenticated, appointmentRoutes);
+routes.use('/rbac', ensureAuthenticated, rbacRoutes);
+routes.use('/auth', authRoutes);

@@ -2,6 +2,9 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "tasks": {
+    "prisma:generate": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
@@ -12,10 +15,11 @@
       "dependsOn": ["^lint"]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": ["^prisma:generate"],
+      "outputs": []
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^prisma:generate"],
       "outputs": []
     },
     "test:watch": {
@@ -23,7 +27,7 @@
       "persistent": true
     },
     "test:coverage": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^prisma:generate"],
       "outputs": ["coverage/**"]
     },
     "dev": {
@@ -31,8 +35,7 @@
       "persistent": true
     },
     "clean": {
-      "cache": false,
-      "outputs": []
+      "cache": false
     }
   }
 }

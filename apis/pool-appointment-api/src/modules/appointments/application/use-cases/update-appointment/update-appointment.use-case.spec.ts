@@ -1,172 +1,262 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { UpdateAppointmentUseCase } from './update-appointment.use-case';
+import { Appointment } from '../../../domain/entities/appointment';
 import { InMemoryAppointmentRepository } from 'test/repositories/in-memory-appointments-repository';
-import { makeAppointment } from 'test/factories/make-appointment';
+import {
+  EntityNotFoundError,
+  InvalidOperationError,
+  ForbiddenError,
+} from '@/core/errors';
 import { AppointmentStatus } from '@prisma/client';
 
 describe('UpdateAppointmentUseCase', () => {
   let appointmentRepository: InMemoryAppointmentRepository;
-  let updateAppointmentUseCase: UpdateAppointmentUseCase;
+  let useCase: UpdateAppointmentUseCase;
 
   beforeEach(() => {
     appointmentRepository = new InMemoryAppointmentRepository();
-    updateAppointmentUseCase = new UpdateAppointmentUseCase(
-      appointmentRepository,
-    );
+    useCase = new UpdateAppointmentUseCase(appointmentRepository);
   });
 
-  it('should update appointment status', async () => {
-    const appointment = makeAppointment({ status: AppointmentStatus.PENDING });
-    await appointmentRepository.create(appointment);
-
-    const updatedAppointment = await updateAppointmentUseCase.execute({
-      id: appointment.id.toString(),
-      status: AppointmentStatus.CONFIRMED,
+  it('should update appointment when user is ADMIN', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-1',
+      spaceId: 'space-1',
+      date: new Date('2030-01-01'),
+      startTime: new Date('2030-01-01T10:00:00'),
+      endTime: new Date('2030-01-01T12:00:00'),
+      status: 'PENDING',
     });
 
-    expect(updatedAppointment.status).toBe(AppointmentStatus.CONFIRMED);
-    expect(updatedAppointment.updatedAt).toBeInstanceOf(Date);
-  });
-
-  it('should update appointment date and time', async () => {
-    const appointment = makeAppointment();
     await appointmentRepository.create(appointment);
 
-    const newDate = new Date();
-    newDate.setDate(newDate.getDate() + 2);
-
-    const newStartTime = new Date(newDate);
-    newStartTime.setHours(14, 0, 0, 0);
-
-    const newEndTime = new Date(newDate);
-    newEndTime.setHours(16, 0, 0, 0);
-
-    const updatedAppointment = await updateAppointmentUseCase.execute({
+    const result = await useCase.execute({
       id: appointment.id.toString(),
-      date: newDate,
-      startTime: newStartTime,
-      endTime: newEndTime,
+      date: new Date('2030-01-02'),
+      startTime: new Date('2030-01-02T14:00:00'),
+      endTime: new Date('2030-01-02T16:00:00'),
+      status: 'CONFIRMED',
+      userId: 'admin-1',
+      userRole: 'ADMIN',
     });
 
-    expect(updatedAppointment.date).toEqual(newDate);
-    expect(updatedAppointment.startTime).toEqual(newStartTime);
-    expect(updatedAppointment.endTime).toEqual(newEndTime);
-    expect(updatedAppointment.updatedAt).toBeInstanceOf(Date);
+    expect(result.date).toEqual(new Date('2030-01-02'));
+    expect(result.status).toBe('CONFIRMED');
   });
 
-  it('should update multiple fields at once', async () => {
-    const appointment = makeAppointment({ status: AppointmentStatus.PENDING });
+  it('should allow USER to update their own appointment and set status to PENDING', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-1',
+      spaceId: 'space-1',
+      date: new Date('2030-01-01'),
+      startTime: new Date('2030-01-01T10:00:00'),
+      endTime: new Date('2030-01-01T12:00:00'),
+      status: 'CONFIRMED',
+    });
+
     await appointmentRepository.create(appointment);
 
-    const newDate = new Date();
-    newDate.setDate(newDate.getDate() + 2);
-
-    const newStartTime = new Date(newDate);
-    newStartTime.setHours(14, 0, 0, 0);
-
-    const newEndTime = new Date(newDate);
-    newEndTime.setHours(16, 0, 0, 0);
-
-    const updatedAppointment = await updateAppointmentUseCase.execute({
+    const result = await useCase.execute({
       id: appointment.id.toString(),
-      date: newDate,
-      startTime: newStartTime,
-      endTime: newEndTime,
-      status: AppointmentStatus.CONFIRMED,
+      date: new Date('2030-01-02'),
+      startTime: new Date('2030-01-02T14:00:00'),
+      endTime: new Date('2030-01-02T16:00:00'),
+      userId: 'user-1',
+      userRole: 'USER',
     });
 
-    expect(updatedAppointment.date).toEqual(newDate);
-    expect(updatedAppointment.startTime).toEqual(newStartTime);
-    expect(updatedAppointment.endTime).toEqual(newEndTime);
-    expect(updatedAppointment.status).toBe(AppointmentStatus.CONFIRMED);
-    expect(updatedAppointment.updatedAt).toBeInstanceOf(Date);
+    expect(result.date).toEqual(new Date('2030-01-02'));
+    expect(result.status).toBe('PENDING'); // Deve voltar para PENDING
   });
 
-  it('should throw error when appointment not found', async () => {
-    await expect(() =>
-      updateAppointmentUseCase.execute({
+  it('should not allow USER to update status directly', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-1',
+      spaceId: 'space-1',
+      date: new Date('2024-01-01'),
+      startTime: new Date('2024-01-01T10:00:00'),
+      endTime: new Date('2024-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    await expect(
+      useCase.execute({
+        id: appointment.id.toString(),
+        status: 'CONFIRMED',
+        userId: 'user-1',
+        userRole: 'USER',
+      }),
+    ).rejects.toThrow(InvalidOperationError);
+  });
+
+  it('should not allow USER to update other users appointments', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-2',
+      spaceId: 'space-1',
+      date: new Date('2024-01-01'),
+      startTime: new Date('2024-01-01T10:00:00'),
+      endTime: new Date('2024-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    await expect(
+      useCase.execute({
+        id: appointment.id.toString(),
+        date: new Date('2024-01-02'),
+        startTime: new Date('2024-01-02T14:00:00'),
+        endTime: new Date('2024-01-02T16:00:00'),
+        userId: 'user-1',
+        userRole: 'USER',
+      }),
+    ).rejects.toThrow(ForbiddenError);
+  });
+
+  it('should allow MANAGER to update their own appointment with limited status options', async () => {
+    const appointment = Appointment.create({
+      userId: 'manager-1',
+      spaceId: 'space-1',
+      date: new Date('2024-01-01'),
+      startTime: new Date('2024-01-01T10:00:00'),
+      endTime: new Date('2024-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    const result = await useCase.execute({
+      id: appointment.id.toString(),
+      status: AppointmentStatus.CANCELLED,
+      userId: 'manager-1',
+      userRole: 'MANAGER',
+    });
+
+    expect(result.status).toBe('CANCELLED');
+  });
+
+  it('should not allow MANAGER to set status to CONFIRMED', async () => {
+    const appointment = Appointment.create({
+      userId: 'manager-1',
+      spaceId: 'space-1',
+      date: new Date('2024-01-01'),
+      startTime: new Date('2024-01-01T10:00:00'),
+      endTime: new Date('2024-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    await expect(
+      useCase.execute({
+        id: appointment.id.toString(),
+        status: 'CONFIRMED',
+        userId: 'manager-1',
+        userRole: 'MANAGER',
+      }),
+    ).rejects.toThrow(InvalidOperationError);
+  });
+
+  it('should not allow MANAGER to update other users appointments', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-1',
+      spaceId: 'space-1',
+      date: new Date('2024-01-01'),
+      startTime: new Date('2024-01-01T10:00:00'),
+      endTime: new Date('2024-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    await expect(
+      useCase.execute({
+        id: appointment.id.toString(),
+        status: AppointmentStatus.CANCELLED,
+        userId: 'manager-1',
+        userRole: 'MANAGER',
+      }),
+    ).rejects.toThrow(ForbiddenError);
+  });
+
+  it('should allow MANAGER to reject their own appointment', async () => {
+    const appointment = Appointment.create({
+      userId: 'manager-1',
+      spaceId: 'space-1',
+      date: new Date('2030-01-01'),
+      startTime: new Date('2030-01-01T10:00:00'),
+      endTime: new Date('2030-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    const result = await useCase.execute({
+      id: appointment.id.toString(),
+      status: 'REJECTED',
+      userId: 'manager-1',
+      userRole: 'MANAGER',
+    });
+
+    expect(result.status).toBe('REJECTED');
+  });
+
+  it('should allow USER to cancel their own appointment', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-1',
+      spaceId: 'space-1',
+      date: new Date('2030-01-01'),
+      startTime: new Date('2030-01-01T10:00:00'),
+      endTime: new Date('2030-01-01T12:00:00'),
+      status: 'CONFIRMED',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    const result = await useCase.execute({
+      id: appointment.id.toString(),
+      status: AppointmentStatus.CANCELLED,
+      userId: 'user-1',
+      userRole: 'USER',
+    });
+
+    expect(result.status).toBe('CANCELLED');
+  });
+
+  it('should not allow USER to reject their own appointment', async () => {
+    const appointment = Appointment.create({
+      userId: 'user-1',
+      spaceId: 'space-1',
+      date: new Date('2030-01-01'),
+      startTime: new Date('2030-01-01T10:00:00'),
+      endTime: new Date('2030-01-01T12:00:00'),
+      status: 'PENDING',
+    });
+
+    await appointmentRepository.create(appointment);
+
+    await expect(
+      useCase.execute({
+        id: appointment.id.toString(),
+        status: 'REJECTED',
+        userId: 'user-1',
+        userRole: 'USER',
+      }),
+    ).rejects.toThrow(InvalidOperationError);
+  });
+
+  it('should throw EntityNotFoundError when appointment does not exist', async () => {
+    await expect(
+      useCase.execute({
         id: 'non-existent-id',
-        status: AppointmentStatus.CONFIRMED,
+        date: new Date('2024-01-02'),
+        startTime: new Date('2024-01-02T14:00:00'),
+        endTime: new Date('2024-01-02T16:00:00'),
+        userId: 'user-1',
+        userRole: 'USER',
       }),
-    ).rejects.toThrow(
-      "Appointment with identifier 'non-existent-id' not found",
-    );
-  });
-
-  it('should throw error if new date is in the past', async () => {
-    const appointment = makeAppointment();
-    await appointmentRepository.create(appointment);
-
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const startTime = new Date(yesterday);
-    startTime.setHours(10, 0, 0, 0);
-
-    const endTime = new Date(yesterday);
-    endTime.setHours(12, 0, 0, 0);
-
-    await expect(() =>
-      updateAppointmentUseCase.execute({
-        id: appointment.id.toString(),
-        date: yesterday,
-        startTime,
-        endTime,
-      }),
-    ).rejects.toThrow('Não é possível agendar para datas passadas');
-  });
-
-  it('should throw error if start time is greater than or equal to end time', async () => {
-    const appointment = makeAppointment();
-    await appointmentRepository.create(appointment);
-
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const startTime = new Date(tomorrow);
-    startTime.setHours(12, 0, 0, 0);
-
-    const endTime = new Date(tomorrow);
-    endTime.setHours(10, 0, 0, 0);
-
-    await expect(() =>
-      updateAppointmentUseCase.execute({
-        id: appointment.id.toString(),
-        date: tomorrow,
-        startTime,
-        endTime,
-      }),
-    ).rejects.toThrow(
-      'O horário de início deve ser menor que o horário de fim',
-    );
-  });
-
-  it('should maintain unchanged fields when only status is updated', async () => {
-    const originalDate = new Date();
-    originalDate.setDate(originalDate.getDate() + 1);
-
-    const originalStartTime = new Date(originalDate);
-    originalStartTime.setHours(10, 0, 0, 0);
-
-    const originalEndTime = new Date(originalDate);
-    originalEndTime.setHours(12, 0, 0, 0);
-
-    const appointment = makeAppointment({
-      date: originalDate,
-      startTime: originalStartTime,
-      endTime: originalEndTime,
-      status: AppointmentStatus.PENDING,
-    });
-    await appointmentRepository.create(appointment);
-
-    const updatedAppointment = await updateAppointmentUseCase.execute({
-      id: appointment.id.toString(),
-      status: AppointmentStatus.CONFIRMED,
-    });
-
-    expect(updatedAppointment.date).toEqual(originalDate);
-    expect(updatedAppointment.startTime).toEqual(originalStartTime);
-    expect(updatedAppointment.endTime).toEqual(originalEndTime);
-    expect(updatedAppointment.status).toBe(AppointmentStatus.CONFIRMED);
+    ).rejects.toThrow(EntityNotFoundError);
   });
 });

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaAppointmentRepository } from '../../infra/repositories/prisma-appointment-repository';
+import { PrismaAppointmentRepository } from '../../infra/repositories';
 import { DeleteAppointmentUseCase } from '../../application/use-cases/delete-appointment/delete-appointment.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 import { eventBus } from '@/core/events';

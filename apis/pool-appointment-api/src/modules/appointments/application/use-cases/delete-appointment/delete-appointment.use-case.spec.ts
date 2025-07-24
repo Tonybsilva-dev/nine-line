@@ -62,27 +62,43 @@ describe('DeleteAppointmentUseCase', () => {
   });
 
   it('should delete multiple appointments', async () => {
-    const appointment1 = makeAppointment();
-    const appointment2 = makeAppointment();
-    const appointment3 = makeAppointment();
+    const appointments = [
+      makeAppointment({
+        id: 'appointment-1',
+        status: AppointmentStatus.PENDING,
+      }),
+      makeAppointment({
+        id: 'appointment-2',
+        status: AppointmentStatus.CONFIRMED,
+      }),
+      makeAppointment({
+        id: 'appointment-3',
+        status: AppointmentStatus.CANCELLED,
+      }),
+      makeAppointment({
+        id: 'appointment-4',
+        status: AppointmentStatus.REJECTED,
+      }),
+    ];
 
-    await appointmentRepository.create(appointment1);
-    await appointmentRepository.create(appointment2);
-    await appointmentRepository.create(appointment3);
+    await appointmentRepository.create(appointments[0]);
+    await appointmentRepository.create(appointments[1]);
+    await appointmentRepository.create(appointments[2]);
+    await appointmentRepository.create(appointments[3]);
 
-    expect(await appointmentRepository.count()).toBe(3);
+    expect(await appointmentRepository.count()).toBe(4);
 
-    await deleteAppointmentUseCase.execute(appointment1.id.toString());
-    await deleteAppointmentUseCase.execute(appointment2.id.toString());
+    await deleteAppointmentUseCase.execute(appointments[0].id.toString());
+    await deleteAppointmentUseCase.execute(appointments[1].id.toString());
 
-    expect(await appointmentRepository.count()).toBe(1);
+    expect(await appointmentRepository.count()).toBe(2);
 
     const remainingAppointment = await appointmentRepository.findById(
-      appointment3.id.toString(),
+      appointments[3].id.toString(),
     );
     expect(remainingAppointment).toBeDefined();
     expect(remainingAppointment?.id.toString()).toBe(
-      appointment3.id.toString(),
+      appointments[3].id.toString(),
     );
   });
 });

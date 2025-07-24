@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { PrismaAppointmentRepository } from '../../infra/repositories/prisma-appointment-repository';
-import { PrismaSpaceRepository } from '@/modules/spaces/infra/repositories/prisma-space-repository';
-import { PrismaUserRepository } from '@/modules/users/infra/repositories/prisma-user-repository';
+import { PrismaAppointmentRepository } from '../../infra/repositories';
+import { PrismaSpaceRepository } from '@/modules/spaces/infra/repositories/prisma-space.repository';
+import { PrismaUserRepository } from '@/modules/users/infra/repositories';
 import { CreateAppointmentUseCase } from '../../application/use-cases/create-appointment/create-appointment.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 import { eventBus } from '@/core/events';

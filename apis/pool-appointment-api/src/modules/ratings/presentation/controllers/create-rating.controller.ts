@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { PrismaRatingRepository } from '../../infra/repositories/prisma-rating-repository';
-import { PrismaSpaceRepository } from '@/modules/spaces/infra/repositories/prisma-space-repository';
+import { PrismaRatingRepository } from '../../infra/repositories/prisma-rating.repository';
+import { PrismaSpaceRepository } from '@/modules/spaces/infra/repositories/prisma-space.repository';
 import { CreateRatingUseCase } from '../../application/use-cases/create-rating/create-rating.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 import { eventBus } from '@/core/events';

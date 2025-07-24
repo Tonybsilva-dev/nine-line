@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaUserRepository } from '../../infra/repositories/prisma-user-repository';
+import { PrismaUserRepository } from '../../infra/repositories';
 import { FindUserByIdUseCase } from '../../application/use-cases/find-user/find-user-by-id.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 

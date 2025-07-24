@@ -1,4 +1,4 @@
-import { UserRepository } from '../../../domain/repositories/user-repository';
+import { UserRepository } from '../../../domain/repositories/user.repository';
 import { User } from '../../../domain/entities/user';
 import { UserStatus, UserRole } from '@prisma/client';
 import { Password } from '@/modules/users/domain/entities/value-objects/password';

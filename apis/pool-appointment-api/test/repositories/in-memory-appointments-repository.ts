@@ -12,6 +12,7 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     const conflictingAppointments = this.appointments.filter((existing) => {
       if (existing.spaceId !== appointment.spaceId) return false;
       if (existing.status === AppointmentStatus.CANCELLED) return false;
+      if (existing.status === AppointmentStatus.REJECTED) return false;
 
       const existingStart = existing.startTime;
       const existingEnd = existing.endTime;
@@ -85,6 +86,7 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     return this.appointments.filter((appointment) => {
       if (appointment.spaceId !== spaceId) return false;
       if (appointment.status === AppointmentStatus.CANCELLED) return false;
+      if (appointment.status === AppointmentStatus.REJECTED) return false;
 
       const appointmentStart = appointment.startTime;
       const appointmentEnd = appointment.endTime;

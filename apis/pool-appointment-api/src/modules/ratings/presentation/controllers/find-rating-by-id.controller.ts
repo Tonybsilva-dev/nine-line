@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaRatingRepository } from '../../infra/repositories/prisma-rating-repository';
+import { PrismaRatingRepository } from '../../infra/repositories/prisma-rating.repository';
 import { FindRatingByIdUseCase } from '../../application/use-cases/find-rating-by-id/find-rating-by-id.use-case';
 import { prisma } from '@/config/prisma';
 

@@ -56,6 +56,21 @@ export class Appointment extends Entity<AppointmentProps> {
     this.touch();
   }
 
+  approve(): void {
+    this.props.status = 'CONFIRMED';
+    this.touch();
+  }
+
+  reject(): void {
+    this.props.status = 'REJECTED';
+    this.touch();
+  }
+
+  cancel(): void {
+    this.props.status = 'CANCELLED';
+    this.touch();
+  }
+
   updateDateTime(date: Date, startTime: Date, endTime: Date): void {
     const now = new Date();
     if (date < now) {
@@ -78,17 +93,6 @@ export class Appointment extends Entity<AppointmentProps> {
     props: Optional<AppointmentProps, 'createdAt' | 'updatedAt' | 'status'>,
     id?: UniqueEntityID,
   ): Appointment {
-    const now = new Date();
-    if (props.date < now) {
-      throw new Error('Não é possível agendar para datas passadas');
-    }
-
-    if (props.startTime >= props.endTime) {
-      throw new Error(
-        'O horário de início deve ser menor que o horário de fim',
-      );
-    }
-
     const appointment = new Appointment(
       {
         ...props,

@@ -63,7 +63,7 @@
  *                   format: date-time
  *                 status:
  *                   type: string
- *                   enum: [PENDING, CONFIRMED, CANCELLED]
+ *                   enum: [PENDING, CONFIRMED, CANCELLED, REJECTED]
  *                 createdAt:
  *                   type: string
  *                   format: date-time

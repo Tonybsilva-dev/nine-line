@@ -40,18 +40,26 @@ describe('FindAppointmentByIdUseCase', () => {
 
   it('should find appointment with different statuses', async () => {
     const pendingAppointment = makeAppointment({
+      id: 'appointment-1',
       status: AppointmentStatus.PENDING,
     });
     const confirmedAppointment = makeAppointment({
+      id: 'appointment-2',
       status: AppointmentStatus.CONFIRMED,
     });
     const cancelledAppointment = makeAppointment({
+      id: 'appointment-3',
       status: AppointmentStatus.CANCELLED,
+    });
+    const rejectedAppointment = makeAppointment({
+      id: 'appointment-4',
+      status: AppointmentStatus.REJECTED,
     });
 
     await appointmentRepository.create(pendingAppointment);
     await appointmentRepository.create(confirmedAppointment);
     await appointmentRepository.create(cancelledAppointment);
+    await appointmentRepository.create(rejectedAppointment);
 
     const pendingResult = await findAppointmentByIdUseCase.execute(
       pendingAppointment.id.toString(),
@@ -62,10 +70,14 @@ describe('FindAppointmentByIdUseCase', () => {
     const cancelledResult = await findAppointmentByIdUseCase.execute(
       cancelledAppointment.id.toString(),
     );
+    const rejectedResult = await findAppointmentByIdUseCase.execute(
+      rejectedAppointment.id.toString(),
+    );
 
     expect(pendingResult?.status).toBe(AppointmentStatus.PENDING);
     expect(confirmedResult?.status).toBe(AppointmentStatus.CONFIRMED);
     expect(cancelledResult?.status).toBe(AppointmentStatus.CANCELLED);
+    expect(rejectedResult?.status).toBe(AppointmentStatus.REJECTED);
   });
 
   it('should find appointment with all fields', async () => {

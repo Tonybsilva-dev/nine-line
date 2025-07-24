@@ -4,3 +4,5 @@ export { findAppointmentsByUserIdController } from './find-appointments-by-user-
 export { findAppointmentsBySpaceIdController } from './find-appointments-by-space-id.controller';
 export { updateAppointmentController } from './update-appointment.controller';
 export { deleteAppointmentController } from './delete-appointment.controller';
+export { approveAppointmentController } from './approve-appointment.controller';
+export { rejectAppointmentController } from './reject-appointment.controller';

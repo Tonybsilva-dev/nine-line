@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaSpaceRepository } from '../../infra/repositories/prisma-space-repository';
+import { PrismaSpaceRepository } from '../../infra/repositories/prisma-space.repository';
 import { UpdateSpaceUseCase } from '@/modules/spaces/application/use-cases/update-space/update-space.use-case';
 import { ResponseMapper } from '@/core/presentation/responses';
 import { eventBus } from '@/core/events';

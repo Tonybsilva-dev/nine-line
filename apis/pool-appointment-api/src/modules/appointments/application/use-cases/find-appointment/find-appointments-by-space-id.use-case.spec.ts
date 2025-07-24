@@ -72,28 +72,31 @@ describe('FindAppointmentsBySpaceIdUseCase', () => {
   it('should return appointments with different statuses', async () => {
     const spaceId = 'space-123';
 
-    await appointmentRepository.create(
+    const appointments = [
       makeAppointment({ spaceId, status: AppointmentStatus.PENDING }),
-    );
-    await appointmentRepository.create(
       makeAppointment({ spaceId, status: AppointmentStatus.CONFIRMED }),
-    );
-    await appointmentRepository.create(
       makeAppointment({ spaceId, status: AppointmentStatus.CANCELLED }),
-    );
+      makeAppointment({ spaceId, status: AppointmentStatus.REJECTED }),
+    ];
+
+    await appointmentRepository.create(appointments[0]);
+    await appointmentRepository.create(appointments[1]);
+    await appointmentRepository.create(appointments[2]);
+    await appointmentRepository.create(appointments[3]);
 
     const result = await findAppointmentsBySpaceIdUseCase.execute(spaceId, {
       page: 1,
       perPage: 10,
     });
 
-    expect(result.total).toBe(3);
-    expect(result.appointments).toHaveLength(3);
+    expect(result.total).toBe(4);
+    expect(result.appointments).toHaveLength(4);
 
     const statuses = result.appointments.map((a) => a.status);
     expect(statuses).toContain(AppointmentStatus.PENDING);
     expect(statuses).toContain(AppointmentStatus.CONFIRMED);
     expect(statuses).toContain(AppointmentStatus.CANCELLED);
+    expect(statuses).toContain(AppointmentStatus.REJECTED);
   });
 
   it('should return last page correctly', async () => {

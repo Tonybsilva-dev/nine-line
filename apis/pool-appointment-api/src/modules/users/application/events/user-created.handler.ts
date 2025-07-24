@@ -2,6 +2,10 @@ import { EventHandler } from '@/core/events';
 import { UserCreatedEvent } from '../../domain/events/user-created.event';
 import { logger } from '@/config/logger';
 
+import { UserRoleAssignment } from '@/modules/rbac/domain/entities';
+import { PrismaRoleRepository } from '@/modules/rbac/infra/repositories/prisma-role.repository';
+import { PrismaUserRoleRepository } from '@/modules/rbac/infra/repositories/prisma-user-role.repository';
+
 export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
   async handle(event: UserCreatedEvent): Promise<void> {
     logger.info({
@@ -11,6 +15,38 @@ export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
       userEmail: event.user.email,
       createdBy: event.createdBy,
     });
+
+    // RBAC: associar usuário à role informada
+    try {
+      const roleRepo = new PrismaRoleRepository();
+      const userRoleRepo = new PrismaUserRoleRepository();
+      const userId = event.user.id.toString();
+      const roleName = event.user.role;
+      const role = await roleRepo.findByName(roleName);
+      if (!role) {
+        logger.error({
+          type: 'user_created_handler',
+          message: `Role ${roleName} não encontrada para o usuário ${userId}`,
+        });
+      } else {
+        const assignment = UserRoleAssignment.create({
+          userId,
+          roleId: role.id.toString(),
+          assignedBy: userId,
+        });
+        await userRoleRepo.create(assignment);
+        logger.info({
+          type: 'user_created_handler',
+          message: `Role ${roleName} associada ao usuário ${userId}`,
+        });
+      }
+    } catch (err) {
+      logger.error({
+        type: 'user_created_handler',
+        message: 'Erro ao associar role ao usuário',
+        error: err,
+      });
+    }
 
     // Aqui você pode adicionar lógicas como:
     // - Enviar email de boas-vindas
