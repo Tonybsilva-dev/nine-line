@@ -6,3 +6,4 @@ export { updateAppointmentController } from './update-appointment.controller';
 export { deleteAppointmentController } from './delete-appointment.controller';
 export { approveAppointmentController } from './approve-appointment.controller';
 export { rejectAppointmentController } from './reject-appointment.controller';
+export * from './find-all-appointments.controller';

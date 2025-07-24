@@ -20,4 +20,7 @@ export interface AppointmentRepository {
   update(appointment: Appointment): Promise<void>;
   delete(id: string): Promise<void>;
   count(): Promise<number>;
+  findAll(
+    params: PaginationParams,
+  ): Promise<{ total: number; appointments: Appointment[] }>;
 }

@@ -45,6 +45,7 @@ async function main() {
         e.message?.includes('already exists')
       ) {
         console.log(`Usuário ${userData.email} já existe, ignorando...`);
+        process.exit(0);
       } else {
         console.error(e);
         process.exit(1);

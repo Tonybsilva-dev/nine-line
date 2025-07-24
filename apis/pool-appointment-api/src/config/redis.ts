@@ -153,3 +153,13 @@ export const deleteCache = async (key: string): Promise<void> => {
 export const isRedisAvailable = (): boolean => {
   return redisManager.isRedisConnected();
 };
+
+export const waitForRedisReady = async (timeout = 10000) => {
+  const start = Date.now();
+  while (!redisManager.isRedisConnected()) {
+    if (Date.now() - start > timeout) {
+      throw new Error('Timeout waiting for Redis to be ready');
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+};

@@ -1,9 +1,15 @@
-import { PrismaClient, AppointmentStatus } from '@prisma/client';
+import {
+  PrismaClient,
+  AppointmentStatus,
+  Appointment as PrismaAppointment,
+} from '@prisma/client';
 import { AppointmentRepository } from '../../domain/repositories/appointment-repository';
 import { Appointment } from '../../domain/entities/appointment';
 import { PaginationParams } from '@/core/repositories/pagination-params';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InvalidOperationError } from '@/core/errors';
+import { prisma } from '@/config/prisma';
+import { getCache, setCache, deleteCache } from '@/config/redis';
 
 export class PrismaAppointmentRepository implements AppointmentRepository {
   constructor(private prisma: PrismaClient) {}
@@ -22,7 +28,7 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
       );
     }
 
-    await this.prisma.appointment.create({
+    await prisma.appointment.create({
       data: {
         id: appointment.id.toString(),
         userId: appointment.userId,
@@ -35,30 +41,20 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
         updatedAt: appointment.updatedAt,
       },
     });
+    await deleteCache(`appointment:${appointment.id.toString()}`);
+    await this.invalidateAppointmentsCache();
   }
 
   async findById(id: string): Promise<Appointment | null> {
-    const appointment = await this.prisma.appointment.findUnique({
-      where: { id },
-    });
-
-    if (!appointment) {
-      return null;
+    const cacheKey = `appointment:${id}`;
+    const cached = await getCache<PrismaAppointment>(cacheKey);
+    if (cached) {
+      return Appointment.create(cached, new UniqueEntityID(cached.id));
     }
-
-    return Appointment.create(
-      {
-        userId: appointment.userId,
-        spaceId: appointment.spaceId,
-        date: appointment.date,
-        startTime: appointment.startTime,
-        endTime: appointment.endTime,
-        status: appointment.status,
-        createdAt: appointment.createdAt,
-        updatedAt: appointment.updatedAt,
-      },
-      new UniqueEntityID(appointment.id),
-    );
+    const data = await prisma.appointment.findUnique({ where: { id } });
+    if (!data) return null;
+    await setCache(cacheKey, data, 300);
+    return Appointment.create(data, new UniqueEntityID(data.id));
   }
 
   async findByUserId(
@@ -195,7 +191,7 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
   }
 
   async update(appointment: Appointment): Promise<void> {
-    await this.prisma.appointment.update({
+    await prisma.appointment.update({
       where: { id: appointment.id.toString() },
       data: {
         userId: appointment.userId,
@@ -207,15 +203,92 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
         updatedAt: appointment.updatedAt,
       },
     });
+    await deleteCache(`appointment:${appointment.id.toString()}`);
+    await this.invalidateAppointmentsCache();
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.appointment.delete({
-      where: { id },
-    });
+    await prisma.appointment.delete({ where: { id } });
+    await deleteCache(`appointment:${id}`);
+    await this.invalidateAppointmentsCache();
   }
 
   async count(): Promise<number> {
     return await this.prisma.appointment.count();
+  }
+
+  async findAll(
+    params: PaginationParams,
+  ): Promise<{ total: number; appointments: Appointment[] }> {
+    const page = params.page ?? 1;
+    const perPage = params.perPage ?? 10;
+    const cacheKey = `appointments:page:${page}:perPage:${perPage}`;
+
+    // 1. Tenta buscar no cache
+    const cached = await getCache<{
+      total: number;
+      appointments: PrismaAppointment[];
+    }>(cacheKey);
+    if (cached) {
+      return {
+        total: cached.total,
+        appointments: cached.appointments.map((appointment) =>
+          Appointment.create(
+            {
+              userId: appointment.userId,
+              spaceId: appointment.spaceId,
+              date: appointment.date,
+              startTime: appointment.startTime,
+              endTime: appointment.endTime,
+              status: appointment.status,
+              createdAt: appointment.createdAt,
+              updatedAt: appointment.updatedAt,
+            },
+            new UniqueEntityID(appointment.id),
+          ),
+        ),
+      };
+    }
+
+    // 2. Busca no banco
+    const skip = (page - 1) * perPage;
+    const [appointments, total] = await Promise.all([
+      prisma.appointment.findMany({
+        skip,
+        take: perPage,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.appointment.count(),
+    ]);
+
+    // 3. Salva no cache
+    await setCache(cacheKey, { total, appointments }, 300);
+
+    return {
+      total,
+      appointments: appointments.map((appointment) =>
+        Appointment.create(
+          {
+            userId: appointment.userId,
+            spaceId: appointment.spaceId,
+            date: appointment.date,
+            startTime: appointment.startTime,
+            endTime: appointment.endTime,
+            status: appointment.status,
+            createdAt: appointment.createdAt,
+            updatedAt: appointment.updatedAt,
+          },
+          new UniqueEntityID(appointment.id),
+        ),
+      ),
+    };
+  }
+
+  // Adicione a seguinte função utilitária para invalidar cache de páginas
+  private async invalidateAppointmentsCache() {
+    // Invalida as primeiras 5 páginas (ajuste conforme necessário)
+    for (let page = 1; page <= 5; page++) {
+      await deleteCache(`appointments:page:${page}:perPage:10`);
+    }
   }
 }

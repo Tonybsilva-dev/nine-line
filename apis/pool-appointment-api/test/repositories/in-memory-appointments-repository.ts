@@ -36,6 +36,20 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     this.appointments.push(appointment);
   }
 
+  async findAll(
+    params: PaginationParams,
+  ): Promise<{ total: number; appointments: Appointment[] }> {
+    const page = params.page ?? 1;
+    const perPage = params.perPage ?? 10;
+    const allAppointments = Array.from(this.appointments.values());
+    const total = allAppointments.length;
+    const paginated = allAppointments.slice(
+      (page - 1) * perPage,
+      page * perPage,
+    );
+    return { total, appointments: paginated };
+  }
+
   async findById(id: string): Promise<Appointment | null> {
     return this.appointments.find((a) => a.id.toString() === id) || null;
   }

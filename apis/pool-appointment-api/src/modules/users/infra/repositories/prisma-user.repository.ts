@@ -7,6 +7,8 @@ import {
   toPrismaPagination,
 } from '@/core/repositories/pagination-params';
 import { Password } from '../../domain/entities/value-objects/password';
+import { getCache, setCache, deleteCache } from '@/config/redis';
+import { User as PrismaUser } from '@prisma/client';
 
 export class PrismaUserRepository implements UserRepository {
   async create(user: User): Promise<void> {
@@ -20,12 +22,29 @@ export class PrismaUserRepository implements UserRepository {
         role: user.role,
       },
     });
+    await deleteCache(`user:${user.id.toString()}`);
+    await deleteCache(`user:email:${user.email}`);
   }
 
   async findByEmail(email: string): Promise<User | null> {
+    const cacheKey = `user:email:${email}`;
+    const cached = await getCache<PrismaUser>(cacheKey);
+    if (cached) {
+      return User.create(
+        {
+          name: cached.name,
+          email: cached.email,
+          password: await Password.create(cached.password, true),
+          status: cached.status,
+          role: cached.role,
+          deletedAt: cached.deletedAt || undefined,
+        },
+        new UniqueEntityID(cached.id),
+      );
+    }
     const data = await prisma.user.findUnique({ where: { email } });
     if (!data) return null;
-
+    await setCache(cacheKey, data, 300);
     return User.create(
       {
         name: data.name,
@@ -33,15 +52,31 @@ export class PrismaUserRepository implements UserRepository {
         password: await Password.create(data.password, true),
         status: data.status,
         role: data.role,
+        deletedAt: data.deletedAt || undefined,
       },
       new UniqueEntityID(data.id),
     );
   }
 
   async findById(id: string): Promise<User | null> {
+    const cacheKey = `user:${id}`;
+    const cached = await getCache<PrismaUser>(cacheKey);
+    if (cached) {
+      return User.create(
+        {
+          name: cached.name,
+          email: cached.email,
+          password: await Password.create(cached.password, true),
+          status: cached.status,
+          role: cached.role,
+          deletedAt: cached.deletedAt || undefined,
+        },
+        new UniqueEntityID(cached.id),
+      );
+    }
     const data = await prisma.user.findUnique({ where: { id } });
     if (!data) return null;
-
+    await setCache(cacheKey, data, 300);
     return User.create(
       {
         name: data.name,
@@ -109,9 +144,12 @@ export class PrismaUserRepository implements UserRepository {
         deletedAt: user.status === 'ACTIVE' ? null : user.deletedAt,
       },
     });
+    await deleteCache(`user:${user.id.toString()}`);
+    await deleteCache(`user:email:${user.email}`);
   }
 
   async delete(id: string): Promise<void> {
+    const user = await this.findById(id);
     await prisma.user.update({
       where: { id },
       data: {
@@ -119,6 +157,11 @@ export class PrismaUserRepository implements UserRepository {
         status: 'INACTIVE',
       },
     });
+
+    await deleteCache(`user:${id}`);
+    if (user) {
+      await deleteCache(`user:email:${user.email}`);
+    }
   }
 
   async count(): Promise<number> {

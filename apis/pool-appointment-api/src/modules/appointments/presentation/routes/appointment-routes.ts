@@ -13,6 +13,7 @@ import {
   deleteAppointmentController,
   approveAppointmentController,
   rejectAppointmentController,
+  findAllAppointmentsController,
 } from '../controllers';
 
 export const appointmentRoutes = Router();
@@ -23,6 +24,7 @@ appointmentRoutes.post(
   createAppointmentController,
 );
 appointmentRoutes.get('/:id', validateParamsId, findAppointmentByIdController);
+appointmentRoutes.get('/', findAllAppointmentsController);
 appointmentRoutes.get(
   '/user/:id',
   validateParamsId,
