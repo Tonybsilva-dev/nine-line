@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_DB: pool_appointments
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - nine-line-net
+
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - nine-line-net
+
+  pool-appointment-api:
+    build:
+      context: .
+      dockerfile: ./apis/pool-appointment-api/Dockerfile
+    container_name: pool-appointment-api
+    env_file:
+      - ./apis/pool-appointment-api/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - nine-line-net
+
+volumes:
+  db_data:
+
+networks:
+  nine-line-net:
+    driver: bridge 

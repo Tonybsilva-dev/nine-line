@@ -13,7 +13,7 @@ export const routes = Router();
 // Health check endpoint
 routes.get('/health', healthCheck);
 
-routes.use('/users', ensureAuthenticated, userRoutes);
+routes.use('/users', userRoutes);
 routes.use('/spaces', ensureAuthenticated, spaceRoutes);
 routes.use('/ratings', ensureAuthenticated, ratingRoutes);
 routes.use('/appointments', ensureAuthenticated, appointmentRoutes);

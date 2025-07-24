@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": ".",
     "baseUrl": ".",
     "target": "ES2020",
@@ -10,6 +10,6 @@
       "nine-line/eslint/*": ["config/eslint/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["vitest/globals"]
+    "types": ["node"]
   }
 }

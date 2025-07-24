@@ -57,15 +57,21 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 
-3. Setup Redis (Required)
+## 🚀 Setup com Docker Compose (Monorepo)
 
-   ```sh
-   # Option A: Using the setup script (Recommended)
-   ./scripts/setup-redis.sh
+Agora o setup de todos os serviços (API, banco de dados, Redis) é feito a partir da raiz do monorepo:
 
-   # Option B: Manual setup
-   docker-compose -f docker-compose.redis.yml up -d
-   ```
+```sh
+# Na raiz do projeto
+cp env.example .env # Ajuste as variáveis conforme necessário
+cp apis/pool-appointment-api/.env.example apis/pool-appointment-api/.env # Ajuste as variáveis da API
+
+docker-compose up --build
+```
+
+- O banco de dados e o Redis já estarão disponíveis para a API via os hosts `db` e `redis`.
+- Não é mais necessário rodar docker-compose localmente dentro de apis/pool-appointment-api.
+- O arquivo `docker-compose.redis.yml` foi removido pois está obsoleto.
 
 4. Install optional development dependencies
 

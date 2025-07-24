@@ -4,7 +4,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import compression from 'compression';
 import helmet from 'helmet';
-import { routes } from './core/routes/index.routes';
+import { routes } from './core/routes/index.routes.js';
 import { setupSwagger } from './config/swagger';
 import { errorHandler } from './core/middlewares/error-handling';
 import { requestLoggerMiddleware } from './core/middlewares/request-logger';
