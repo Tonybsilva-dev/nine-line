@@ -1,0 +1,19 @@
+c16196b|2025-07-15|feat(create-turbo): create basic
+0b1e14f|2025-07-15|feat(create-turbo): apply official-starter transform
+3ab5e81|2025-07-15|feat(create-turbo): apply package-manager transform
+43a3e41|2025-07-15|feat: add base project
+7575f5d|2025-07-15|feat: add husky and lint-staged
+638fee1|2025-07-15|feat: update config husky
+ee4cfe9|2025-07-15|feat: update config husky
+35ab901|2025-07-15|fix: tsconfig updated
+64f33ad|2025-07-15|fix(tsconfig): module resolution
+cf3d0de|2025-07-15|fix(tsconfig): clean and enabled jsx
+560970c|2025-07-15|fix(tsconfig): clean and enabled jsx
+6049410|2025-07-15|fix(husky): update check-types global
+ceccb5e|2025-07-16|fix:(eslint): update eslint config
+eb0fc4b|2025-07-16|feat: add pool-appointment-api to project
+7527894|2025-07-16|chore(README): update docs
+7eb1947|2025-07-20|fix(tests): update tests remain
+1031a01|2025-07-24|feat(modules): add rbac and auth module
+791eb5a|2025-07-24|feat(docker): add docker config + pg + redis
+54e07c2|2025-07-24|feat(redis): add redis

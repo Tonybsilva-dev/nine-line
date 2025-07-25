@@ -5,11 +5,15 @@ import { AppointmentRejectedEvent } from '../../../domain/events';
 import { EntityNotFoundError, InvalidOperationError } from '@/core/errors';
 import { AuthorizationService } from '@/modules/rbac/domain/services/authorization.service';
 import { APPOINTMENT_PERMISSIONS } from '@/modules/rbac/domain/entities/permissions';
+import { ForbiddenError } from '@/core/errors';
 
 interface RejectAppointmentDTO {
   appointmentId: string;
   adminId: string;
   rejectedBy: string;
+  justification?: string;
+  userId?: string;
+  userRole?: string;
 }
 
 export class RejectAppointmentUseCase {
@@ -20,7 +24,15 @@ export class RejectAppointmentUseCase {
   ) {}
 
   async execute(data: RejectAppointmentDTO): Promise<Appointment> {
-    // Verificar permissão de rejeição
+    if (!data.userId) {
+      throw new ForbiddenError('User authentication required');
+    }
+    // Only MANAGER or ADMIN can reject appointments
+    if (data.userRole !== 'MANAGER' && data.userRole !== 'ADMIN') {
+      throw new ForbiddenError('Only MANAGER or ADMIN can reject appointments');
+    }
+
+    // Verify if user has permission to reject appointment
     await this.authorizationService.requirePermission(
       data.adminId,
       APPOINTMENT_PERMISSIONS.REJECT,
@@ -34,7 +46,7 @@ export class RejectAppointmentUseCase {
       throw new EntityNotFoundError('Appointment', data.appointmentId);
     }
 
-    // Verificar se o appointment pode ser rejeitado (pendente ou confirmado)
+    // Verify if appointment can be rejected (pending or confirmed)
     if (
       appointment.status !== 'PENDING' &&
       appointment.status !== 'CONFIRMED'
@@ -44,11 +56,11 @@ export class RejectAppointmentUseCase {
       );
     }
 
-    // Rejeitar o appointment
+    // Reject appointment
     appointment.reject();
     await this.appointmentRepository.update(appointment);
 
-    // Disparar evento de appointment rejeitado se eventBus estiver disponível
+    // Trigger appointment rejected event if eventBus is available
     if (this.eventBus) {
       const appointmentRejectedEvent = new AppointmentRejectedEvent(
         appointment,

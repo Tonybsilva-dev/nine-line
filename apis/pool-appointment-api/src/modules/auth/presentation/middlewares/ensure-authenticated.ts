@@ -13,10 +13,10 @@ export async function ensureAuthenticated(
 
   const [, token] = authHeader.split(' ');
 
-  // Verifica blacklist
+  // Check blacklist
   const blacklistRepo = new InMemoryTokenBlacklistRepository();
   if (await blacklistRepo.has(token)) {
-    return res.status(401).json({ error: 'Token inválido (logout realizado)' });
+    return res.status(401).json({ error: 'Invalid token (logout performed)' });
   }
 
   try {

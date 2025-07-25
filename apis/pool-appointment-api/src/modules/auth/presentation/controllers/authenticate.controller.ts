@@ -33,7 +33,7 @@ export async function authenticateController(req: Request, res: Response) {
     return ResponseMapper.error(
       res,
       401,
-      'Credenciais inválidas',
+      'Invalid credentials',
       'UNAUTHORIZED',
       undefined,
       req.requestId,

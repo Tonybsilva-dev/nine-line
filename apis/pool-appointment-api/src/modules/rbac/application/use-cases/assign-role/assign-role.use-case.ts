@@ -47,7 +47,7 @@ export class AssignRoleUseCase {
 
     await this.userRoleRepository.create(userRole);
 
-    // Disparar evento de role atribuída se eventBus estiver disponível
+    // Trigger role assigned event if eventBus is available
     if (this.eventBus) {
       const roleAssignedEvent = new RoleAssignedEvent(
         userRole,

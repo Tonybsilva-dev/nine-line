@@ -2,7 +2,7 @@
  * @swagger
  * /users/{id}:
  *   get:
- *     summary: Busca um usuário pelo ID
+ *     summary: Search for a user by ID
  *     tags: [Users]
  *     parameters:
  *       - name: id
@@ -12,7 +12,7 @@
  *           type: string
  *     responses:
  *       200:
- *         description: Usuário encontrado
+ *         description: User found
  *       404:
- *         description: Usuário não encontrado
+ *         description: User not found
  */

@@ -74,13 +74,11 @@ export class Appointment extends Entity<AppointmentProps> {
   updateDateTime(date: Date, startTime: Date, endTime: Date): void {
     const now = new Date();
     if (date < now) {
-      throw new Error('Não é possível agendar para datas passadas');
+      throw new Error('Cannot schedule for past dates');
     }
 
     if (startTime >= endTime) {
-      throw new Error(
-        'O horário de início deve ser menor que o horário de fim',
-      );
+      throw new Error('Start time must be earlier than end time');
     }
 
     this.props.date = date;

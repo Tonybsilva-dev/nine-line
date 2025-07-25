@@ -2,8 +2,8 @@
  * @swagger
  * /rbac/roles:
  *   get:
- *     summary: Listar roles
- *     description: Lista todas as roles disponíveis no sistema com paginação
+ *     summary: List roles
+ *     description: Lists all available roles in the system with pagination
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -14,17 +14,17 @@
  *         schema:
  *           type: integer
  *           default: 1
- *         description: Número da página
+ *         description: Page number
  *       - name: perPage
  *         in: query
  *         required: false
  *         schema:
  *           type: integer
  *           default: 10
- *         description: Itens por página
+ *         description: Items per page
  *     responses:
  *       200:
- *         description: Lista de roles
+ *         description: List of roles
  *         content:
  *           application/json:
  *             schema:
@@ -58,5 +58,5 @@
  *                     total:
  *                       type: integer
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  */

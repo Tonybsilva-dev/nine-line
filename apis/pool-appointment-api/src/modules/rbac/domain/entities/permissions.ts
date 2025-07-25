@@ -11,6 +11,7 @@ export const APPOINTMENT_PERMISSIONS = {
   REJECT: 'appointment:reject',
   CANCEL_OWN: 'appointment:cancel:own',
   CANCEL_ALL: 'appointment:cancel:all',
+  RESCHEDULE: 'appointment:reschedule',
 } as const;
 
 // Users Permissions
@@ -23,6 +24,7 @@ export const USER_PERMISSIONS = {
   DELETE: 'user:delete',
   BLOCK: 'user:block',
   UNBLOCK: 'user:unblock',
+  RESTORE: 'user:restore',
 } as const;
 
 // Spaces Permissions
@@ -43,6 +45,7 @@ export const RATING_PERMISSIONS = {
   UPDATE_ALL: 'rating:update:all',
   DELETE_OWN: 'rating:delete:own',
   DELETE_ALL: 'rating:delete:all',
+  MODERATE: 'rating:moderate',
 } as const;
 
 // RBAC Permissions

@@ -2,7 +2,7 @@
  * @swagger
  * /ratings/{id}:
  *   put:
- *     summary: Atualiza uma avaliação existente
+ *     summary: Update an existing rating
  *     tags: [Ratings]
  *     parameters:
  *       - in: path
@@ -10,7 +10,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID da avaliação
+ *         description: Rating ID
  *     requestBody:
  *       required: true
  *       content:
@@ -20,20 +20,24 @@
  *             properties:
  *               score:
  *                 type: number
- *                 description: Nota (1 a 5)
+ *                 description: Score (1 to 5)
  *               comment:
  *                 type: string
- *                 description: Comentário
+ *                 description: Comment
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso
+ *         description: Rating updated successfully
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  *       404:
- *         description: Avaliação não encontrada
+ *         description: Rating not found
+ *     description: |
+ *       - **USER:** Can update only their own ratings.
+ *       - **MANAGER:** Cannot update ratings.
+ *       - **ADMIN:** Cannot update ratings.
  */
-// Exemplo de payload:
+// Example payload:
 // {
 //   "score": 4,
-//   "comment": "Atualização do comentário."
+//   "comment": "Update comment."
 // }

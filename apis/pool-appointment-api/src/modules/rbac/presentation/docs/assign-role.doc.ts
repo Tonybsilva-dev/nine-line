@@ -2,8 +2,8 @@
  * @swagger
  * /rbac/assign-role:
  *   post:
- *     summary: Atribuir role a um usuário
- *     description: Atribui uma role específica a um usuário com data de expiração opcional
+ *     summary: Assign role to a user
+ *     description: Assign a specific role to a user with optional expiration date
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -20,22 +20,22 @@
  *               userId:
  *                 type: string
  *                 format: uuid
- *                 description: ID do usuário
+ *                 description: User ID
  *               roleId:
  *                 type: string
  *                 format: uuid
- *                 description: ID da role a ser atribuída
+ *                 description: Role ID to be assigned
  *               expiresAt:
  *                 type: string
  *                 format: date-time
- *                 description: "Data de expiração da atribuição (opcional)"
+ *                 description: "Expiration date of the assignment (optional)"
  *               assignedBy:
  *                 type: string
  *                 format: uuid
- *                 description: "ID do usuário que está fazendo a atribuição (opcional)"
+ *                 description: "ID of the user assigning the role (optional)"
  *     responses:
  *       201:
- *         description: Role atribuída com sucesso
+ *         description: Role assigned successfully
  *         content:
  *           application/json:
  *             schema:
@@ -60,9 +60,9 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  *       404:
- *         description: Usuário ou role não encontrado
+ *         description: User or role not found
  */

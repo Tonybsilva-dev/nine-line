@@ -2,6 +2,7 @@ import {
   PrismaClient,
   AppointmentStatus,
   Appointment as PrismaAppointment,
+  Prisma,
 } from '@prisma/client';
 import { AppointmentRepository } from '../../domain/repositories/appointment-repository';
 import { Appointment } from '../../domain/entities/appointment';
@@ -218,11 +219,11 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
   }
 
   async findAll(
-    params: PaginationParams,
+    params: PaginationParams & { hostId?: string; userRole?: string },
   ): Promise<{ total: number; appointments: Appointment[] }> {
     const page = params.page ?? 1;
     const perPage = params.perPage ?? 10;
-    const cacheKey = `appointments:page:${page}:perPage:${perPage}`;
+    const cacheKey = `appointments:page:${page}:perPage:${perPage}:hostId:${params.hostId ?? 'all'}`;
 
     // 1. Tenta buscar no cache
     const cached = await getCache<{
@@ -252,13 +253,24 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
 
     // 2. Busca no banco
     const skip = (page - 1) * perPage;
+    const where: Prisma.AppointmentWhereInput = {};
+    if (params.hostId && params.userRole === 'MANAGER') {
+      // Buscar apenas appointments dos espaços onde o hostId é igual ao userId do manager
+      const spaces = await this.prisma.space.findMany({
+        where: { hostId: params.hostId },
+        select: { id: true },
+      });
+      const spaceIds = spaces.map((s) => s.id);
+      where.spaceId = { in: spaceIds };
+    }
     const [appointments, total] = await Promise.all([
       prisma.appointment.findMany({
+        where,
         skip,
         take: perPage,
         orderBy: { createdAt: 'desc' },
       }),
-      prisma.appointment.count(),
+      prisma.appointment.count({ where }),
     ]);
 
     // 3. Salva no cache

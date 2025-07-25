@@ -17,12 +17,11 @@ export async function refreshTokenController(req: Request, res: Response) {
       { accessToken, refreshToken: newRefreshToken },
       req.requestId,
     );
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch {
     return ResponseMapper.error(
       res,
       401,
-      'Refresh token inválido',
+      'Invalid refresh token',
       'UNAUTHORIZED',
       undefined,
       req.requestId,

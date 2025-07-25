@@ -3,25 +3,30 @@
 ## Base URL
 
 ```
-/spaces
+/api/spaces
 ```
 
-## Endpoints Disponíveis
+## Available Endpoints
 
-### 1. Criar Espaço
+### 1. Create Space
 
-**POST** `/spaces`
+**POST** `/api/spaces`
+
+**Permissions:**
+
+- **ADMIN:** Can create a space for any host.
+- **MANAGER:** Can create a space only for themselves (hostId is always their userId).
+- **USER:** Cannot create spaces.
 
 **Body:**
 
 ```json
 {
-  "title": "Sala de Reunião",
-  "description": "Espaço para reuniões",
+  "title": "Meeting Room",
+  "description": "Space for meetings",
   "photos": ["url1", "url2"],
-  "hostId": "...",
-  "rules": "Sem sapatos",
-  "amenities": ["Wi-Fi", "Café"]
+  "rules": "No shoes",
+  "amenities": ["Wi-Fi", "Coffee"]
 }
 ```
 
@@ -37,9 +42,15 @@
 
 ---
 
-### 2. Listar Espaços
+### 2. List Spaces (Paginated)
 
-**GET** `/spaces`
+**GET** `/api/spaces`
+
+**Permissions:**
+
+- **ADMIN:** Can list all spaces.
+- **MANAGER:** Can list only spaces where they are the host.
+- **USER:** Can list all spaces.
 
 **Response:**
 
@@ -53,9 +64,15 @@
 
 ---
 
-### 3. Buscar Espaço por ID
+### 3. Get Space by ID
 
-**GET** `/spaces/:id`
+**GET** `/api/spaces/:id`
+
+**Permissions:**
+
+- **ADMIN:** Can view any space.
+- **MANAGER:** Can view only spaces where they are the host.
+- **USER:** Can view any space.
 
 **Response:**
 
@@ -69,18 +86,24 @@
 
 ---
 
-### 4. Atualizar Espaço
+### 4. Update Space
 
-**PUT** `/spaces/:id`
+**PUT** `/api/spaces/:id`
+
+**Permissions:**
+
+- **ADMIN:** Can update any space.
+- **MANAGER:** Can update only spaces where they are the host.
+- **USER:** Cannot update spaces.
 
 **Body:**
 
 ```json
 {
-  "title": "Novo Título",
-  "description": "Nova descrição",
-  "rules": "Sem comida",
-  "amenities": ["Wi-Fi", "Água"]
+  "title": "New Title",
+  "description": "New description",
+  "rules": "No food",
+  "amenities": ["Wi-Fi", "Water"]
 }
 ```
 
@@ -96,23 +119,32 @@
 
 ---
 
-### 5. Deletar Espaço
+### 5. Delete Space
 
-**DELETE** `/spaces/:id`
+**DELETE** `/api/spaces/:id`
+
+**Permissions:**
+
+- **ADMIN:** Can delete any space.
+- **MANAGER:** Can delete only spaces where they are the host.
+- **USER:** Cannot delete spaces.
 
 **Response:**
 
 ```json
 {
   "success": true,
-  "data": { "message": "Espaço deletado com sucesso" },
+  "data": { "message": "Space deleted successfully" },
   "metadata": { ... }
 }
 ```
 
 ---
 
-## Observações
+## Notes
 
-- Todas as rotas exigem autenticação via Bearer Token.
-- Utilize os endpoints de auth para login e obtenção de token.
+- All routes require authentication via Bearer Token.
+- **USER:** Can only view and list spaces.
+- **MANAGER:** Can only manage (create, update, delete) spaces where they are the host.
+- **ADMIN:** Has full access to all operations.
+- Use the auth endpoints for login and token retrieval.

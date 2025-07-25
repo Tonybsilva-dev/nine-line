@@ -42,7 +42,7 @@ export class UpdateSpaceUseCase {
 
     await this.spaceRepository.update(space);
 
-    // Disparar evento de space atualizado se eventBus estiver disponível
+    // Trigger space updated event if eventBus is available
     if (this.eventBus && Object.keys(changes).length > 0) {
       const spaceUpdatedEvent = new SpaceUpdatedEvent(
         space,

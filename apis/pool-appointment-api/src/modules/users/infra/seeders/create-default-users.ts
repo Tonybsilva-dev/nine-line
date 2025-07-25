@@ -10,21 +10,21 @@ async function main() {
 
   const users = [
     {
-      name: 'Usuário Padrão',
+      name: 'Default User',
       email: 'user@default.com',
       password: 'user123',
       role: UserRole.USER,
       status: UserStatus.ACTIVE,
     },
     {
-      name: 'Gerente Padrão',
+      name: 'Default Manager',
       email: 'manager@default.com',
       password: 'manager123',
       role: UserRole.MANAGER,
       status: UserStatus.ACTIVE,
     },
     {
-      name: 'Admin Padrão',
+      name: 'Default Admin',
       email: 'admin@default.com',
       password: 'admin123',
       role: UserRole.ADMIN,
@@ -37,14 +37,14 @@ async function main() {
   for (const userData of users) {
     try {
       await useCase.execute(userData);
-      console.log(`Usuário ${userData.role} criado: ${userData.email}`);
+      console.log(`User ${userData.role} created: ${userData.email}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       if (
         e.code === 'DUPLICATE_ENTITY' ||
         e.message?.includes('already exists')
       ) {
-        console.log(`Usuário ${userData.email} já existe, ignorando...`);
+        console.log(`User ${userData.email} already exists, ignoring...`);
         process.exit(0);
       } else {
         console.error(e);

@@ -8,17 +8,22 @@ import { prisma } from '@/config/prisma';
 
 export async function createRatingController(req: Request, res: Response) {
   const { spaceId, userId, score, comment } = req.body;
+  const authenticatedUserId = req.user?.id;
 
   const ratingRepo = new PrismaRatingRepository(prisma);
   const spaceRepo = new PrismaSpaceRepository();
   const useCase = new CreateRatingUseCase(ratingRepo, spaceRepo, eventBus);
 
-  const rating = await useCase.execute({
-    spaceId,
-    userId,
-    score,
-    comment,
-  });
+  const rating = await useCase.execute(
+    {
+      spaceId,
+      userId,
+      score,
+      comment,
+    },
+    'USER',
+    authenticatedUserId || '',
+  );
 
   const ratingData = {
     id: rating.id.toString(),

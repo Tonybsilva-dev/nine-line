@@ -23,9 +23,13 @@ describe('DeleteRatingUseCase', () => {
     const rating = makeRating({ spaceId: space.id.toString() });
     await ratingRepo.create(rating);
 
-    await useCase.execute({
-      id: rating.id.toString(),
-    });
+    await useCase.execute(
+      {
+        id: rating.id.toString(),
+      },
+      'USER',
+      rating.userId,
+    );
 
     const deletedRating = await ratingRepo.findById(rating.id.toString());
     expect(deletedRating).toBeNull();
@@ -36,9 +40,13 @@ describe('DeleteRatingUseCase', () => {
 
   it('should throw error if rating not found', async () => {
     await expect(
-      useCase.execute({
-        id: 'non-existent-id',
-      }),
+      useCase.execute(
+        {
+          id: 'non-existent-id',
+        },
+        'USER',
+        'user-123',
+      ),
     ).rejects.toThrow("Rating with identifier 'non-existent-id' not found");
   });
 
@@ -63,13 +71,21 @@ describe('DeleteRatingUseCase', () => {
     await ratingRepo.create(rating2);
     await ratingRepo.create(rating3);
 
-    await useCase.execute({
-      id: rating1.id.toString(),
-    });
+    await useCase.execute(
+      {
+        id: rating1.id.toString(),
+      },
+      'USER',
+      rating1.userId,
+    );
 
-    await useCase.execute({
-      id: rating2.id.toString(),
-    });
+    await useCase.execute(
+      {
+        id: rating2.id.toString(),
+      },
+      'USER',
+      rating2.userId,
+    );
 
     const updatedSpace = await spaceRepo.findById(space.id.toString());
     expect(updatedSpace?.averageRating).toBe(4);

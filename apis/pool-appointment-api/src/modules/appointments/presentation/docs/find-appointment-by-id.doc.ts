@@ -2,8 +2,11 @@
  * @swagger
  * /appointments/{id}:
  *   get:
- *     summary: Buscar agendamento por ID
- *     description: Retorna um agendamento específico pelo seu ID
+ *     summary: Find appointment by ID
+ *     description: |
+ *       - **USER:** Can view only their own appointments.
+ *       - **MANAGER:** Can view appointments of their spaces.
+ *       - **ADMIN:** Can view any appointment.
  *     tags: [Appointments]
  *     parameters:
  *       - in: path
@@ -12,10 +15,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do agendamento
+ *         description: Appointment ID
  *     responses:
  *       200:
- *         description: Agendamento encontrado com sucesso
+ *         description: Appointment found successfully
  *         content:
  *           application/json:
  *             schema:
@@ -46,5 +49,5 @@
  *                   type: string
  *                   format: date-time
  *       404:
- *         description: Agendamento não encontrado
+ *         description: Appointment not found
  */

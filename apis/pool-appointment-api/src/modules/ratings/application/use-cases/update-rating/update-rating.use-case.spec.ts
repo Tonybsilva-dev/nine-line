@@ -23,11 +23,15 @@ describe('UpdateRatingUseCase', () => {
     const rating = makeRating({ spaceId: space.id.toString() });
     await ratingRepo.create(rating);
 
-    const result = await useCase.execute({
-      id: rating.id.toString(),
-      score: 4,
-      comment: 'Espaço atualizado!',
-    });
+    const result = await useCase.execute(
+      {
+        id: rating.id.toString(),
+        score: 4,
+        comment: 'Espaço atualizado!',
+      },
+      'USER',
+      rating.userId,
+    );
 
     expect(result).toBeDefined();
     expect(result.score).toBe(4);
@@ -47,10 +51,14 @@ describe('UpdateRatingUseCase', () => {
     });
     await ratingRepo.create(rating);
 
-    const result = await useCase.execute({
-      id: rating.id.toString(),
-      score: 3,
-    });
+    const result = await useCase.execute(
+      {
+        id: rating.id.toString(),
+        score: 3,
+      },
+      'USER',
+      rating.userId,
+    );
 
     expect(result).toBeDefined();
     expect(result.score).toBe(3);
@@ -62,10 +70,14 @@ describe('UpdateRatingUseCase', () => {
 
   it('should throw error if rating not found', async () => {
     await expect(
-      useCase.execute({
-        id: 'non-existent-id',
-        score: 4,
-      }),
+      useCase.execute(
+        {
+          id: 'non-existent-id',
+          score: 4,
+        },
+        'USER',
+        'user-123',
+      ),
     ).rejects.toThrow("Rating with identifier 'non-existent-id' not found");
   });
 
@@ -77,10 +89,14 @@ describe('UpdateRatingUseCase', () => {
     await ratingRepo.create(rating);
 
     await expect(
-      useCase.execute({
-        id: rating.id.toString(),
-        score: 0,
-      }),
+      useCase.execute(
+        {
+          id: rating.id.toString(),
+          score: 0,
+        },
+        'USER',
+        rating.userId,
+      ),
     ).rejects.toThrow('Score must be between 1 and 5');
   });
 
@@ -92,10 +108,14 @@ describe('UpdateRatingUseCase', () => {
     await ratingRepo.create(rating);
 
     await expect(
-      useCase.execute({
-        id: rating.id.toString(),
-        score: 6,
-      }),
+      useCase.execute(
+        {
+          id: rating.id.toString(),
+          score: 6,
+        },
+        'USER',
+        rating.userId,
+      ),
     ).rejects.toThrow('Score must be between 1 and 5');
   });
 
@@ -120,20 +140,32 @@ describe('UpdateRatingUseCase', () => {
     await ratingRepo.create(rating2);
     await ratingRepo.create(rating3);
 
-    await useCase.execute({
-      id: rating1.id.toString(),
-      score: 4,
-    });
+    await useCase.execute(
+      {
+        id: rating1.id.toString(),
+        score: 4,
+      },
+      'USER',
+      rating1.userId,
+    );
 
-    await useCase.execute({
-      id: rating2.id.toString(),
-      score: 5,
-    });
+    await useCase.execute(
+      {
+        id: rating2.id.toString(),
+        score: 5,
+      },
+      'USER',
+      rating2.userId,
+    );
 
-    await useCase.execute({
-      id: rating3.id.toString(),
-      score: 3,
-    });
+    await useCase.execute(
+      {
+        id: rating3.id.toString(),
+        score: 3,
+      },
+      'USER',
+      rating3.userId,
+    );
 
     const updatedSpace = await spaceRepo.findById(space.id.toString());
     expect(updatedSpace?.averageRating).toBe(4);

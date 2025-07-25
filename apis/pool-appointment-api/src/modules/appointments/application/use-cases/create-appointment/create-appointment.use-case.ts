@@ -33,19 +33,12 @@ export class CreateAppointmentUseCase {
       throw new EntityNotFoundError('Space', data.spaceId);
     }
 
-    // Validação: Não é possível agendar para datas passadas
-    const now = new Date();
-    if (data.date < now) {
-      throw new InvalidOperationError(
-        'Não é possível agendar para datas passadas',
-      );
+    // Check if user is trying to schedule for a past date
+    if (data.date < new Date()) {
+      throw new InvalidOperationError('Cannot schedule for past dates');
     }
-
-    // Validação: Horário de início deve ser menor que o horário de fim
     if (data.startTime >= data.endTime) {
-      throw new InvalidOperationError(
-        'O horário de início deve ser menor que o horário de fim',
-      );
+      throw new InvalidOperationError('Start time must be before end time');
     }
 
     const appointment = Appointment.create({
@@ -58,7 +51,7 @@ export class CreateAppointmentUseCase {
 
     await this.appointmentRepository.create(appointment);
 
-    // Disparar evento de appointment criado se eventBus estiver disponível
+    // Fire appointment created event if eventBus is available
     if (this.eventBus) {
       const appointmentCreatedEvent = new AppointmentCreatedEvent(appointment);
       await this.eventBus.publish(appointmentCreatedEvent);

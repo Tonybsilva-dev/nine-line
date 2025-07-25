@@ -13,21 +13,12 @@ export class UserUpdatedHandler implements EventHandler<UserUpdatedEvent> {
       changes: event.changes,
     });
 
-    // Aqui você pode adicionar lógicas como:
-    // - Invalidar cache do usuário
-    // - Notificar sistemas externos
-    // - Registrar auditoria
-    // - Atualizar índices de busca
-
-    // Exemplo: Invalidar cache
     await this.invalidateUserCache(event.user.id.toString());
 
-    // Exemplo: Registrar auditoria
     await this.recordUserUpdateAudit(event);
   }
 
   private async invalidateUserCache(userId: string): Promise<void> {
-    // Simulação de invalidação de cache
     logger.info({
       type: 'user_cache_invalidated',
       userId,
@@ -35,7 +26,6 @@ export class UserUpdatedHandler implements EventHandler<UserUpdatedEvent> {
   }
 
   private async recordUserUpdateAudit(event: UserUpdatedEvent): Promise<void> {
-    // Simulação de registro de auditoria
     logger.info({
       type: 'user_update_audit',
       userId: event.user.id.toString(),

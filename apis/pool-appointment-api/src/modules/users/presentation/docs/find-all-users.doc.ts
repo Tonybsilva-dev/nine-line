@@ -2,7 +2,7 @@
  * @swagger
  * /users:
  *   get:
- *     summary: Lista usuários com paginação
+ *     summary: List users with pagination
  *     tags: [Users]
  *     parameters:
  *       - name: page
@@ -17,7 +17,7 @@
  *           type: integer
  *     responses:
  *       200:
- *         description: Lista de usuários
+ *         description: List of users
  *       400:
- *         description: Parâmetros inválidos
+ *         description: Invalid parameters
  */

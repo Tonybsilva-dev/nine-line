@@ -13,21 +13,12 @@ export class SpaceUpdatedHandler implements EventHandler<SpaceUpdatedEvent> {
       changes: event.changes,
     });
 
-    // Aqui você pode adicionar lógicas como:
-    // - Invalidar cache do espaço
-    // - Atualizar índices de busca
-    // - Registrar auditoria
-    // - Notificar usuários interessados
-
-    // Exemplo: Invalidar cache
     await this.invalidateSpaceCache(event.space.id.toString());
 
-    // Exemplo: Registrar auditoria
     await this.recordSpaceUpdateAudit(event);
   }
 
   private async invalidateSpaceCache(spaceId: string): Promise<void> {
-    // Simulação de invalidação de cache
     logger.info({
       type: 'space_cache_invalidated',
       spaceId,
@@ -37,7 +28,6 @@ export class SpaceUpdatedHandler implements EventHandler<SpaceUpdatedEvent> {
   private async recordSpaceUpdateAudit(
     event: SpaceUpdatedEvent,
   ): Promise<void> {
-    // Simulação de registro de auditoria
     logger.info({
       type: 'space_update_audit',
       spaceId: event.space.id.toString(),

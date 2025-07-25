@@ -2,8 +2,8 @@
  * @swagger
  * /auth/authenticate:
  *   post:
- *     summary: Autenticar usuário
- *     description: Autentica um usuário com email e senha, retornando tokens de acesso e refresh
+ *     summary: Authenticate user
+ *     description: Authenticates a user with email and password, returning access and refresh tokens
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -18,13 +18,13 @@
  *               email:
  *                 type: string
  *                 format: email
- *                 description: Email do usuário
+ *                 description: User's email
  *               password:
  *                 type: string
- *                 description: Senha do usuário
+ *                 description: User's password
  *     responses:
  *       200:
- *         description: Autenticação realizada com sucesso
+ *         description: Authentication successful
  *         content:
  *           application/json:
  *             schema:
@@ -32,10 +32,10 @@
  *               properties:
  *                 accessToken:
  *                   type: string
- *                   description: "Token de acesso JWT (válido por 15 minutos)"
+ *                   description: "JWT access token (valid for 15 minutes)"
  *                 refreshToken:
  *                   type: string
- *                   description: "Token de refresh JWT (válido por 7 dias)"
+ *                   description: "JWT refresh token (valid for 7 days)"
  *                 user:
  *                   type: object
  *                   properties:
@@ -50,5 +50,5 @@
  *                     role:
  *                       type: string
  *       401:
- *         description: Credenciais inválidas
+ *         description: Invalid credentials
  */

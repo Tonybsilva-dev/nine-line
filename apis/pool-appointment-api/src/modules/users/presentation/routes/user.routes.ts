@@ -14,10 +14,10 @@ import { validatePagination, validateParamsId } from '@/core/validators';
 
 export const userRoutes = Router();
 
-// Rota pública
+// Public route
 userRoutes.post('/', validateCreateUser, createUserController);
 
-// Rotas protegidas
+// Protected routes
 userRoutes.get(
   '/',
   ensureAuthenticated,

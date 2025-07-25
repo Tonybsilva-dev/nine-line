@@ -15,7 +15,7 @@ export class DeleteSpaceUseCase {
 
     await this.spaceRepository.delete(id);
 
-    // Disparar evento de space deletado se eventBus estiver disponível
+    // Trigger space deleted event if eventBus is available
     if (this.eventBus) {
       const spaceDeletedEvent = new SpaceDeletedEvent(space);
       await this.eventBus.publish(spaceDeletedEvent);

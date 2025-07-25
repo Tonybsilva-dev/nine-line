@@ -2,7 +2,7 @@
  * @swagger
  * /users/{id}:
  *   put:
- *     summary: Atualiza um usuário
+ *     summary: Update a user
  *     tags: [Users]
  *     parameters:
  *       - name: id
@@ -24,9 +24,9 @@
  *                 enum: [ACTIVE, INACTIVE, BLOCKED, PENDING]
  *     responses:
  *       200:
- *         description: Usuário atualizado
+ *         description: User updated
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  *       404:
- *         description: Usuário não encontrado
+ *         description: User not found
  */

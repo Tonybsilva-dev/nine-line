@@ -18,7 +18,7 @@ export class DeleteAppointmentUseCase {
 
     await this.appointmentRepository.delete(id);
 
-    // Disparar evento de appointment deletado se eventBus estiver disponível
+    // Trigger appointment deleted event if eventBus is available
     if (this.eventBus) {
       const appointmentDeletedEvent = new AppointmentDeletedEvent(appointment);
       await this.eventBus.publish(appointmentDeletedEvent);

@@ -2,8 +2,8 @@
  * @swagger
  * /rbac/revoke-role:
  *   post:
- *     summary: Revogar role de um usuário
- *     description: Remove uma role atribuída a um usuário
+ *     summary: Revoke role from a user
+ *     description: Remove a role assigned to a user
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -20,14 +20,14 @@
  *               userId:
  *                 type: string
  *                 format: uuid
- *                 description: ID do usuário
+ *                 description: User ID
  *               roleId:
  *                 type: string
  *                 format: uuid
- *                 description: ID da role a ser revogada
+ *                 description: Role to be revoked
  *     responses:
  *       200:
- *         description: Role revogada com sucesso
+ *         description: Role revoked successfully
  *         content:
  *           application/json:
  *             schema:
@@ -46,9 +46,9 @@
  *                   type: string
  *                   format: uuid
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  *       404:
- *         description: Atribuição de role não encontrada
+ *         description: Role assignment not found
  */

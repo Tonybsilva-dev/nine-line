@@ -2,8 +2,8 @@
  * @swagger
  * /rbac/users/{userId}/permissions:
  *   get:
- *     summary: Obter permissões de um usuário
- *     description: Retorna todas as permissões que um usuário possui através de suas roles
+ *     summary: Get user permissions
+ *     description: Returns all permissions a user has through their roles
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -14,10 +14,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do usuário
+ *         description: User ID
  *     responses:
  *       200:
- *         description: Permissões do usuário
+ *         description: User permissions
  *         content:
  *           application/json:
  *             schema:
@@ -30,7 +30,7 @@
  *                     properties:
  *                       name:
  *                         type: string
- *                         description: "Nome da permissão (formato resource:action)"
+ *                         description: "Permission name (resource:action format)"
  *                       description:
  *                         type: string
  *                       resource:
@@ -38,7 +38,7 @@
  *                       action:
  *                         type: string
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  *       404:
- *         description: Usuário não encontrado
+ *         description: User not found
  */

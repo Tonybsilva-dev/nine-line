@@ -2,7 +2,11 @@
  * @swagger
  * /spaces/{id}:
  *   put:
- *     summary: Atualiza um espaço pelo ID
+ *     summary: Update a space by ID
+ *     description: |
+ *       - **ADMIN:** Can update any space.
+ *       - **MANAGER:** Can update only spaces where they are the host.
+ *       - **USER:** Cannot update spaces.
  *     tags: [Spaces]
  *     parameters:
  *       - in: path
@@ -10,7 +14,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID do espaço
+ *         description: Space ID
  *     requestBody:
  *       required: true
  *       content:
@@ -30,9 +34,9 @@
  *                 type: string
  *     responses:
  *       200:
- *         description: Espaço atualizado com sucesso
+ *         description: Space updated successfully
  *       400:
- *         description: Erro de validação
+ *         description: Validation error
  *       404:
- *         description: Espaço não encontrado
+ *         description: Space not found
  */

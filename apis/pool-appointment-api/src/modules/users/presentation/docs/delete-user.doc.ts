@@ -2,7 +2,7 @@
  * @swagger
  * /users/{id}:
  *   delete:
- *     summary: Deleta um usuário
+ *     summary: Delete a user
  *     tags: [Users]
  *     parameters:
  *       - name: id
@@ -12,7 +12,7 @@
  *           type: string
  *     responses:
  *       204:
- *         description: Usuário deletado com sucesso
+ *         description: User deleted successfully
  *       404:
- *         description: Usuário não encontrado
+ *         description: User not found
  */

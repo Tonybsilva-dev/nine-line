@@ -19,13 +19,17 @@ describe('CreateRatingUseCase', () => {
   it('should create a new rating', async () => {
     const space = makeSpace();
     await spaceRepo.create(space);
-
-    const result = await useCase.execute({
-      spaceId: space.id.toString(),
-      userId: 'user-123',
-      score: 5,
-      comment: 'Ótimo espaço!',
-    });
+    const userId = 'user-123';
+    const result = await useCase.execute(
+      {
+        spaceId: space.id.toString(),
+        userId,
+        score: 5,
+        comment: 'Ótimo espaço!',
+      },
+      'USER',
+      userId,
+    );
 
     expect(result).toBeDefined();
     expect(result.score).toBe(5);
@@ -38,12 +42,16 @@ describe('CreateRatingUseCase', () => {
   it('should create a rating without comment', async () => {
     const space = makeSpace();
     await spaceRepo.create(space);
-
-    const result = await useCase.execute({
-      spaceId: space.id.toString(),
-      userId: 'user-123',
-      score: 4,
-    });
+    const userId = 'user-123';
+    const result = await useCase.execute(
+      {
+        spaceId: space.id.toString(),
+        userId,
+        score: 4,
+      },
+      'USER',
+      userId,
+    );
 
     expect(result).toBeDefined();
     expect(result.score).toBe(4);
@@ -56,50 +64,67 @@ describe('CreateRatingUseCase', () => {
   it('should throw error if score is less than 1', async () => {
     const space = makeSpace();
     await spaceRepo.create(space);
-
+    const userId = 'user-123';
     await expect(
-      useCase.execute({
-        spaceId: space.id.toString(),
-        userId: 'user-123',
-        score: 0,
-      }),
+      useCase.execute(
+        {
+          spaceId: space.id.toString(),
+          userId,
+          score: 0,
+        },
+        'USER',
+        userId,
+      ),
     ).rejects.toThrow('Score must be between 1 and 5');
   });
 
   it('should throw error if score is greater than 5', async () => {
     const space = makeSpace();
     await spaceRepo.create(space);
-
+    const userId = 'user-123';
     await expect(
-      useCase.execute({
-        spaceId: space.id.toString(),
-        userId: 'user-123',
-        score: 6,
-      }),
+      useCase.execute(
+        {
+          spaceId: space.id.toString(),
+          userId,
+          score: 6,
+        },
+        'USER',
+        userId,
+      ),
     ).rejects.toThrow('Score must be between 1 and 5');
   });
 
   it('should update space average rating when multiple ratings are created', async () => {
     const space = makeSpace();
     await spaceRepo.create(space);
-
-    await useCase.execute({
-      spaceId: space.id.toString(),
-      userId: 'user-1',
-      score: 5,
-    });
-
-    await useCase.execute({
-      spaceId: space.id.toString(),
-      userId: 'user-2',
-      score: 3,
-    });
-
-    await useCase.execute({
-      spaceId: space.id.toString(),
-      userId: 'user-3',
-      score: 4,
-    });
+    await useCase.execute(
+      {
+        spaceId: space.id.toString(),
+        userId: 'user-1',
+        score: 5,
+      },
+      'USER',
+      'user-1',
+    );
+    await useCase.execute(
+      {
+        spaceId: space.id.toString(),
+        userId: 'user-2',
+        score: 3,
+      },
+      'USER',
+      'user-2',
+    );
+    await useCase.execute(
+      {
+        spaceId: space.id.toString(),
+        userId: 'user-3',
+        score: 4,
+      },
+      'USER',
+      'user-3',
+    );
 
     const updatedSpace = await spaceRepo.findById(space.id.toString());
     expect(updatedSpace?.averageRating).toBe(4);
@@ -116,12 +141,16 @@ describe('CreateRatingUseCase', () => {
       comment: 'Excelente espaço!',
     });
 
-    const result = await useCase.execute({
-      spaceId: ratingData.spaceId,
-      userId: ratingData.userId,
-      score: ratingData.score,
-      comment: ratingData.comment,
-    });
+    const result = await useCase.execute(
+      {
+        spaceId: ratingData.spaceId,
+        userId: ratingData.userId,
+        score: ratingData.score,
+        comment: ratingData.comment,
+      },
+      'USER',
+      ratingData.userId,
+    );
 
     expect(result).toBeDefined();
     expect(result.score).toBe(ratingData.score);

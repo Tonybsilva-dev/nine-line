@@ -16,8 +16,8 @@ describe('AuthenticateUseCase', () => {
     refreshTokenRepository = InMemoryRefreshTokenRepository.getInstance();
     refreshTokenRepository.clear();
     useCase = new AuthenticateUseCase(userRepository, refreshTokenRepository);
-    // Cria usuário válido
-    const password = await Password.create('senha123');
+    // Create valid user
+    const password = await Password.create('password123');
     const user = User.create({
       name: 'Test User',
       email: 'test@example.com',
@@ -28,25 +28,28 @@ describe('AuthenticateUseCase', () => {
     await userRepository.create(user);
   });
 
-  it('deve autenticar usuário válido e retornar tokens', async () => {
+  it('should authenticate valid user and return tokens', async () => {
     const result = await useCase.execute({
       email: 'test@example.com',
-      password: 'senha123',
+      password: 'password123',
     });
     expect(result.accessToken).toBeDefined();
     expect(result.refreshToken).toBeDefined();
     expect(result.user.email).toBe('test@example.com');
   });
 
-  it('deve falhar com senha incorreta', async () => {
+  it('should fail with incorrect password', async () => {
     await expect(() =>
-      useCase.execute({ email: 'test@example.com', password: 'errada' }),
+      useCase.execute({ email: 'test@example.com', password: 'wrong' }),
     ).rejects.toThrow();
   });
 
-  it('deve falhar com email inexistente', async () => {
+  it('should fail with non-existent email', async () => {
     await expect(() =>
-      useCase.execute({ email: 'naoexiste@example.com', password: 'senha123' }),
+      useCase.execute({
+        email: 'nonexistent@example.com',
+        password: 'password123',
+      }),
     ).rejects.toThrow();
   });
 });

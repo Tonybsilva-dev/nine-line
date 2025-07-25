@@ -17,6 +17,7 @@ interface UpdateAppointmentDTO {
   status?: AppointmentStatus;
   userId: string; // ID do usuário que está fazendo a atualização
   userRole: string; // Role do usuário que está fazendo a atualização
+  cancelReason?: string; // Adicionado para armazenar o motivo da cancelação
 }
 
 export class UpdateAppointmentUseCase {
@@ -32,39 +33,43 @@ export class UpdateAppointmentUseCase {
       throw new EntityNotFoundError('Appointment', data.id);
     }
 
-    // Verificar permissões baseadas no role do usuário
+    // Check permissions based on user role
     this.validateUserPermissions(data.userId, data.userRole, appointment);
 
     const changes: Record<string, unknown> = {};
 
-    // Lógica específica para cada role
+    // Role-specific logic
     if (data.userRole === 'USER') {
-      // Usuário comum só pode atualizar seus próprios agendamentos
+      // User can only update their own appointments
       if (appointment.userId !== data.userId) {
         throw new ForbiddenError(
           'Users can only update their own appointments',
         );
       }
-
-      // Usuário pode cancelar seu próprio agendamento (qualquer status)
+      // User can cancel their own appointment (any status)
       if (data.status === 'CANCELLED') {
+        if (!data.cancelReason) {
+          throw new InvalidOperationError(
+            'Cancel reason is required when cancelling an appointment.',
+          );
+        }
         changes.status = 'CANCELLED';
+        changes.cancelReason = data.cancelReason;
         appointment.cancel();
       } else if (data.status) {
-        // Não permitir que usuários alterem outros status diretamente
+        // Users cannot change other statuses directly
         throw new InvalidOperationError(
           'Users can only cancel their appointments or update date/time',
         );
       }
     } else if (data.userRole === 'MANAGER') {
-      // Manager não pode atualizar agendamentos de outros usuários
+      // Manager cannot update other users' appointments
       if (appointment.userId !== data.userId) {
         throw new ForbiddenError(
           'Managers cannot update appointments of other users',
         );
       }
-
-      // Manager pode cancelar ou rejeitar seus próprios agendamentos
+      // Manager can cancel or reject their own appointments
       if (data.status === 'CANCELLED') {
         changes.status = 'CANCELLED';
         appointment.cancel();
@@ -80,21 +85,20 @@ export class UpdateAppointmentUseCase {
         appointment.updateStatus('PENDING');
       }
     } else if (data.userRole === 'ADMIN') {
-      // ADMIN pode fazer qualquer alteração
+      // ADMIN can make any change
       if (data.status) {
         changes.status = data.status;
         appointment.updateStatus(data.status);
       }
     }
 
-    // Aplicar mudanças de data/hora se fornecidas
+    // Apply date/time changes if provided
     if (data.date && data.startTime && data.endTime) {
       changes.date = data.date;
       changes.startTime = data.startTime;
       changes.endTime = data.endTime;
       appointment.updateDateTime(data.date, data.startTime, data.endTime);
-
-      // Se for USER, voltar status para PENDING após alterar data/hora
+      // If USER, reset status to PENDING after changing date/time
       if (data.userRole === 'USER') {
         changes.status = 'PENDING';
         appointment.updateStatus('PENDING');
@@ -103,7 +107,7 @@ export class UpdateAppointmentUseCase {
 
     await this.appointmentRepository.update(appointment);
 
-    // Disparar evento de appointment atualizado se eventBus estiver disponível
+    // Emit appointment updated event if eventBus is available
     if (this.eventBus && Object.keys(changes).length > 0) {
       const appointmentUpdatedEvent = new AppointmentUpdatedEvent(
         appointment,
@@ -121,12 +125,11 @@ export class UpdateAppointmentUseCase {
     userRole: string,
     appointment: Appointment,
   ): void {
-    // Verificações básicas de permissão
+    // Basic permission checks
     if (!userId || !userRole) {
       throw new ForbiddenError('User authentication required');
     }
-
-    // Verificar se o usuário tem permissão para acessar este agendamento
+    // Check if user has permission to access this appointment
     if (userRole === 'USER' && appointment.userId !== userId) {
       throw new ForbiddenError('Users can only access their own appointments');
     }

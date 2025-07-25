@@ -2,8 +2,11 @@
  * @swagger
  * /appointments/{id}:
  *   delete:
- *     summary: Deletar agendamento
- *     description: Remove um agendamento existente
+ *     summary: Delete appointment
+ *     description: |
+ *       - **USER:** Cannot delete appointments. Should use cancellation (update status to CANCELLED) to keep the record in their history.
+ *       - **MANAGER:** Cannot delete appointments.
+ *       - **ADMIN:** Can delete any appointment.
  *     tags: [Appointments]
  *     parameters:
  *       - in: path
@@ -12,10 +15,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do agendamento
+ *         description: Appointment ID
  *     responses:
  *       204:
- *         description: Agendamento deletado com sucesso
+ *         description: Appointment deleted successfully
  *       404:
- *         description: Agendamento não encontrado
+ *         description: Appointment not found
  */

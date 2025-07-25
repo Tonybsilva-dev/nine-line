@@ -30,7 +30,7 @@ export class CreateSpaceUseCase {
 
     await this.spaceRepository.create(space);
 
-    // Disparar evento de space criado se eventBus estiver disponível
+    // Publish space created event if eventBus is available
     if (this.eventBus) {
       const spaceCreatedEvent = new SpaceCreatedEvent(space);
       await this.eventBus.publish(spaceCreatedEvent);

@@ -2,31 +2,31 @@
  * @swagger
  * /appointments/{id}:
  *   put:
- *     summary: Atualizar agendamento
+ *     summary: Update appointment
  *     description: |
- *       Atualiza um agendamento existente com regras específicas por role:
+ *       Updates an existing appointment with specific rules by role:
  *
  *       **USER:**
- *       - Só pode atualizar seus próprios agendamentos
- *       - Qualquer alteração de data/hora volta o status para PENDING
- *       - Pode cancelar seu próprio agendamento (CANCELLED)
- *       - Não pode alterar outros status diretamente
+ *       - Can only update their own appointments
+ *       - Any date/time change resets the status to PENDING
+ *       - Can cancel their own appointment (CANCELLED)
+ *       - Cannot directly change other statuses
  *
  *       **MANAGER:**
- *       - Só pode atualizar seus próprios agendamentos
- *       - Pode cancelar seus próprios agendamentos (CANCELLED)
- *       - Pode rejeitar seus próprios agendamentos (REJECTED)
- *       - Pode alterar status para PENDING
+ *       - Can only update their own appointments
+ *       - Can cancel their own appointments (CANCELLED)
+ *       - Can reject their own appointments (REJECTED)
+ *       - Can change status to PENDING
  *
  *       **ADMIN:**
- *       - Pode atualizar qualquer agendamento
- *       - Pode alterar qualquer campo e status
+ *       - Can update any appointment
+ *       - Can change any field and status
  *
  *       **Status:**
- *       - PENDING: Agendamento pendente de aprovação
- *       - CONFIRMED: Agendamento aprovado
- *       - CANCELLED: Agendamento cancelado pelo usuário
- *       - REJECTED: Agendamento rejeitado pelo manager
+ *       - PENDING: Appointment pending approval
+ *       - CONFIRMED: Appointment approved
+ *       - CANCELLED: Appointment cancelled by user
+ *       - REJECTED: Appointment rejected by manager
  *     tags: [Appointments]
  *     security:
  *       - bearerAuth: []
@@ -37,7 +37,7 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do agendamento
+ *         description: Appointment ID
  *     requestBody:
  *       required: true
  *       content:
@@ -48,22 +48,25 @@
  *               date:
  *                 type: string
  *                 format: date-time
- *                 description: Nova data do agendamento
+ *                 description: New appointment date
  *               startTime:
  *                 type: string
  *                 format: date-time
- *                 description: Novo horário de início
+ *                 description: New start time
  *               endTime:
  *                 type: string
  *                 format: date-time
- *                 description: Novo horário de fim
+ *                 description: New end time
  *               status:
  *                 type: string
  *                 enum: [PENDING, CONFIRMED, CANCELLED, REJECTED]
- *                 description: "Novo status do agendamento (restrições por role)"
+ *                 description: "New appointment status (role restrictions)"
+ *               cancelReason:
+ *                 type: string
+ *                 description: "Reason for cancellation (required when status is CANCELLED)"
  *     responses:
  *       200:
- *         description: Agendamento atualizado com sucesso
+ *         description: Appointment updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -94,11 +97,11 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: "Dados inválidos, operação não permitida para o role do usuário"
+ *         description: "Invalid data, operation not allowed for user role"
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  *       403:
- *         description: "Usuário não tem permissão para atualizar este agendamento"
+ *         description: "User does not have permission to update this appointment"
  *       404:
- *         description: Agendamento não encontrado
+ *         description: Appointment not found
  */

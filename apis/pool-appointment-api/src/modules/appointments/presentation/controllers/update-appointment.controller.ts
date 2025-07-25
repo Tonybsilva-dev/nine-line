@@ -7,7 +7,7 @@ import { prisma } from '@/config/prisma';
 
 export async function updateAppointmentController(req: Request, res: Response) {
   const { id } = req.params;
-  const { date, startTime, endTime, status } = req.body;
+  const { date, startTime, endTime, status, cancelReason } = req.body;
   const userId = req.user?.id;
   const userRole = req.user?.role;
 
@@ -31,6 +31,7 @@ export async function updateAppointmentController(req: Request, res: Response) {
     startTime: startTime ? new Date(startTime) : undefined,
     endTime: endTime ? new Date(endTime) : undefined,
     status,
+    cancelReason,
     userId,
     userRole,
   });

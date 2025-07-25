@@ -14,7 +14,7 @@ rbacRoutes.get('/roles', getRolesController);
 rbacRoutes.post('/revoke-role', revokeRoleController);
 rbacRoutes.get('/user-permissions/:userId', getUserPermissionsController);
 
-// TODO: Adicionar outros controllers quando implementados
+// TODO: Add other controllers when implemented
 // rbacRoutes.post('/create-role', createRoleController);
 
 export { rbacRoutes };

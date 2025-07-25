@@ -3,14 +3,14 @@
 ## Base URL
 
 ```
-/ratings
+/api/ratings
 ```
 
-## Endpoints Disponíveis
+## Available Endpoints
 
-### 1. Criar Avaliação
+### 1. Create Rating
 
-**POST** `/ratings`
+**POST** `/api/ratings`
 
 **Body:**
 
@@ -19,7 +19,7 @@
   "userId": "...",
   "spaceId": "...",
   "score": 5,
-  "comment": "Ótimo espaço!"
+  "comment": "Great space!"
 }
 ```
 
@@ -35,25 +35,9 @@
 
 ---
 
-### 2. Listar Avaliações por Usuário
+### 2. List Ratings by User
 
-**GET** `/ratings/user/:userId`
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": { "ratings": [ ... ] },
-  "metadata": { ... }
-}
-```
-
----
-
-### 3. Listar Avaliações por Espaço
-
-**GET** `/ratings/space/:spaceId`
+**GET** `/api/ratings/user/:userId`
 
 **Response:**
 
@@ -67,9 +51,25 @@
 
 ---
 
-### 4. Buscar Avaliação por ID
+### 3. List Ratings by Space
 
-**GET** `/ratings/:id`
+**GET** `/api/ratings/space/:spaceId`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": { "ratings": [ ... ] },
+  "metadata": { ... }
+}
+```
+
+---
+
+### 4. Get Rating by ID
+
+**GET** `/api/ratings/:id`
 
 **Response:**
 
@@ -83,16 +83,16 @@
 
 ---
 
-### 5. Atualizar Avaliação
+### 5. Update Rating
 
-**PUT** `/ratings/:id`
+**PUT** `/api/ratings/:id`
 
 **Body:**
 
 ```json
 {
   "score": 4,
-  "comment": "Bom, mas pode melhorar."
+  "comment": "Good, but could be better."
 }
 ```
 
@@ -108,23 +108,24 @@
 
 ---
 
-### 6. Deletar Avaliação
+### 6. Delete Rating
 
-**DELETE** `/ratings/:id`
+**DELETE** `/api/ratings/:id`
 
 **Response:**
 
 ```json
 {
   "success": true,
-  "data": { "message": "Avaliação deletada com sucesso" },
+  "data": { "message": "Rating deleted successfully" },
   "metadata": { ... }
 }
 ```
 
 ---
 
-## Observações
+## Notes
 
-- Todas as rotas exigem autenticação via Bearer Token.
-- Utilize os endpoints de auth para login e obtenção de token.
+- All routes require authentication via Bearer Token.
+- Use the auth endpoints for login and token retrieval.
+- Only the USER who created the rating can update or delete it.

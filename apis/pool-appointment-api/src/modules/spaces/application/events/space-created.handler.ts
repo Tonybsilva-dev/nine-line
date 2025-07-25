@@ -13,16 +13,8 @@ export class SpaceCreatedHandler implements EventHandler<SpaceCreatedEvent> {
       createdBy: event.createdBy,
     });
 
-    // Aqui você pode adicionar lógicas como:
-    // - Notificar o host sobre o espaço criado
-    // - Criar índices de busca
-    // - Registrar métricas
-    // - Invalidar cache
-
-    // Exemplo: Notificar o host
     await this.notifyHost(event.space);
 
-    // Exemplo: Registrar métrica
     await this.recordSpaceCreationMetric(event);
   }
 
@@ -31,7 +23,6 @@ export class SpaceCreatedHandler implements EventHandler<SpaceCreatedEvent> {
     title: string;
     hostId: string;
   }): Promise<void> {
-    // Simulação de notificação ao host
     logger.info({
       type: 'host_notification_sent',
       spaceId: space.id.toString(),
@@ -43,7 +34,6 @@ export class SpaceCreatedHandler implements EventHandler<SpaceCreatedEvent> {
   private async recordSpaceCreationMetric(
     event: SpaceCreatedEvent,
   ): Promise<void> {
-    // Simulação de registro de métrica
     logger.info({
       type: 'space_creation_metric',
       spaceId: event.space.id.toString(),

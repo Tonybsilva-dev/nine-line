@@ -4,12 +4,14 @@ import { EventBus } from '@/core/events';
 import { AppointmentApprovedEvent } from '../../../domain/events';
 import { EntityNotFoundError, InvalidOperationError } from '@/core/errors';
 import { AuthorizationService } from '@/modules/rbac/domain/services/authorization.service';
-import { APPOINTMENT_PERMISSIONS } from '@/modules/rbac/domain/entities/permissions';
+import { ForbiddenError } from '@/core/errors';
 
 interface ApproveAppointmentDTO {
   appointmentId: string;
   adminId: string;
   approvedBy: string;
+  userId: string;
+  userRole: string;
 }
 
 export class ApproveAppointmentUseCase {
@@ -20,11 +22,15 @@ export class ApproveAppointmentUseCase {
   ) {}
 
   async execute(data: ApproveAppointmentDTO): Promise<Appointment> {
-    // Verificar permissão de aprovação
-    await this.authorizationService.requirePermission(
-      data.adminId,
-      APPOINTMENT_PERMISSIONS.APPROVE,
-    );
+    if (!data.userId) {
+      throw new ForbiddenError('User authentication required');
+    }
+    // Only MANAGER or ADMIN can approve appointments
+    if (data.userRole !== 'MANAGER' && data.userRole !== 'ADMIN') {
+      throw new ForbiddenError(
+        'Only MANAGER or ADMIN can approve appointments',
+      );
+    }
 
     const appointment = await this.appointmentRepository.findById(
       data.appointmentId,
@@ -33,18 +39,18 @@ export class ApproveAppointmentUseCase {
       throw new EntityNotFoundError('Appointment', data.appointmentId);
     }
 
-    // Verificar se o appointment está pendente
+    // Verify if appointment is pending
     if (appointment.status !== 'PENDING') {
       throw new InvalidOperationError(
         'Only pending appointments can be approved',
       );
     }
 
-    // Aprovar o appointment
+    // Approve appointment
     appointment.approve();
     await this.appointmentRepository.update(appointment);
 
-    // Disparar evento de appointment aprovado se eventBus estiver disponível
+    // trigger appointment approved event if eventBus is available
     if (this.eventBus) {
       const appointmentApprovedEvent = new AppointmentApprovedEvent(
         appointment,

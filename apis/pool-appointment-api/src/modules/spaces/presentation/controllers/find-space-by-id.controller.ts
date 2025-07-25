@@ -5,12 +5,11 @@ import { ResponseMapper } from '@/core/presentation/responses';
 
 export async function findSpaceByIdController(req: Request, res: Response) {
   const { id } = req.params;
-
+  const userId = req.user?.id;
+  const userRole = req.user?.role;
   const repo = new PrismaSpaceRepository();
   const useCase = new FindSpaceByIdUseCase(repo);
-
   const space = await useCase.execute(id);
-
   if (!space) {
     return ResponseMapper.error(
       res,
@@ -21,7 +20,17 @@ export async function findSpaceByIdController(req: Request, res: Response) {
       req.requestId,
     );
   }
-
+  if (userRole === 'MANAGER' && space.hostId !== userId) {
+    return ResponseMapper.error(
+      res,
+      403,
+      'Managers can only view their own spaces',
+      'FORBIDDEN',
+      undefined,
+      req.requestId,
+    );
+  }
+  // USER and ADMIN can view any space
   const spaceData = {
     id: space.id.toString(),
     title: space.title,
@@ -31,6 +40,5 @@ export async function findSpaceByIdController(req: Request, res: Response) {
     createdAt: space.createdAt,
     updatedAt: space.updatedAt,
   };
-
   return ResponseMapper.ok(res, spaceData, req.requestId);
 }

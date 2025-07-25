@@ -212,16 +212,14 @@ describe('UpdateAppointmentUseCase', () => {
       endTime: new Date('2030-01-01T12:00:00'),
       status: 'CONFIRMED',
     });
-
     await appointmentRepository.create(appointment);
-
     const result = await useCase.execute({
       id: appointment.id.toString(),
       status: AppointmentStatus.CANCELLED,
       userId: 'user-1',
       userRole: 'USER',
+      cancelReason: 'No longer needed',
     });
-
     expect(result.status).toBe('CANCELLED');
   });
 

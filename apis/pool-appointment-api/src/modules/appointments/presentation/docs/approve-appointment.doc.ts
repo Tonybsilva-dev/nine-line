@@ -2,8 +2,8 @@
  * @swagger
  * /appointments/{id}/approve:
  *   patch:
- *     summary: Aprovar um agendamento
- *     description: Aprova um agendamento pendente, alterando seu status para CONFIRMED
+ *     summary: Approve an appointment
+ *     description: Approves a pending appointment, changing its status to CONFIRMED
  *     tags: [Appointments]
  *     security:
  *       - bearerAuth: []
@@ -14,10 +14,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do agendamento a ser aprovado
+ *         description: ID of the appointment to approve
  *     responses:
  *       200:
- *         description: Agendamento aprovado com sucesso
+ *         description: Appointment approved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -51,11 +51,11 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Agendamento não pode ser aprovado (não está pendente)
+ *         description: Appointment cannot be approved (not pending)
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  *       403:
- *         description: Usuário não tem permissão para aprovar agendamentos
+ *         description: User does not have permission to approve appointments
  *       404:
- *         description: Agendamento não encontrado
+ *         description: Appointment not found
  */

@@ -2,7 +2,7 @@ import { RatingRepository } from '../../../domain/repositories/rating-repository
 import { Rating } from '../../../domain/entities/rating';
 import { UpdateSpaceAverageRating } from '../../../domain/services/update-space-average-rating';
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
-import { EntityNotFoundError } from '@/core/errors';
+import { EntityNotFoundError, ForbiddenError } from '@/core/errors';
 
 interface UpdateRatingDTO {
   id: string;
@@ -23,11 +23,21 @@ export class UpdateRatingUseCase {
     );
   }
 
-  async execute(data: UpdateRatingDTO): Promise<Rating> {
+  async execute(
+    data: UpdateRatingDTO,
+    userRole: string,
+    authenticatedUserId: string,
+  ): Promise<Rating> {
+    if (userRole !== 'USER') {
+      throw new ForbiddenError('Only users with USER role can update ratings.');
+    }
     const rating = await this.ratingRepository.findById(data.id);
 
     if (!rating) {
       throw new EntityNotFoundError('Rating', data.id);
+    }
+    if (rating.userId !== authenticatedUserId) {
+      throw new ForbiddenError('Users can only update their own ratings.');
     }
 
     if (data.score !== undefined) {

@@ -5,11 +5,14 @@ import { ResponseMapper } from '@/core/presentation/responses';
 
 export async function findAllSpacesController(req: Request, res: Response) {
   const pagination = req.pagination;
+  const userId = req.user?.id;
   const repo = new PrismaSpaceRepository();
   const useCase = new FindAllSpacesUseCase(repo);
-
-  const { total, spaces } = await useCase.execute(pagination ?? {});
-
+  const result = await useCase.execute({
+    ...pagination,
+    hostId: userId,
+  } as Parameters<typeof useCase.execute>[0]);
+  const { total, spaces } = result;
   const spacesData = spaces.map((space) => ({
     id: space.id.toString(),
     title: space.title,
@@ -18,7 +21,6 @@ export async function findAllSpacesController(req: Request, res: Response) {
     averageRating: space.averageRating,
     createdAt: space.createdAt,
   }));
-
   return ResponseMapper.paginated(
     res,
     spacesData,

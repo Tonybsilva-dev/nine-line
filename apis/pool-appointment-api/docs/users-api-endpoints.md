@@ -3,14 +3,14 @@
 ## Base URL
 
 ```
-/users
+/api/users
 ```
 
-## Endpoints Disponíveis
+## Available Endpoints
 
-### 1. Criar Usuário
+### 1. Create User
 
-**POST** `/users`
+**POST** `/api/users`
 
 **Body:**
 
@@ -18,7 +18,7 @@
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "password": "senha123",
+  "password": "password123",
   "status": "ACTIVE",
   "role": "USER"
 }
@@ -42,14 +42,14 @@
 
 ---
 
-### 2. Listar Usuários
+### 2. List Users (Paginated)
 
-**GET** `/users`
+**GET** `/api/users`
 
 **Query Parameters:**
 
-- `page` (opcional): Número da página
-- `perPage` (opcional): Itens por página
+- `page` (optional): Page number
+- `perPage` (optional): Items per page
 
 **Response:**
 
@@ -66,9 +66,9 @@
 
 ---
 
-### 3. Buscar Usuário por ID
+### 3. Get User by ID
 
-**GET** `/users/:id`
+**GET** `/api/users/:id`
 
 **Response:**
 
@@ -88,16 +88,16 @@
 
 ---
 
-### 4. Atualizar Usuário
+### 4. Update User
 
-**PUT** `/users/:id`
+**PUT** `/api/users/:id`
 
 **Body:**
 
 ```json
 {
-  "name": "Novo Nome",
-  "email": "novo@email.com",
+  "name": "New Name",
+  "email": "new@email.com",
   "status": "ACTIVE",
   "role": "USER"
 }
@@ -115,24 +115,24 @@
 
 ---
 
-### 5. Deletar Usuário
+### 5. Delete User
 
-**DELETE** `/users/:id`
+**DELETE** `/api/users/:id`
 
 **Response:**
 
 ```json
 {
   "success": true,
-  "data": { "message": "Usuário deletado com sucesso" },
+  "data": { "message": "User deleted successfully" },
   "metadata": { ... }
 }
 ```
 
 ---
 
-## Observações
+## Notes
 
-- Apenas a rota de criação de usuário é pública.
-- Todas as outras rotas exigem autenticação via Bearer Token.
-- Utilize os endpoints de auth para login e obtenção de token.
+- Only the user creation route is public.
+- All other routes require authentication via Bearer Token.
+- Use the auth endpoints for login and token retrieval.

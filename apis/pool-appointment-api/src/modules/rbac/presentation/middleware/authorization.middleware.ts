@@ -14,14 +14,14 @@ export const requirePermission = (permission: string) => {
         );
       }
 
-      // TODO: Injetar AuthorizationService via DI
-      // Por enquanto, vamos usar uma implementação simples
+      // TODO: Inject AuthorizationService via DI
+      // For now, we'll use a simple implementation
       // const authService = container.get(AuthorizationService);
       // await authService.requirePermission(userId, permission);
 
-      // Placeholder para demonstração
-      // Em produção, você deve injetar o AuthorizationService
-      // TODO: Implementar verificação de permissão usando 'permission'
+      // Placeholder for demonstration
+      // In production, you should inject the AuthorizationService
+      // TODO: Implement permission check using 'permission'
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _permission = permission;
 
@@ -50,12 +50,12 @@ export const requireRoleLevel = (requiredLevel: number) => {
         );
       }
 
-      // TODO: Injetar AuthorizationService via DI
+      // TODO: Inject AuthorizationService via DI
       // const authService = container.get(AuthorizationService);
       // await authService.requireRoleLevel(userId, requiredLevel);
 
-      // Placeholder para demonstração
-      // TODO: Implementar verificação de nível de role usando 'requiredLevel'
+      // Placeholder for demonstration
+      // TODO: Implement role level check using 'requiredLevel'
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _requiredLevel = requiredLevel;
 
@@ -97,8 +97,8 @@ export const requireResourceOwnership = (
         );
       }
 
-      // TODO: Implementar verificação de propriedade do recurso
-      // Exemplo: verificar se o appointment pertence ao usuário
+      // TODO: Implement resource ownership check
+      // Example: check if the appointment belongs to the user
 
       next();
     } catch {

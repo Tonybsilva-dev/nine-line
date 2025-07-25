@@ -2,7 +2,7 @@ import { RatingRepository } from '../../../domain/repositories/rating-repository
 import { Rating } from '../../../domain/entities/rating';
 import { UpdateSpaceAverageRating } from '../../../domain/services/update-space-average-rating';
 import { SpaceRepository } from '@/modules/spaces/domain/repositories/space-repository';
-import { EntityNotFoundError } from '@/core/errors';
+import { EntityNotFoundError, ForbiddenError } from '@/core/errors';
 import { EventBus } from '@/core/events';
 import { RatingCreatedEvent } from '../../../domain/events';
 
@@ -27,7 +27,18 @@ export class CreateRatingUseCase {
     );
   }
 
-  async execute(data: CreateRatingDTO): Promise<Rating> {
+  async execute(
+    data: CreateRatingDTO,
+    userRole: string,
+    authenticatedUserId: string,
+  ): Promise<Rating> {
+    if (userRole !== 'USER') {
+      throw new ForbiddenError('Only users with USER role can create ratings.');
+    }
+    if (data.userId !== authenticatedUserId) {
+      throw new ForbiddenError('Users can only create ratings for themselves.');
+    }
+
     const space = await this.spaceRepository.findById(data.spaceId);
     if (!space) {
       throw new EntityNotFoundError('Space', data.spaceId);
@@ -43,7 +54,7 @@ export class CreateRatingUseCase {
     await this.ratingRepository.create(rating);
     await this.updateSpaceAverageRating.execute(data.spaceId);
 
-    // Disparar evento de rating criado se eventBus estiver disponível
+    // Trigger rating created event if eventBus is available
     if (this.eventBus) {
       const ratingCreatedEvent = new RatingCreatedEvent(rating);
       await this.eventBus.publish(ratingCreatedEvent);

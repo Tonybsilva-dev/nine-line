@@ -116,24 +116,22 @@ describe('CreateAppointmentUseCase', () => {
     await userRepository.create(user);
     await spaceRepository.create(space);
 
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const startTime = new Date(yesterday);
+    const pastDate = new Date();
+    pastDate.setDate(pastDate.getDate() - 1);
+    const startTime = new Date(pastDate);
     startTime.setHours(10, 0, 0, 0);
-
-    const endTime = new Date(yesterday);
+    const endTime = new Date(pastDate);
     endTime.setHours(12, 0, 0, 0);
 
     await expect(() =>
       createAppointmentUseCase.execute({
         userId: user.id.toString(),
         spaceId: space.id.toString(),
-        date: yesterday,
+        date: pastDate,
         startTime,
         endTime,
       }),
-    ).rejects.toThrow('Não é possível agendar para datas passadas');
+    ).rejects.toThrow('Cannot schedule for past dates');
   });
 
   it('should throw error if start time is greater than or equal to end time', async () => {
@@ -143,26 +141,22 @@ describe('CreateAppointmentUseCase', () => {
     await userRepository.create(user);
     await spaceRepository.create(space);
 
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const startTime = new Date(tomorrow);
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const startTime = new Date(date);
     startTime.setHours(12, 0, 0, 0);
-
-    const endTime = new Date(tomorrow);
+    const endTime = new Date(date);
     endTime.setHours(10, 0, 0, 0);
 
     await expect(() =>
       createAppointmentUseCase.execute({
         userId: user.id.toString(),
         spaceId: space.id.toString(),
-        date: tomorrow,
+        date,
         startTime,
         endTime,
       }),
-    ).rejects.toThrow(
-      'O horário de início deve ser menor que o horário de fim',
-    );
+    ).rejects.toThrow('Start time must be before end time');
   });
 
   it('should throw error if there is a time conflict for the same space', async () => {

@@ -2,7 +2,11 @@
  * @swagger
  * /spaces/{id}:
  *   get:
- *     summary: Busca um espaço pelo ID
+ *     summary: Search for a space by ID
+ *     description: |
+ *       - **ADMIN:** Can view any space.
+ *       - **MANAGER:** Can view only spaces where they are the host.
+ *       - **USER:** Can view any space.
  *     tags: [Spaces]
  *     parameters:
  *       - in: path
@@ -10,10 +14,10 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID do espaço
+ *         description: Space ID
  *     responses:
  *       200:
- *         description: Espaço encontrado
+ *         description: Space found
  *       404:
- *         description: Espaço não encontrado
+ *         description: Space not found
  */

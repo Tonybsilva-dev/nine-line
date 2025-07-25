@@ -33,9 +33,12 @@ describe('FindAppointmentByIdUseCase', () => {
     expect(result?.endTime).toEqual(appointment.endTime);
   });
 
-  it('should return null when appointment not found', async () => {
-    const result = await findAppointmentByIdUseCase.execute('non-existent-id');
-    expect(result).toBeNull();
+  it('should throw error when appointment not found', async () => {
+    await expect(() =>
+      findAppointmentByIdUseCase.execute('non-existent-id'),
+    ).rejects.toThrow(
+      "Appointment with identifier 'non-existent-id' not found",
+    );
   });
 
   it('should find appointment with different statuses', async () => {

@@ -7,11 +7,11 @@ export async function checkBlacklist(
   next: NextFunction,
 ) {
   const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Token não informado' });
+  if (!token) return res.status(401).json({ error: 'Token not provided' });
   const blacklistRepo = new InMemoryTokenBlacklistRepository();
   const isBlacklisted = await blacklistRepo.has(token);
   if (isBlacklisted) {
-    return res.status(401).json({ error: 'Token inválido (logout realizado)' });
+    return res.status(401).json({ error: 'Invalid token (logout performed)' });
   }
   next();
 }

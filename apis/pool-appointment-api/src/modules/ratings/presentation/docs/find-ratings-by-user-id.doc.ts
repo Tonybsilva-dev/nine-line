@@ -2,7 +2,7 @@
  * @swagger
  * /ratings/user/{userId}:
  *   get:
- *     summary: Lista avaliações de um usuário
+ *     summary: List user ratings
  *     tags: [Ratings]
  *     parameters:
  *       - in: path
@@ -10,18 +10,24 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID do usuário
+ *         description: User ID
  *       - in: query
  *         name: page
  *         schema:
  *           type: number
- *         description: "Página (default: 1)"
+ *         description: "Page (default: 1)"
  *       - in: query
  *         name: perPage
  *         schema:
  *           type: number
- *         description: "Itens por página (default: 10)"
+ *         description: "Items per page (default: 10)"
  *     responses:
  *       200:
- *         description: Lista de avaliações
+ *         description: Ratings list
+ *         description: |
+ *           - **USER:** Can view any rating.
+ *           - **MANAGER:** Can view any rating.
+ *           - **ADMIN:** Can view any rating.
+ *       400:
+ *         description: Invalid pagination parameters
  */

@@ -22,26 +22,26 @@ export class RefreshTokenUseCase {
     );
 
     if (!oldToken || !oldToken.isActive) {
-      throw new UnauthorizedError('Refresh token inválido ou expirado');
+      throw new UnauthorizedError('Invalid or expired refresh token');
     }
 
-    // Decodificar token
+    // Decode token
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let payload: any;
     try {
       payload = jwt.verify(data.refreshToken, process.env.JWT_REFRESH_SECRET!);
     } catch {
-      throw new UnauthorizedError('Refresh token inválido');
+      throw new UnauthorizedError('Invalid refresh token');
     }
 
-    // Buscar dados do usuário
+    // Get user data
     const user = await this.userRepository.findById(payload.sub);
 
     if (!user) {
-      throw new UnauthorizedError('Usuário não encontrado');
+      throw new UnauthorizedError('User not found');
     }
 
-    // Gerar novo access token
+    // Generate new access token
     const accessToken = jwt.sign(
       {
         sub: user.id.toString(),
@@ -53,11 +53,11 @@ export class RefreshTokenUseCase {
       { expiresIn: '15m' },
     );
 
-    // Gerar novo refresh token
+    // Generate new refresh token
     const newRefreshTokenValue = jwt.sign(
       {
         sub: user.id.toString(),
-        refreshId: Math.random().toString(36).substring(7), // ID único para cada refresh
+        refreshId: Math.random().toString(36).substring(7), // Unique ID for each refresh
         iat: Math.floor(Date.now() / 1000),
       },
       process.env.JWT_REFRESH_SECRET!,

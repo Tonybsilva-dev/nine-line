@@ -9,7 +9,7 @@ export async function logoutController(req: Request, res: Response) {
     return ResponseMapper.error(
       res,
       400,
-      'Token não informado',
+      'Token not provided',
       'BAD_REQUEST',
       undefined,
       req.requestId,
@@ -20,7 +20,7 @@ export async function logoutController(req: Request, res: Response) {
   await useCase.execute({ token });
   return ResponseMapper.ok(
     res,
-    { message: 'Logout realizado com sucesso' },
+    { message: 'Logout performed successfully' },
     req.requestId,
   );
 }

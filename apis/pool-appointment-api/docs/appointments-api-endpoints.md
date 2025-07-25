@@ -8,11 +8,11 @@
 
 ## Endpoints
 
-### 1. Criar Appointment
+### 1. Create Appointment
 
 **POST** `/api/appointments`
 
-**Descrição:** Cria um novo agendamento.
+**Description:** Creates a new appointment.
 
 **Headers:**
 
@@ -33,7 +33,7 @@ Authorization: Bearer <access_token>
 }
 ```
 
-**Resposta de Sucesso (201):**
+**Success Response (201):**
 
 ```json
 {
@@ -57,11 +57,13 @@ Authorization: Bearer <access_token>
 }
 ```
 
-### 2. Buscar Appointment por ID
+---
 
-**GET** `/api/appointments/:id`
+### 2. List All Appointments (Paginated)
 
-**Descrição:** Busca um agendamento específico por ID.
+**GET** `/api/appointments`
+
+**Description:** Returns a paginated list of all appointments in the system.
 
 **Headers:**
 
@@ -69,7 +71,49 @@ Authorization: Bearer <access_token>
 Authorization: Bearer <access_token>
 ```
 
-**Resposta de Sucesso (200):**
+**Query Parameters:**
+
+- `page` (optional): Page number (default: 1)
+- `perPage` (optional): Items per page (default: 10)
+- `orderBy` (optional): Field to order by (default: createdAt)
+- `orderDirection` (optional): asc or desc (default: desc)
+
+**Success Response (200):**
+
+```json
+{
+  "total": 25,
+  "appointments": [
+    {
+      "id": "string",
+      "userId": "string",
+      "spaceId": "string",
+      "date": "2024-01-15T00:00:00.000Z",
+      "startTime": "2024-01-15T10:00:00.000Z",
+      "endTime": "2024-01-15T12:00:00.000Z",
+      "status": "CONFIRMED",
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+---
+
+### 3. Get Appointment by ID
+
+**GET** `/api/appointments/:id`
+
+**Description:** Retrieves a specific appointment by ID.
+
+**Headers:**
+
+```
+Authorization: Bearer <access_token>
+```
+
+**Success Response (200):**
 
 ```json
 {
@@ -93,11 +137,13 @@ Authorization: Bearer <access_token>
 }
 ```
 
-### 3. Buscar Appointments por Usuário
+---
+
+### 4. List Appointments by User
 
 **GET** `/api/appointments/user/:id?page=1&perPage=10`
 
-**Descrição:** Lista todos os agendamentos de um usuário específico.
+**Description:** Lists all appointments for a specific user.
 
 **Headers:**
 
@@ -107,28 +153,16 @@ Authorization: Bearer <access_token>
 
 **Query Parameters:**
 
-- `page` (opcional): Número da página (padrão: 1)
-- `perPage` (opcional): Itens por página (padrão: 10)
+- `page` (optional): Page number (default: 1)
+- `perPage` (optional): Items per page (default: 10)
 
-**Resposta de Sucesso (200):**
+**Success Response (200):**
 
 ```json
 {
   "success": true,
   "data": {
-    "appointments": [
-      {
-        "id": "string",
-        "userId": "string",
-        "spaceId": "string",
-        "date": "2024-01-15T00:00:00.000Z",
-        "startTime": "2024-01-15T10:00:00.000Z",
-        "endTime": "2024-01-15T12:00:00.000Z",
-        "status": "CONFIRMED",
-        "createdAt": "2024-01-15T10:00:00.000Z",
-        "updatedAt": "2024-01-15T10:00:00.000Z"
-      }
-    ],
+    "appointments": [ ... ],
     "pagination": {
       "page": 1,
       "perPage": 10,
@@ -136,19 +170,17 @@ Authorization: Bearer <access_token>
       "totalPages": 3
     }
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
-### 4. Buscar Appointments por Espaço
+---
+
+### 5. List Appointments by Space
 
 **GET** `/api/appointments/space/:id?page=1&perPage=10`
 
-**Descrição:** Lista todos os agendamentos de um espaço específico.
+**Description:** Lists all appointments for a specific space.
 
 **Headers:**
 
@@ -158,16 +190,18 @@ Authorization: Bearer <access_token>
 
 **Query Parameters:**
 
-- `page` (opcional): Número da página (padrão: 1)
-- `perPage` (opcional): Itens por página (padrão: 10)
+- `page` (optional): Page number (default: 1)
+- `perPage` (optional): Items per page (default: 10)
 
-**Resposta:** Mesmo formato da busca por usuário.
+**Response:** Same as by user.
 
-### 5. Atualizar Appointment
+---
+
+### 6. Update Appointment
 
 **PUT** `/api/appointments/:id`
 
-**Descrição:** Atualiza um agendamento existente.
+**Description:** Updates an existing appointment.
 
 **Headers:**
 
@@ -186,7 +220,7 @@ Authorization: Bearer <access_token>
 }
 ```
 
-**Resposta de Sucesso (200):**
+**Success Response (200):**
 
 ```json
 {
@@ -202,19 +236,17 @@ Authorization: Bearer <access_token>
     "createdAt": "2024-01-15T10:00:00.000Z",
     "updatedAt": "2024-01-15T11:00:00.000Z"
   },
-  "metadata": {
-    "timestamp": "2024-01-15T11:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
-### 6. Deletar Appointment
+---
+
+### 7. Delete Appointment
 
 **DELETE** `/api/appointments/:id`
 
-**Descrição:** Remove um agendamento.
+**Description:** Deletes an appointment.
 
 **Headers:**
 
@@ -222,25 +254,23 @@ Authorization: Bearer <access_token>
 Authorization: Bearer <access_token>
 ```
 
-**Resposta de Sucesso (204):**
+**Success Response (204):**
 
 ```json
 {
   "success": true,
   "data": null,
-  "metadata": {
-    "timestamp": "2024-01-15T11:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
-### 7. Aprovar Appointment
+---
+
+### 8. Approve Appointment
 
 **PATCH** `/api/appointments/:id/approve`
 
-**Descrição:** Aprova um agendamento pendente (requer permissão de administrador).
+**Description:** Approves a pending appointment (admin permission required).
 
 **Headers:**
 
@@ -248,39 +278,27 @@ Authorization: Bearer <access_token>
 Authorization: Bearer <access_token>
 ```
 
-**Permissões Necessárias:**
+**Required Permissions:**
 
 - `appointment:approve`
 
-**Resposta de Sucesso (200):**
+**Success Response (200):**
 
 ```json
 {
   "success": true,
-  "data": {
-    "id": "string",
-    "userId": "string",
-    "spaceId": "string",
-    "date": "2024-01-15T00:00:00.000Z",
-    "startTime": "2024-01-15T10:00:00.000Z",
-    "endTime": "2024-01-15T12:00:00.000Z",
-    "status": "CONFIRMED",
-    "createdAt": "2024-01-15T10:00:00.000Z",
-    "updatedAt": "2024-01-15T11:00:00.000Z"
-  },
-  "metadata": {
-    "timestamp": "2024-01-15T11:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "data": { ... },
+  "metadata": { ... }
 }
 ```
 
-### 8. Rejeitar Appointment
+---
+
+### 9. Reject Appointment
 
 **PATCH** `/api/appointments/:id/reject`
 
-**Descrição:** Rejeita um agendamento pendente (requer permissão de administrador).
+**Description:** Rejects a pending appointment (admin permission required).
 
 **Headers:**
 
@@ -288,41 +306,30 @@ Authorization: Bearer <access_token>
 Authorization: Bearer <access_token>
 ```
 
-**Permissões Necessárias:**
+**Required Permissions:**
 
 - `appointment:reject`
 
-**Resposta de Sucesso (200):**
+**Success Response (200):**
 
 ```json
 {
   "success": true,
-  "data": {
-    "id": "string",
-    "userId": "string",
-    "spaceId": "string",
-    "date": "2024-01-15T00:00:00.000Z",
-    "startTime": "2024-01-15T10:00:00.000Z",
-    "endTime": "2024-01-15T12:00:00.000Z",
-    "status": "CANCELLED",
-    "createdAt": "2024-01-15T10:00:00.000Z",
-    "updatedAt": "2024-01-15T11:00:00.000Z"
-  },
-  "metadata": {
-    "timestamp": "2024-01-15T11:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "data": { ... },
+  "metadata": { ... }
 }
 ```
 
-## Status dos Appointments
+---
 
-- `PENDING`: Agendamento pendente de aprovação
-- `CONFIRMED`: Agendamento aprovado
-- `CANCELLED`: Agendamento cancelado/rejeitado
+## Appointment Status
 
-## Códigos de Erro
+- `PENDING`: Pending approval
+- `CONFIRMED`: Approved
+- `CANCELLED`: Cancelled/Rejected
+- `REJECTED`: Rejected by manager/admin
+
+## Error Codes
 
 ### 400 - Bad Request
 
@@ -334,11 +341,7 @@ Authorization: Bearer <access_token>
     "code": "VALIDATION_ERROR",
     "statusCode": 400
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
@@ -352,11 +355,7 @@ Authorization: Bearer <access_token>
     "code": "UNAUTHORIZED",
     "statusCode": 401
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
@@ -370,11 +369,7 @@ Authorization: Bearer <access_token>
     "code": "FORBIDDEN",
     "statusCode": 403
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
@@ -388,11 +383,7 @@ Authorization: Bearer <access_token>
     "code": "NOT_FOUND",
     "statusCode": 404
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
@@ -402,15 +393,11 @@ Authorization: Bearer <access_token>
 {
   "success": false,
   "error": {
-    "message": "Já existe um agendamento para este horário neste espaço",
+    "message": "There is already an appointment for this time in this space",
     "code": "INVALID_OPERATION",
     "statusCode": 400
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
@@ -424,26 +411,22 @@ Authorization: Bearer <access_token>
     "code": "INTERNAL_SERVER_ERROR",
     "statusCode": 500
   },
-  "metadata": {
-    "timestamp": "2024-01-15T10:00:00.000Z",
-    "requestId": "string",
-    "version": "1.0.0"
-  }
+  "metadata": { ... }
 }
 ```
 
-## Validações
+## Validations
 
-### Criar/Atualizar Appointment
+### Create/Update Appointment
 
-- `userId`: Obrigatório, string válida
-- `spaceId`: Obrigatório, string válida
-- `date`: Obrigatório, data futura
-- `startTime`: Obrigatório, horário válido
-- `endTime`: Obrigatório, horário posterior ao startTime
+- `userId`: Required, valid string
+- `spaceId`: Required, valid string
+- `date`: Required, future date
+- `startTime`: Required, valid time
+- `endTime`: Required, time after startTime
 
-### Aprovar/Rejeitar Appointment
+### Approve/Reject Appointment
 
-- Apenas appointments com status `PENDING` podem ser aprovados/rejeitados
-- Requer permissão de administrador (`appointment:approve` ou `appointment:reject`)
-- Apenas usuários autenticados podem executar estas ações
+- Only appointments with status `PENDING` can be approved/rejected
+- Requires admin permission (`appointment:approve` or `appointment:reject`)
+- Only authenticated users can perform these actions

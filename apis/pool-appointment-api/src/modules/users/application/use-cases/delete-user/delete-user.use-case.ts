@@ -19,7 +19,7 @@ export class DeleteUserUseCase {
 
     await this.userRepository.update(user);
 
-    // Disparar evento de usuário deletado se eventBus estiver disponível
+    // Trigger user deleted event if eventBus is available
     if (this.eventBus) {
       const userDeletedEvent = new UserDeletedEvent(user);
       await this.eventBus.publish(userDeletedEvent);

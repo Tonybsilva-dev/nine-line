@@ -2,8 +2,8 @@
  * @swagger
  * /auth/refresh-token:
  *   post:
- *     summary: Renovar token de acesso
- *     description: Renova o token de acesso usando um refresh token válido
+ *     summary: Refresh access token
+ *     description: Renews the access token using a valid refresh token
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -16,10 +16,10 @@
  *             properties:
  *               refreshToken:
  *                 type: string
- *                 description: Token de refresh válido
+ *                 description: Valid refresh token
  *     responses:
  *       200:
- *         description: Token renovado com sucesso
+ *         description: Token refreshed successfully
  *         content:
  *           application/json:
  *             schema:
@@ -27,10 +27,10 @@
  *               properties:
  *                 accessToken:
  *                   type: string
- *                   description: "Novo token de acesso JWT (válido por 15 minutos)"
+ *                   description: "New JWT access token (valid for 15 minutes)"
  *                 refreshToken:
  *                   type: string
- *                   description: "Novo token de refresh JWT (válido por 7 dias)"
+ *                   description: "New JWT refresh token (valid for 7 days)"
  *       401:
- *         description: Refresh token inválido ou expirado
+ *         description: Invalid or expired refresh token
  */

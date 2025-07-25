@@ -2,8 +2,15 @@
  * @swagger
  * /appointments:
  *   get:
- *     summary: Listar todos os agendamentos
- *     description: Retorna uma lista paginada de todos os agendamentos do sistema
+ *     summary: List appointments
+ *     description: |
+ *       Returns a paginated list of appointments, with behavior depending on the authenticated user type:
+ *
+ *       - **ADMIN:** Lists all appointments in the system.
+ *       - **MANAGER:** Lists only appointments for spaces where they are host.
+ *       - **USER:** Lists only their own appointments.
+ *
+ *       Authentication via Bearer Token is required.
  *     tags: [Appointments]
  *     parameters:
  *       - in: query
@@ -12,30 +19,30 @@
  *           type: integer
  *           minimum: 1
  *           default: 1
- *         description: Número da página
+ *         description: Page number
  *       - in: query
  *         name: perPage
  *         schema:
  *           type: integer
  *           minimum: 1
  *           default: 10
- *         description: Quantidade de itens por página
+ *         description: Items per page
  *       - in: query
  *         name: orderBy
  *         schema:
  *           type: string
  *           default: createdAt
- *         description: Campo para ordenação
+ *         description: Field to order by
  *       - in: query
  *         name: orderDirection
  *         schema:
  *           type: string
  *           enum: [asc, desc]
  *           default: desc
- *         description: Direção da ordenação
+ *         description: Order direction
  *     responses:
  *       200:
- *         description: Lista de agendamentos retornada com sucesso
+ *         description: Appointments list returned successfully
  *         content:
  *           application/json:
  *             schema:
@@ -43,7 +50,7 @@
  *               properties:
  *                 total:
  *                   type: integer
- *                   description: Total de agendamentos
+ *                   description: Total appointments
  *                 appointments:
  *                   type: array
  *                   items:
@@ -74,5 +81,5 @@
  *                         type: string
  *                         format: date-time
  *       400:
- *         description: Parâmetros de paginação inválidos
+ *         description: Invalid pagination parameters
  */

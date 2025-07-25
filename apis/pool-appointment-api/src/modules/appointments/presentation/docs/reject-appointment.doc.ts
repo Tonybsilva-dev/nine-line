@@ -2,8 +2,8 @@
  * @swagger
  * /appointments/{id}/reject:
  *   patch:
- *     summary: Rejeitar um agendamento
- *     description: Rejeita um agendamento pendente ou confirmado, alterando seu status para CANCELLED
+ *     summary: Reject an appointment
+ *     description: Rejects a pending or confirmed appointment, changing its status to CANCELLED
  *     tags: [Appointments]
  *     security:
  *       - bearerAuth: []
@@ -14,10 +14,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do agendamento a ser rejeitado
+ *         description: ID of the appointment to reject
  *     responses:
  *       200:
- *         description: Agendamento rejeitado com sucesso
+ *         description: Appointment rejected successfully
  *         content:
  *           application/json:
  *             schema:
@@ -51,11 +51,11 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Agendamento não pode ser rejeitado (não está pendente ou confirmado)
+ *         description: Appointment cannot be rejected (not pending or confirmed)
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  *       403:
- *         description: Usuário não tem permissão para rejeitar agendamentos
+ *         description: User does not have permission to reject appointments
  *       404:
- *         description: Agendamento não encontrado
+ *         description: Appointment not found
  */

@@ -6,12 +6,13 @@ import { prisma } from '@/config/prisma';
 
 export async function deleteRatingController(req: Request, res: Response) {
   const { id } = req.params;
+  const userId = req.user?.id;
 
   const ratingRepo = new PrismaRatingRepository(prisma);
   const spaceRepo = new PrismaSpaceRepository();
   const useCase = new DeleteRatingUseCase(ratingRepo, spaceRepo);
 
-  await useCase.execute({ id });
+  await useCase.execute({ id }, 'USER', userId || '');
 
   return res.status(204).send();
 }

@@ -2,7 +2,11 @@
  * @swagger
  * /spaces:
  *   post:
- *     summary: Cria um novo espaço
+ *     summary: Create a new space
+ *     description: |
+ *       - **ADMIN:** Can create a space for any host.
+ *       - **MANAGER:** Can create a space only for themselves (hostId is always their userId).
+ *       - **USER:** Cannot create spaces.
  *     tags: [Spaces]
  *     requestBody:
  *       required: true
@@ -25,7 +29,7 @@
  *                 type: string
  *     responses:
  *       201:
- *         description: Espaço criado com sucesso
+ *         description: Space created successfully
  *       400:
- *         description: Erro de validação
+ *         description: Validation error
  */

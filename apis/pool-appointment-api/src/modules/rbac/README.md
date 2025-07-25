@@ -1,20 +1,20 @@
-# Módulo RBAC (Role-Based Access Control)
+# RBAC Module (Role-Based Access Control)
 
-## Visão Geral
+## Overview
 
-O módulo RBAC implementa um sistema completo de controle de acesso baseado em roles, seguindo o padrão estrito do módulo de users. O sistema permite hierarquia de roles, permissões granulares, cache para performance e auditoria completa.
+The RBAC module implements a complete role-based access control system, following the strict pattern of the users module. The system allows role hierarchy, granular permissions, cache for performance, and complete auditing.
 
-## Estrutura
+## Structure
 
 ```
 src/modules/rbac/
 ├── domain/
 │   ├── entities/
-│   │   ├── permission.ts          # Entidade de permissão
-│   │   ├── role.ts               # Entidade de role com hierarquia
-│   │   ├── user-role-assignment.ts # Associação user-role
-│   │   ├── permissions.ts        # Constantes de permissões
-│   │   └── roles.ts              # Constantes de roles
+│   │   ├── permission.ts          # Permission entity
+│   │   ├── role.ts               # Role entity with hierarchy
+│   │   ├── user-role-assignment.ts # User-role association
+│   │   ├── permissions.ts        # Permission constants
+│   │   └── roles.ts              # Role constants
 │   ├── events/
 │   │   ├── role-assigned.event.ts
 │   │   ├── role-revoked.event.ts
@@ -25,7 +25,7 @@ src/modules/rbac/
 │   │   ├── role-repository.ts
 │   │   └── user-role-repository.ts
 │   └── services/
-│       └── authorization.service.ts # Serviço principal com cache
+│       └── authorization.service.ts # Main service with cache
 ├── application/
 │   ├── events/
 │   │   ├── role-assigned.handler.ts
@@ -43,85 +43,85 @@ src/modules/rbac/
         └── authorization.middleware.ts
 ```
 
-## Hierarquia de Roles
+## Role Hierarchy
 
 ```typescript
 ROLE_LEVELS = {
-  USER: 0, // Usuário básico
-  MANAGER: 1, // Gerente com permissões elevadas
-  ADMIN: 2, // Administrador com todas as permissões
+  USER: 0, // Basic user
+  MANAGER: 1, // Manager with elevated permissions
+  ADMIN: 2, // Administrator with all permissions
 };
 ```
 
-## Permissões Granulares
+## Granular Permissions
 
 ### Appointments
 
-- `appointment:create` - Criar agendamento
-- `appointment:read:own` - Ler próprios agendamentos
-- `appointment:read:all` - Ler todos os agendamentos
-- `appointment:update:own` - Atualizar próprios agendamentos
-- `appointment:update:all` - Atualizar todos os agendamentos
-- `appointment:delete:own` - Deletar próprios agendamentos
-- `appointment:delete:all` - Deletar todos os agendamentos
-- `appointment:approve` - Aprovar agendamentos
-- `appointment:reject` - Rejeitar agendamentos
-- `appointment:cancel:own` - Cancelar próprios agendamentos
-- `appointment:cancel:all` - Cancelar todos os agendamentos
+- `appointment:create` - Create appointment
+- `appointment:read:own` - Read own appointments
+- `appointment:read:all` - Read all appointments
+- `appointment:update:own` - Update own appointments
+- `appointment:update:all` - Update all appointments
+- `appointment:delete:own` - Delete own appointments
+- `appointment:delete:all` - Delete all appointments
+- `appointment:approve` - Approve appointments
+- `appointment:reject` - Reject appointments
+- `appointment:cancel:own` - Cancel own appointments
+- `appointment:cancel:all` - Cancel all appointments
 
 ### Users
 
-- `user:create` - Criar usuário
-- `user:read:own` - Ler próprio perfil
-- `user:read:all` - Ler todos os usuários
-- `user:update:own` - Atualizar próprio perfil
-- `user:update:all` - Atualizar todos os usuários
-- `user:delete` - Deletar usuários
-- `user:block` - Bloquear usuários
-- `user:unblock` - Desbloquear usuários
+- `user:create` - Create user
+- `user:read:own` - Read own profile
+- `user:read:all` - Read all users
+- `user:update:own` - Update own profile
+- `user:update:all` - Update all users
+- `user:delete` - Delete users
+- `user:block` - Block users
+- `user:unblock` - Unblock users
 
 ### Spaces
 
-- `space:create` - Criar espaço
-- `space:read` - Ler espaços
-- `space:update:own` - Atualizar próprios espaços
-- `space:update:all` - Atualizar todos os espaços
-- `space:delete:own` - Deletar próprios espaços
-- `space:delete:all` - Deletar todos os espaços
+- `space:create` - Create space
+- `space:read` - Read spaces
+- `space:update:own` - Update own spaces
+- `space:update:all` - Update all spaces
+- `space:delete:own` - Delete own spaces
+- `space:delete:all` - Delete all spaces
 
 ### Ratings
 
-- `rating:create` - Criar avaliação
-- `rating:read` - Ler avaliações
-- `rating:update:own` - Atualizar próprias avaliações
-- `rating:update:all` - Atualizar todas as avaliações
-- `rating:delete:own` - Deletar próprias avaliações
-- `rating:delete:all` - Deletar todas as avaliações
+- `rating:create` - Create rating
+- `rating:read` - Read ratings
+- `rating:update:own` - Update own ratings
+- `rating:update:all` - Update all ratings
+- `rating:delete:own` - Delete own ratings
+- `rating:delete:all` - Delete all ratings
 
-## Roles Predefinidas
+## Predefined Roles
 
-### USER (Nível 0)
+### USER (Level 0)
 
-- Permissões básicas para criar e gerenciar próprios agendamentos
-- Acesso de leitura a espaços
-- Capacidade de criar e gerenciar próprias avaliações
+- Basic permissions to create and manage own appointments
+- Read access to spaces
+- Ability to create and manage own ratings
 
-### MANAGER (Nível 1)
+### MANAGER (Level 1)
 
-- Todas as permissões de USER
-- Capacidade de aprovar/rejeitar agendamentos
-- Acesso de leitura a todos os usuários
-- Capacidade de gerenciar avaliações de todos
+- All USER permissions
+- Ability to approve/reject appointments
+- Read access to all users
+- Ability to manage all ratings
 
-### ADMIN (Nível 2)
+### ADMIN (Level 2)
 
-- Todas as permissões do sistema
-- Controle total sobre roles e permissões
-- Capacidade de gerenciar todos os recursos
+- All system permissions
+- Total control over roles and permissions
+- Ability to manage all resources
 
-## Cache de Performance
+## Performance Cache
 
-O `AuthorizationService` implementa cache de permissões com TTL de 5 minutos para otimizar performance:
+The `AuthorizationService` implements permission cache with 5-minute TTL for performance optimization:
 
 ```typescript
 interface PermissionCache {
@@ -132,57 +132,57 @@ interface PermissionCache {
 }
 ```
 
-## Auditoria
+## Auditing
 
-Todos os eventos são registrados com informações completas:
+All events are recorded with complete information:
 
-- Quem atribuiu/removeu a role
-- Quando a ação foi realizada
-- Qual role foi afetada
-- Expiração da role (se aplicável)
+- Who assigned/removed the role
+- When the action was performed
+- Which role was affected
+- Role expiration (if applicable)
 
-## Integração com Appointments
+## Integration with Appointments
 
-Exemplo de uso no módulo de appointments:
+Example usage in the appointments module:
 
 ```typescript
 export class ApproveAppointmentUseCase {
   async execute(data: ApproveAppointmentDTO): Promise<Appointment> {
-    // Verificar permissão de aprovação
+    // Check approval permission
     await this.authorizationService.requirePermission(
       data.adminId,
       APPOINTMENT_PERMISSIONS.APPROVE,
     );
 
-    // Lógica de aprovação...
+    // Approval logic...
   }
 }
 ```
 
-## Middleware de Autorização
+## Authorization Middleware
 
 ```typescript
-// Verificar permissão específica
+// Check specific permission
 app.get('/appointments', requirePermission('appointment:read:all'));
 
-// Verificar nível de role
+// Check role level
 app.post('/admin/users', requireRoleLevel(2)); // ADMIN only
 
-// Verificar propriedade do recurso
+// Check resource ownership
 app.put('/appointments/:id', requireResourceOwnership('appointment', 'id'));
 ```
 
-## Eventos de Domínio
+## Domain Events
 
-- `RoleAssignedEvent` - Quando uma role é atribuída
-- `RoleRevokedEvent` - Quando uma role é revogada
-- `RoleCreatedEvent` - Quando uma nova role é criada
+- `RoleAssignedEvent` - When a role is assigned
+- `RoleRevokedEvent` - When a role is revoked
+- `RoleCreatedEvent` - When a new role is created
 
-## Benefícios
+## Benefits
 
-1. **Segurança**: Controle granular de acesso
-2. **Performance**: Cache de permissões
-3. **Auditoria**: Rastreamento completo de ações
-4. **Flexibilidade**: Hierarquia de roles
-5. **Extensibilidade**: Sistema de eventos
-6. **Manutenibilidade**: Padrão consistente com outros módulos
+1. **Security**: Granular access control
+2. **Performance**: Permission cache
+3. **Auditing**: Complete action tracking
+4. **Flexibility**: Role hierarchy
+5. **Extensibility**: Event system
+6. **Maintainability**: Consistent pattern with other modules

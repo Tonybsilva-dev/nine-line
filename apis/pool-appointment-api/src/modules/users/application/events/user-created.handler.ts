@@ -16,7 +16,7 @@ export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
       createdBy: event.createdBy,
     });
 
-    // RBAC: associar usuário à role informada
+    // RBAC: associate user to the specified role
     try {
       const roleRepo = new PrismaRoleRepository();
       const userRoleRepo = new PrismaUserRoleRepository();
@@ -26,7 +26,7 @@ export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
       if (!role) {
         logger.error({
           type: 'user_created_handler',
-          message: `Role ${roleName} não encontrada para o usuário ${userId}`,
+          message: `Role ${roleName} not found for user ${userId}`,
         });
       } else {
         const assignment = UserRoleAssignment.create({
@@ -37,28 +37,19 @@ export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
         await userRoleRepo.create(assignment);
         logger.info({
           type: 'user_created_handler',
-          message: `Role ${roleName} associada ao usuário ${userId}`,
+          message: `Role ${roleName} assigned to user ${userId}`,
         });
       }
     } catch (err) {
       logger.error({
         type: 'user_created_handler',
-        message: 'Erro ao associar role ao usuário',
+        message: 'Error assigning role to user',
         error: err,
       });
     }
 
-    // Aqui você pode adicionar lógicas como:
-    // - Enviar email de boas-vindas
-    // - Criar perfil padrão
-    // - Notificar sistemas externos
-    // - Registrar métricas
-    // - Invalidar cache
-
-    // Exemplo: Enviar email de boas-vindas
     await this.sendWelcomeEmail(event.user);
 
-    // Exemplo: Registrar métrica
     await this.recordUserCreationMetric(event);
   }
 
@@ -66,7 +57,6 @@ export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
     id: { toString: () => string };
     email: string;
   }): Promise<void> {
-    // Simulação de envio de email
     logger.info({
       type: 'welcome_email_sent',
       userId: user.id.toString(),
@@ -77,7 +67,6 @@ export class UserCreatedHandler implements EventHandler<UserCreatedEvent> {
   private async recordUserCreationMetric(
     event: UserCreatedEvent,
   ): Promise<void> {
-    // Simulação de registro de métrica
     logger.info({
       type: 'user_creation_metric',
       userId: event.user.id.toString(),

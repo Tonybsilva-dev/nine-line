@@ -2,7 +2,7 @@
  * @swagger
  * /users:
  *   post:
- *     summary: Cria um novo usuário
+ *     summary: Creates a new user
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -22,7 +22,7 @@
  *                 enum: [ACTIVE, INACTIVE, BLOCKED, PENDING]
  *     responses:
  *       201:
- *         description: Usuário criado
+ *         description: User created
  *       400:
- *         description: Erro de validação
+ *         description: Validation error
  */

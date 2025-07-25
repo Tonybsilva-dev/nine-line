@@ -2,7 +2,11 @@
  * @swagger
  * /spaces/{id}:
  *   delete:
- *     summary: Deleta um espaço pelo ID
+ *     summary: Delete a space by ID
+ *     description: |
+ *       - **ADMIN:** Can delete any space.
+ *       - **MANAGER:** Can delete only spaces where they are the host.
+ *       - **USER:** Cannot delete spaces.
  *     tags: [Spaces]
  *     parameters:
  *       - in: path
@@ -10,10 +14,10 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID do espaço
+ *         description: Space ID
  *     responses:
  *       204:
- *         description: Espaço deletado com sucesso
+ *         description: Space deleted successfully
  *       404:
- *         description: Espaço não encontrado
+ *         description: Space not found
  */

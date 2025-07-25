@@ -30,10 +30,10 @@ export class CreateRoleUseCase {
       throw new DuplicateEntityError('Role', 'name', data.name);
     }
 
-    // Fallback: se permissionIds for vazio, buscar permissões padrão do SYSTEM_ROLES
+    // Fallback: if permissionIds is empty, get default permissions from SYSTEM_ROLES
     let permissionNames: string[] = [];
     if (data.permissionIds && data.permissionIds.length > 0) {
-      // Buscar permissões por ID normalmente
+      // Get permissions by ID normally
       const permissions = await Promise.all(
         data.permissionIds.map(async (id) => {
           const permission = await this.permissionRepository.findById(id);
@@ -57,7 +57,7 @@ export class CreateRoleUseCase {
       }
       return role;
     } else {
-      // Buscar permissões padrão do SYSTEM_ROLES
+      // Get default permissions from SYSTEM_ROLES
       const systemRole = SYSTEM_ROLES[data.name as keyof typeof SYSTEM_ROLES];
       if (
         systemRole &&
@@ -91,7 +91,7 @@ export class CreateRoleUseCase {
 
     await this.roleRepository.create(role);
 
-    // Disparar evento de role criada se eventBus estiver disponível
+    // Trigger role created event if eventBus is available
     if (this.eventBus) {
       const roleCreatedEvent = new RoleCreatedEvent(role, data.createdBy);
       await this.eventBus.publish(roleCreatedEvent);

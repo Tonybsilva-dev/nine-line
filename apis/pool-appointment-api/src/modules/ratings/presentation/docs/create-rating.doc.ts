@@ -2,7 +2,7 @@
  * @swagger
  * /ratings:
  *   post:
- *     summary: Cria uma nova avaliação para um espaço
+ *     summary: Creates a new rating for a space
  *     tags: [Ratings]
  *     requestBody:
  *       required: true
@@ -13,26 +13,26 @@
  *             properties:
  *               spaceId:
  *                 type: string
- *                 description: ID do espaço
+ *                 description: Space ID
  *               userId:
  *                 type: string
- *                 description: ID do usuário
+ *                 description: User ID
  *               score:
  *                 type: number
- *                 description: Nota (1 a 5)
+ *                 description: Score (1 to 5)
  *               comment:
  *                 type: string
- *                 description: Comentário
+ *                 description: Comment
  *     responses:
  *       201:
- *         description: Avaliação criada com sucesso
+ *         description: Rating created successfully
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  */
-// Exemplo de payload:
+// Example payload:
 // {
-//   "spaceId": "uuid-do-espaco",
-//   "userId": "uuid-do-usuario",
+//   "spaceId": "space-uuid",
+//   "userId": "user-uuid",
 //   "score": 5,
-//   "comment": "Ótimo espaço!"
+//   "comment": "Great space!"
 // }

@@ -2,8 +2,8 @@
  * @swagger
  * /appointments/user/{userId}:
  *   get:
- *     summary: Listar agendamentos por usuário
- *     description: Retorna uma lista paginada de agendamentos de um usuário específico
+ *     summary: List appointments by user
+ *     description: Returns a paginated list of appointments for a specific user
  *     tags: [Appointments]
  *     parameters:
  *       - in: path
@@ -12,37 +12,37 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID do usuário
+ *         description: User ID
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
  *           minimum: 1
  *           default: 1
- *         description: Número da página
+ *         description: Page number
  *       - in: query
  *         name: perPage
  *         schema:
  *           type: integer
  *           minimum: 1
  *           default: 10
- *         description: Quantidade de itens por página
+ *         description: Items per page
  *       - in: query
  *         name: orderBy
  *         schema:
  *           type: string
  *           default: createdAt
- *         description: Campo para ordenação
+ *         description: Field to order by
  *       - in: query
  *         name: orderDirection
  *         schema:
  *           type: string
  *           enum: [asc, desc]
  *           default: desc
- *         description: Direção da ordenação
+ *         description: Order direction
  *     responses:
  *       200:
- *         description: Lista de agendamentos retornada com sucesso
+ *         description: Appointments list returned successfully
  *         content:
  *           application/json:
  *             schema:
@@ -50,7 +50,7 @@
  *               properties:
  *                 total:
  *                   type: integer
- *                   description: Total de agendamentos
+ *                   description: Total appointments
  *                 appointments:
  *                   type: array
  *                   items:
@@ -81,5 +81,5 @@
  *                         type: string
  *                         format: date-time
  *       400:
- *         description: Parâmetros de paginação inválidos
+ *         description: Invalid pagination parameters
  */

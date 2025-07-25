@@ -41,6 +41,8 @@ export async function approveAppointmentController(
     appointmentId: id,
     adminId,
     approvedBy: adminId,
+    userId: adminId,
+    userRole: 'ADMIN',
   });
 
   return ResponseMapper.ok(

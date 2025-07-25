@@ -1,4 +1,4 @@
-# Endpoints de Autenticação (Auth)
+# Authentication API Endpoints
 
 Base URL: `/api/auth`
 
@@ -6,14 +6,14 @@ Base URL: `/api/auth`
 
 ## 1. Login
 
-**POST** `/login`
+**POST** `/api/auth/login`
 
 **Body:**
 
 ```json
 {
-  "email": "usuario@email.com",
-  "password": "suasenha"
+  "email": "user@email.com",
+  "password": "yourpassword"
 }
 ```
 
@@ -36,7 +36,7 @@ Base URL: `/api/auth`
 
 ## 2. Refresh Token
 
-**POST** `/refresh`
+**POST** `/api/auth/refresh`
 
 **Body:**
 
@@ -59,7 +59,7 @@ Base URL: `/api/auth`
 
 ## 3. Logout
 
-**POST** `/logout`
+**POST** `/api/auth/logout`
 
 **Headers:**
 
@@ -71,25 +71,25 @@ Authorization: Bearer <accessToken>
 
 ```json
 {
-  "message": "Logout realizado com sucesso"
+  "message": "Logout successful"
 }
 ```
 
 ---
 
-## Observações
+## Notes
 
-- O access token deve ser enviado no header Authorization para rotas protegidas.
-- Após logout, o access token é colocado na blacklist e não pode mais ser usado.
-- O refresh token é de uso único: ao fazer refresh, o antigo é revogado e um novo é emitido.
-- Tokens expiram: access token (15min), refresh token (7 dias).
-- Use sempre HTTPS para proteger os tokens.
+- The access token must be sent in the Authorization header for protected routes.
+- After logout, the access token is blacklisted and cannot be used anymore.
+- The refresh token is single-use: when refreshing, the old one is revoked and a new one is issued.
+- Tokens expire: access token (15min), refresh token (7 days).
+- Always use HTTPS to protect tokens.
 
 ---
 
-## Fluxo recomendado
+## Recommended Flow
 
-1. Login → recebe access e refresh token.
-2. Usa access token para acessar APIs protegidas.
-3. Quando access token expira, usa refresh token para obter novos tokens.
-4. Ao sair, faz logout para invalidar o access token.
+1. Login → receive access and refresh tokens.
+2. Use the access token to access protected APIs.
+3. When the access token expires, use the refresh token to obtain new tokens.
+4. On logout, call the logout endpoint to invalidate the access token.

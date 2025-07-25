@@ -2,7 +2,7 @@
  * @swagger
  * /ratings/{id}:
  *   delete:
- *     summary: Remove uma avaliação
+ *     summary: Delete a rating
  *     tags: [Ratings]
  *     parameters:
  *       - in: path
@@ -10,10 +10,14 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID da avaliação
+ *         description: Rating ID
  *     responses:
  *       204:
- *         description: Avaliação removida com sucesso
+ *         description: Rating deleted successfully
  *       404:
- *         description: Avaliação não encontrada
+ *         description: Rating not found
+ *     description: |
+ *       - **USER:** Can delete only their own ratings.
+ *       - **MANAGER:** Cannot delete ratings.
+ *       - **ADMIN:** Cannot delete ratings.
  */

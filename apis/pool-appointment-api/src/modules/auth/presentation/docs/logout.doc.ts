@@ -2,8 +2,8 @@
  * @swagger
  * /auth/logout:
  *   post:
- *     summary: Fazer logout
- *     description: Invalida o token de acesso atual, adicionando-o à blacklist
+ *     summary: Logout user
+ *     description: Invalidates the current access token by adding it to the blacklist
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
@@ -16,10 +16,10 @@
  *             properties:
  *               token:
  *                 type: string
- *                 description: "Token de acesso a ser invalidado (opcional, usa o token do header se não fornecido)"
+ *                 description: "Access token to invalidate (optional, uses token from header if not provided)"
  *     responses:
  *       200:
- *         description: Logout realizado com sucesso
+ *         description: Logout successful
  *         content:
  *           application/json:
  *             schema:
@@ -27,7 +27,7 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Logout realizado com sucesso"
+ *                   example: "Logout successful"
  *       401:
- *         description: Token de autenticação inválido ou ausente
+ *         description: Invalid or missing authentication token
  */

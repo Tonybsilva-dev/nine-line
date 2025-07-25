@@ -34,7 +34,7 @@ export class AuthenticateUseCase {
       throw new UnauthorizedError('Invalid credentials');
     }
 
-    // Gerar access token
+    // Generate access token
     const accessToken = jwt.sign(
       {
         sub: user.id.toString(),
@@ -46,7 +46,7 @@ export class AuthenticateUseCase {
       { expiresIn: '15m' },
     );
 
-    // Gerar refresh token
+    // Generate refresh token
     const refreshTokenValue = jwt.sign(
       { sub: user.id.toString() },
       process.env.JWT_REFRESH_SECRET!,

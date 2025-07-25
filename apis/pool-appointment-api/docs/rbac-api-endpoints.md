@@ -3,27 +3,27 @@
 ## Base URL
 
 ```
-http://localhost:3333/api/rbac
+/api/rbac
 ```
 
-## Endpoints Disponíveis
+## Available Endpoints
 
-### 1. Listar Roles
+### 1. List Roles
 
-**GET** `/roles`
+**GET** `/api/rbac/roles`
 
 **Query Parameters:**
 
-- `page` (opcional): Número da página (padrão: 1)
-- `perPage` (opcional): Itens por página (padrão: 10)
+- `page` (optional): Page number (default: 1)
+- `perPage` (optional): Items per page (default: 10)
 
-**Exemplo de Request:**
+**Example Request:**
 
 ```
-GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
+GET /api/rbac/roles?page=1&perPage=10
 ```
 
-**Exemplo de Response:**
+**Example Response:**
 
 ```json
 {
@@ -72,9 +72,9 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 }
 ```
 
-### 2. Atribuir Role
+### 2. Assign Role
 
-**POST** `/assign-role`
+**POST** `/api/rbac/assign-role`
 
 **Body:**
 
@@ -82,11 +82,11 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 {
   "userId": "user-id-here",
   "roleId": "role-id-here",
-  "expiresAt": "2024-12-31T23:59:59.000Z" // opcional
+  "expiresAt": "2024-12-31T23:59:59.000Z" // optional
 }
 ```
 
-**Exemplo de Request:**
+**Example Request:**
 
 ```json
 {
@@ -96,7 +96,7 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 }
 ```
 
-**Exemplo de Response:**
+**Example Response:**
 
 ```json
 {
@@ -116,9 +116,9 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 }
 ```
 
-### 3. Revogar Role
+### 3. Revoke Role
 
-**POST** `/revoke-role`
+**POST** `/api/rbac/revoke-role`
 
 **Body:**
 
@@ -129,7 +129,7 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 }
 ```
 
-**Exemplo de Request:**
+**Example Request:**
 
 ```json
 {
@@ -138,7 +138,7 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 }
 ```
 
-**Exemplo de Response:**
+**Example Response:**
 
 ```json
 {
@@ -156,17 +156,17 @@ GET http://localhost:3333/api/rbac/roles?page=1&perPage=10
 }
 ```
 
-### 4. Verificar Permissões do Usuário
+### 4. Get User Permissions
 
-**GET** `/user-permissions/:userId`
+**GET** `/api/rbac/user-permissions/:userId`
 
-**Exemplo de Request:**
+**Example Request:**
 
 ```
-GET http://localhost:3333/api/rbac/user-permissions/1
+GET /api/rbac/user-permissions/1
 ```
 
-**Exemplo de Response:**
+**Example Response:**
 
 ```json
 {
@@ -191,41 +191,41 @@ GET http://localhost:3333/api/rbac/user-permissions/1
 }
 ```
 
-## Fluxo de Teste Recomendado
+## Recommended Test Flow
 
-### 1. Listar Roles Disponíveis
+### 1. List Available Roles
 
 ```
-GET http://localhost:3333/api/rbac/roles
+GET /api/rbac/roles
 ```
 
-### 2. Atribuir Role ADMIN a um Usuário
+### 2. Assign ADMIN Role to a User
 
 ```json
-POST http://localhost:3333/api/rbac/assign-role
+POST /api/rbac/assign-role
 {
   "userId": "1",
   "roleId": "3"
 }
 ```
 
-### 3. Verificar Permissões do Usuário
+### 3. Get User Permissions
 
 ```
-GET http://localhost:3333/api/rbac/user-permissions/1
+GET /api/rbac/user-permissions/1
 ```
 
-### 4. Testar Aprovação de Agendamento (se implementado)
+### 4. Test Appointment Approval (if implemented)
 
 ```json
-POST http://localhost:3333/api/appointments/1/approve
+POST /api/appointments/1/approve
 {
   "approvedBy": "1",
   "notes": "Approved via RBAC test"
 }
 ```
 
-## Permissões por Role
+## Permissions by Role
 
 ### USER (Level 0)
 
@@ -237,14 +237,14 @@ POST http://localhost:3333/api/appointments/1/approve
 
 ### MANAGER (Level 1)
 
-- Todas as permissões do USER
+- All USER permissions
 - `appointment:read:all`
 - `appointment:approve`
 - `appointment:reject`
 
 ### ADMIN (Level 2)
 
-- Todas as permissões do MANAGER
+- All MANAGER permissions
 - `user:read:all`
 - `user:update:all`
 - `user:delete`

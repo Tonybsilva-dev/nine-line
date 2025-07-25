@@ -12,24 +12,15 @@ export class SpaceDeletedHandler implements EventHandler<SpaceDeletedEvent> {
       deletedBy: event.deletedBy,
     });
 
-    // Aqui você pode adicionar lógicas como:
-    // - Invalidar cache do espaço
-    // - Cancelar appointments futuros
-    // - Registrar auditoria
-    // - Limpar dados relacionados
-
-    // Exemplo: Invalidar cache
     await this.invalidateSpaceCache(event.space.id.toString());
 
-    // Exemplo: Registrar auditoria
     await this.recordSpaceDeletionAudit(event);
 
-    // Exemplo: Limpar dados relacionados
     await this.cleanupSpaceData(event.space.id.toString());
   }
 
   private async invalidateSpaceCache(spaceId: string): Promise<void> {
-    // Simulação de invalidação de cache
+    // Simulate cache invalidation
     logger.info({
       type: 'space_cache_invalidated',
       spaceId,
@@ -39,7 +30,7 @@ export class SpaceDeletedHandler implements EventHandler<SpaceDeletedEvent> {
   private async recordSpaceDeletionAudit(
     event: SpaceDeletedEvent,
   ): Promise<void> {
-    // Simulação de registro de auditoria
+    // Simulate audit record
     logger.info({
       type: 'space_deletion_audit',
       spaceId: event.space.id.toString(),
@@ -49,7 +40,7 @@ export class SpaceDeletedHandler implements EventHandler<SpaceDeletedEvent> {
   }
 
   private async cleanupSpaceData(spaceId: string): Promise<void> {
-    // Simulação de limpeza de dados relacionados
+    // Simulate data cleanup
     logger.info({
       type: 'space_data_cleanup',
       spaceId,

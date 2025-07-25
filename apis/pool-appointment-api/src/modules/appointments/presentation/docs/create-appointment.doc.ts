@@ -2,8 +2,11 @@
  * @swagger
  * /appointments:
  *   post:
- *     summary: Criar um novo agendamento
- *     description: Cria um novo agendamento para um espaço em uma data e horário específicos
+ *     summary: Create a new appointment
+ *     description: |
+ *       - **USER:** Can create appointments for themselves.
+ *       - **MANAGER:** Can create appointments for themselves or for users in their spaces (if applicable).
+ *       - **ADMIN:** Can create appointments for any user.
  *     tags: [Appointments]
  *     requestBody:
  *       required: true
@@ -21,26 +24,26 @@
  *               userId:
  *                 type: string
  *                 format: uuid
- *                 description: ID do usuário que está fazendo o agendamento
+ *                 description: ID of the user creating the appointment
  *               spaceId:
  *                 type: string
  *                 format: uuid
- *                 description: ID do espaço que está sendo agendado
+ *                 description: ID of the space being scheduled
  *               date:
  *                 type: string
  *                 format: date-time
- *                 description: Data do agendamento
+ *                 description: Appointment date
  *               startTime:
  *                 type: string
  *                 format: date-time
- *                 description: Horário de início do agendamento
+ *                 description: Appointment start time
  *               endTime:
  *                 type: string
  *                 format: date-time
- *                 description: Horário de fim do agendamento
+ *                 description: Appointment end time
  *     responses:
  *       201:
- *         description: Agendamento criado com sucesso
+ *         description: Appointment created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -71,7 +74,7 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Dados inválidos ou conflito de horário
+ *         description: Invalid data or time conflict
  *       404:
- *         description: Usuário ou espaço não encontrado
+ *         description: User or space not found
  */
