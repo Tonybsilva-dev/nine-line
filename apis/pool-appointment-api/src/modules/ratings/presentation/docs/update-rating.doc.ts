@@ -3,7 +3,13 @@
  * /ratings/{id}:
  *   put:
  *     summary: Update an existing rating
+ *     description: |
+ *       Updates an existing rating. Requires authentication.
+ *       - **USER:** Can update only their own ratings.
+ *       - **MANAGER/ADMIN:** Cannot update ratings.
  *     tags: [Ratings]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -29,12 +35,12 @@
  *         description: Rating updated successfully
  *       400:
  *         description: Invalid data
+ *       401:
+ *         description: Invalid or missing authentication token
+ *       403:
+ *         description: User does not have permission to update this rating
  *       404:
  *         description: Rating not found
- *     description: |
- *       - **USER:** Can update only their own ratings.
- *       - **MANAGER:** Cannot update ratings.
- *       - **ADMIN:** Cannot update ratings.
  */
 // Example payload:
 // {

@@ -4,10 +4,13 @@
  *   post:
  *     summary: Create a new appointment
  *     description: |
+ *       Creates a new appointment. Requires authentication.
  *       - **USER:** Can create appointments for themselves.
  *       - **MANAGER:** Can create appointments for themselves or for users in their spaces (if applicable).
  *       - **ADMIN:** Can create appointments for any user.
  *     tags: [Appointments]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -75,6 +78,8 @@
  *                   format: date-time
  *       400:
  *         description: Invalid data or time conflict
+ *       401:
+ *         description: Invalid or missing authentication token
  *       404:
  *         description: User or space not found
  */

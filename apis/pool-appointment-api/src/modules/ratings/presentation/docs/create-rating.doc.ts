@@ -3,7 +3,13 @@
  * /ratings:
  *   post:
  *     summary: Creates a new rating for a space
+ *     description: |
+ *       Creates a new rating for a space. Requires authentication.
+ *       - **USER:** Can create ratings for spaces they have used.
+ *       - **MANAGER/ADMIN:** Cannot create ratings.
  *     tags: [Ratings]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -28,6 +34,10 @@
  *         description: Rating created successfully
  *       400:
  *         description: Invalid data
+ *       401:
+ *         description: Invalid or missing authentication token
+ *       403:
+ *         description: User does not have permission to create ratings
  */
 // Example payload:
 // {

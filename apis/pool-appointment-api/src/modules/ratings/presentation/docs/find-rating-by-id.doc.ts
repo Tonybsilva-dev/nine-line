@@ -2,22 +2,27 @@
  * @swagger
  * /ratings/{id}:
  *   get:
- *     summary: Busca uma avaliação pelo ID
+ *     summary: Find rating by ID
+ *     description: |
+ *       Retrieves a rating by ID. Requires authentication.
+ *       - **USER:** Can view any rating.
+ *       - **MANAGER:** Can view any rating.
+ *       - **ADMIN:** Can view any rating.
  *     tags: [Ratings]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: ID da avaliação
+ *         description: Rating ID
  *     responses:
  *       200:
- *         description: Avaliação encontrada
+ *         description: Rating found
+ *       401:
+ *         description: Invalid or missing authentication token
  *       404:
- *         description: Avaliação não encontrada
- *     description: |
- *       - **USER:** Can view any rating.
- *       - **MANAGER:** Can view any rating.
- *       - **ADMIN:** Can view any rating.
+ *         description: Rating not found
  */

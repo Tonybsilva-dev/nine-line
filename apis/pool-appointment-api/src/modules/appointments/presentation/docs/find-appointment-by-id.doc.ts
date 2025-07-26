@@ -4,10 +4,13 @@
  *   get:
  *     summary: Find appointment by ID
  *     description: |
- *       - **USER:** Can view only their own appointments.
- *       - **MANAGER:** Can view appointments of their spaces.
+ *       Retrieves a single appointment by its ID. Requires authentication.
+ *       - **USER:** Can only view their own appointments.
+ *       - **MANAGER:** Can only view appointments for spaces they host.
  *       - **ADMIN:** Can view any appointment.
  *     tags: [Appointments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -41,13 +44,17 @@
  *                   format: date-time
  *                 status:
  *                   type: string
- *                   enum: [PENDING, CONFIRMED, CANCELLED]
+ *                   enum: [PENDING, CONFIRMED, CANCELLED, REJECTED]
  *                 createdAt:
  *                   type: string
  *                   format: date-time
  *                 updatedAt:
  *                   type: string
  *                   format: date-time
+ *       401:
+ *         description: Invalid or missing authentication token
+ *       403:
+ *         description: User does not have permission to view this appointment
  *       404:
  *         description: Appointment not found
  */

@@ -3,7 +3,14 @@
  * /ratings/user/{userId}:
  *   get:
  *     summary: List user ratings
+ *     description: |
+ *       Lists all ratings for a specific user. Requires authentication.
+ *       - **USER:** Can view any rating.
+ *       - **MANAGER:** Can view any rating.
+ *       - **ADMIN:** Can view any rating.
  *     tags: [Ratings]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -24,10 +31,8 @@
  *     responses:
  *       200:
  *         description: Ratings list
- *         description: |
- *           - **USER:** Can view any rating.
- *           - **MANAGER:** Can view any rating.
- *           - **ADMIN:** Can view any rating.
  *       400:
  *         description: Invalid pagination parameters
+ *       401:
+ *         description: Invalid or missing authentication token
  */
