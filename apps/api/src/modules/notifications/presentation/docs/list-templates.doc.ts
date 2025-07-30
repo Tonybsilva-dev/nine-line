@@ -50,7 +50,7 @@
  *                         example: "EMAIL"
  *                       subject:
  *                         type: string
- *                         example: "Bem-vindo ao Nine Line!"
+ *                         example: "Bem-vindo ao 9line Spaces!"
  *                       body:
  *                         type: string
  *                         example: "<h1>Bem-vindo, {{userName}}!</h1>"

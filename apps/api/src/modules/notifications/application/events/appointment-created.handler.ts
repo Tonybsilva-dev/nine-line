@@ -134,7 +134,7 @@ export class AppointmentCreatedNotificationHandler
         }),
         // Variáveis específicas para o template appointment-pending-approval
         managerName: host.name,
-        siteName: 'Nine Line',
+        siteName: '9line Spaces',
         startDate: event.appointment.date.toLocaleDateString('pt-BR'),
         endDate: event.appointment.date.toLocaleDateString('pt-BR'),
         guestCount: '1',

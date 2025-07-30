@@ -14,7 +14,7 @@ export class NotificationTemplateSeeder {
       {
         name: 'welcome-email',
         type: 'EMAIL' as const,
-        subject: 'Bem-vindo ao Nine Line!',
+        subject: 'Bem-vindo ao 9line Spaces!',
         body: await this.loadTemplate('welcome'),
         variables: ['userName', 'userEmail', 'appUrl'],
         isActive: true,
@@ -128,9 +128,9 @@ export class NotificationTemplateSeeder {
     // Por enquanto, vamos retornar um template básico
     const templates: Record<string, string> = {
       welcome: `
-        <h1>Bem-vindo ao Nine Line!</h1>
+        <h1>Bem-vindo ao 9line Spaces!</h1>
         <p>Olá {{userName}}!</p>
-        <p>Seja muito bem-vindo ao Nine Line, a plataforma que conecta pessoas a espaços incríveis!</p>
+        <p>Seja muito bem-vindo ao 9line Spaces, a plataforma que conecta pessoas a espaços incríveis!</p>
         <p>Seu cadastro foi realizado com sucesso usando o email: <strong>{{userEmail}}</strong></p>
         <p>Comece agora mesmo a descobrir espaços incríveis perto de você!</p>
         <a href="{{appUrl}}">Explorar Espaços</a>

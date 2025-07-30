@@ -1,4 +1,4 @@
-# Nine Line - Monorepo
+# 9line Spaces - Monorepo
 
 Este é um monorepo gerenciado com Turborepo que contém múltiplas aplicações e pacotes compartilhados.
 

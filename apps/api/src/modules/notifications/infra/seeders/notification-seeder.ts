@@ -17,7 +17,7 @@ async function seedNotifications() {
           <html>
             <head>
               <meta charset="utf-8">
-              <title>Bem-vindo ao Nine Line</title>
+              <title>Bem-vindo ao 9line Spaces</title>
               <style>
                 body { 
                   font-family: Arial, sans-serif; 
@@ -66,13 +66,13 @@ async function seedNotifications() {
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>Nine Line</h1>
+                  <h1>9line Spaces</h1>
                 </div>
                 <div class="content">
                   <h2>Template: {{templateName}}</h2>
                   <p>Olá, {{userName}}!</p>
                   
-                  <p>É uma alegria ter você com a gente. Seja muito bem-vindo(a) à <strong>Nine Line</strong>, o lugar ideal para encontrar — e oferecer — espaços únicos para cada momento especial da sua vida.</p>
+                  <p>É uma alegria ter você com a gente. Seja muito bem-vindo(a) à <strong>9line Spaces</strong>, o lugar ideal para encontrar — e oferecer — espaços únicos para cada momento especial da sua vida.</p>
                   
                   <p>A partir de agora, você tem acesso a uma comunidade cheia de possibilidades, tudo isso com segurança, praticidade e um atendimento feito para você se sentir em casa, sempre e a qualquer momento.</p>
                   
@@ -87,11 +87,11 @@ async function seedNotifications() {
                   Conte com nossa equipe de suporte sempre que precisar.</p>
                   
                   <p><strong>Com carinho,<br>
-                  Equipe Nine Line</strong><br>
+                  Equipe 9line Spaces</strong><br>
                   <a href="{{appUrl}}">{{appUrl}}</a> • <a href="mailto:suporte@nine-line.com">suporte@nine-line.com</a></p>
                 </div>
                 <div class="footer">
-                  <p>&copy; 2024 Nine Line. Todos os direitos reservados.</p>
+                  <p>&copy; 2024 9line Spaces. Todos os direitos reservados.</p>
                 </div>
               </div>
             </body>
@@ -162,7 +162,7 @@ async function seedNotifications() {
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>Nine Line</h1>
+                  <h1>9line Spaces</h1>
                 </div>
                 <div class="content">
                   <h2>Template: {{templateName}}</h2>
@@ -200,7 +200,7 @@ async function seedNotifications() {
                   <a href="{{siteUrl}}">{{siteUrl}}</a> • <a href="mailto:{{supportEmail}}">{{supportEmail}}</a> • {{supportPhone}}</p>
                 </div>
                 <div class="footer">
-                  <p>&copy; 2024 Nine Line. Todos os direitos reservados.</p>
+                  <p>&copy; 2024 9line Spaces. Todos os direitos reservados.</p>
                 </div>
               </div>
             </body>
@@ -284,7 +284,7 @@ async function seedNotifications() {
                   <a href="{{appUrl}}/appointments/{{appointmentId}}">Ver Detalhes</a>
                 </div>
                 <div class="footer">
-                  <p>&copy; 2024 Nine Line. Todos os direitos reservados.</p>
+                  <p>&copy; 2024 9line Spaces. Todos os direitos reservados.</p>
                 </div>
               </div>
             </body>
@@ -350,7 +350,7 @@ async function seedNotifications() {
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>Nine Line</h1>
+                  <h1>9line Spaces</h1>
                 </div>
                 <div class="content">
                   <h2>Template: {{templateName}}</h2>
@@ -363,7 +363,7 @@ async function seedNotifications() {
                   <a href="{{adminUrl}}/appointments/{{appointmentId}}">Ver Detalhes</a>
                 </div>
                 <div class="footer">
-                  <p>&copy; 2024 Nine Line. Todos os direitos reservados.</p>
+                  <p>&copy; 2024 9line Spaces. Todos os direitos reservados.</p>
                 </div>
               </div>
             </body>
@@ -430,7 +430,7 @@ async function seedNotifications() {
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>Nine Line</h1>
+                  <h1>9line Spaces</h1>
                 </div>
                 <div class="content">
                   <h2>Template: {{templateName}}</h2>
@@ -443,7 +443,7 @@ async function seedNotifications() {
                   <a href="{{appUrl}}/spaces">Agendar Novo Espaço</a>
                 </div>
                 <div class="footer">
-                  <p>&copy; 2024 Nine Line. Todos os direitos reservados.</p>
+                  <p>&copy; 2024 9line Spaces. Todos os direitos reservados.</p>
                 </div>
               </div>
             </body>

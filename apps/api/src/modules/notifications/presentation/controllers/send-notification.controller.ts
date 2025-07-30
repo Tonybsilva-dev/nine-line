@@ -84,7 +84,7 @@ export async function sendNotificationController(req: Request, res: Response) {
       await emailService.sendTemplateEmail({
         to: user.email,
         templateId: template.id,
-        subject: template.subject || 'Notificação Nine Line',
+        subject: template.subject || 'Notificação 9line Spaces',
         variables: {
           userName: user.name,
           userEmail: user.email,
@@ -92,7 +92,7 @@ export async function sendNotificationController(req: Request, res: Response) {
           appUrl: ENV_CONFIG.APP_URL,
           // Variáveis específicas para appointment-pending-approval
           managerName: req.body.payload?.managerName || 'Administrador',
-          siteName: req.body.payload?.siteName || 'Nine Line',
+          siteName: req.body.payload?.siteName || '9line Spaces',
           spaceTitle: req.body.payload?.spaceTitle || '',
           startDate: req.body.payload?.startDate || '',
           endDate: req.body.payload?.endDate || '',

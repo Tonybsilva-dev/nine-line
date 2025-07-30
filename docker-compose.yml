@@ -60,7 +60,7 @@ services:
     container_name: web
     environment:
       - NEXT_PUBLIC_API_URL=http://api:3333/api
-      - NEXT_PUBLIC_APP_NAME=Nine Line Web
+      - NEXT_PUBLIC_APP_NAME=9line Spaces Web
     ports:
       - "3000:3000"
     depends_on:

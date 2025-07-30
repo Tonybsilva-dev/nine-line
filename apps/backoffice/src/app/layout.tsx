@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Nine Line Backoffice",
-  description: "Backoffice para gerenciamento do Nine Line",
+  title: "9line Spaces Backoffice",
+  description: "Backoffice para gerenciamento do 9line Spaces",
 };
 
 export const dynamic = "force-dynamic";

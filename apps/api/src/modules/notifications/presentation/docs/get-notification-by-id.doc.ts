@@ -107,7 +107,7 @@
  *                           example: "EMAIL"
  *                         subject:
  *                           type: string
- *                           example: "Welcome to Nine Line! 🎉"
+ *                           example: "Welcome to 9line Spaces! 🎉"
  *                 metadata:
  *                   type: object
  *                   properties:

@@ -96,10 +96,10 @@ export class MailtrapEmailService {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>${variables.subject || 'Nine Line'}</title>
+          <title>${variables.subject || '9line Spaces'}</title>
         </head>
         <body>
-          <h1>Nine Line</h1>
+          <h1>9line Spaces</h1>
           <p>Template: ${templateId}</p>
           <p>Variáveis: ${JSON.stringify(variables)}</p>
         </body>

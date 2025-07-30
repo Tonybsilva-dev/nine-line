@@ -100,7 +100,7 @@ configureNotificationEvents(eventBus);
 ### welcome-email ✅
 
 - **Tipo:** EMAIL
-- **Assunto:** "Bem-vindo ao Nine Line!"
+- **Assunto:** "Bem-vindo ao 9line Spaces!"
 - **Variáveis:** `userName`, `userEmail`, `appUrl`
 - **Uso:** Enviado quando um usuário se cadastra
 

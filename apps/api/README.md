@@ -11,7 +11,7 @@
     <img src="./assets/pool-appointment-icon.png" alt="Logo" width="150" height="150">
   </a>
 
-  <h3 align="center">Nine Line API</h3>
+  <h3 align="center">9line Spaces API</h3>
 
   <p align="center">
     Appointment Manager System.

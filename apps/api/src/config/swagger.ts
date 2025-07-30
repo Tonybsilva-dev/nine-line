@@ -9,9 +9,9 @@ const options: swaggerJsdoc.Options = {
     host: 'localhost:3000',
     schemes: ['http'],
     info: {
-      title: 'Pool Appointments API',
+      title: '9line Spaces API',
       version: '1.0.0',
-      description: 'API for managing appointments',
+      description: 'API for managing spaces and appointments',
       contact: {
         name: 'Antonio Silva',
         url: 'https://www.linkedin.com/in/tony-silva/',

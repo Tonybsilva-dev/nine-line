@@ -29,7 +29,7 @@ const envSchema = z.object({
   MAILTRAP_USER: z.string(),
   MAILTRAP_PASS: z.string(),
   MAILTRAP_FROM: z.string().default('noreply@nine-line.com'),
-  MAILTRAP_FROM_NAME: z.string().default('Nine Line'),
+  MAILTRAP_FROM_NAME: z.string().default('9line Spaces'),
 
   // Mailtrap API settings (para MailtrapEmailService)
   MAILTRAP_TOKEN: z.string().optional(),
