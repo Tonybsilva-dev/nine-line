@@ -6,6 +6,10 @@
     "prepare": "husky install",
     "build": "tsc --noEmit && turbo build",
     "dev": "turbo run dev",
+    "dev:docker": "docker-compose up --build",
+    "dev:docker:detached": "docker-compose up --build -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",
     "test:coverage": "turbo run test:coverage",
@@ -14,7 +18,7 @@
     "check-types": "turbo run check-types"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "src/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ],
     "*.{js,jsx,ts,tsx,css,md,json}": [
@@ -35,8 +39,6 @@
   "packageManager": "npm@11.2.0",
   "workspaces": [
     "apps/*",
-    "apis/*",
-    "mobile/*",
     "packages/*",
     "packages/config/*"
   ],

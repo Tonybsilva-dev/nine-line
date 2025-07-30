@@ -3,14 +3,24 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "./button": "./src/button.tsx",
-    "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/styles.css",
+    "./tailwind": "./tailwind.config.ts",
+    "./postcss": "./postcss.config.mjs"
   },
   "scripts": {
+    "build": "tsc && npm run copy-assets",
+    "copy-assets": "cp src/styles.css dist/ 2>/dev/null || echo 'Styles copied'",
+    "dev": "tsc --watch",
     "lint": "eslint . --fix --max-warnings 0",
-    "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
     "test": "echo 'No tests configured' && exit 0",
     "test:watch": "echo 'No tests configured' && exit 0",
@@ -23,10 +33,19 @@
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
+    "autoprefixer": "^10.4.19",
     "eslint": "^9.31.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.0",
     "typescript": "5.8.2"
   },
   "dependencies": {
+    "clsx": "^2.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^2.5.4"
+  },
+  "peerDependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }
