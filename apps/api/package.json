@@ -6,7 +6,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "build": "tsup src/index.ts --format esm --outDir dist --splitting --shims --clean --no-dts",
+    "build": "tsup src/index.ts --format esm --outDir dist --splitting --shims --clean --no-dts --external @sentry/node",
     "dev": "tsx --watch src/index.ts",
     "start": "node --enable-source-maps dist/index.js",
     "prisma:generate": "prisma generate",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.10.0",
+    "@sentry/node": "^10.0.0",
     "@types/handlebars": "^4.0.40",
     "@types/nodemailer": "^6.4.17",
     "bcryptjs": "^3.0.2",

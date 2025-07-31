@@ -16,14 +16,14 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID
+ *         description: "User ID"
  *     responses:
  *       204:
- *         description: User deleted successfully
+ *         description: "User deleted successfully"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to delete users
+ *         description: "User does not have permission to delete users"
  *       404:
- *         description: User not found
+ *         description: "User not found"
  */

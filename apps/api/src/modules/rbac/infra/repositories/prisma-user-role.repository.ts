@@ -73,6 +73,28 @@ export class PrismaUserRoleRepository implements UserRoleRepository {
     );
   }
 
+  async findByUserIdAndRoleId(
+    userId: string,
+    roleId: string,
+  ): Promise<UserRoleAssignment | null> {
+    const data = await prisma.userRoleAssignment.findFirst({
+      where: { userId, roleId },
+    });
+
+    if (!data) return null;
+
+    return UserRoleAssignment.create(
+      {
+        userId: data.userId,
+        roleId: data.roleId,
+        assignedBy: data.assignedBy || undefined,
+        assignedAt: data.assignedAt,
+        expiresAt: data.expiresAt || undefined,
+      },
+      new UniqueEntityID(data.id),
+    );
+  }
+
   async findActiveByUserId(userId: string): Promise<UserRoleAssignment[]> {
     const now = new Date();
     const data = await prisma.userRoleAssignment.findMany({

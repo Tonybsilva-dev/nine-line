@@ -10,7 +10,7 @@ import { PaginationParams } from '@/core/repositories/pagination-params';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InvalidOperationError } from '@/core/errors';
 import { prisma } from '@/config/prisma';
-import { getCache, setCache, deleteCache } from '@/config/redis';
+import { getCache, setCache, deleteCache } from '@/config/redis.config';
 
 export class PrismaAppointmentRepository implements AppointmentRepository {
   constructor(private prisma: PrismaClient) {}

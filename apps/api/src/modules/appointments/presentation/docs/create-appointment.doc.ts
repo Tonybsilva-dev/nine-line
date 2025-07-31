@@ -33,26 +33,26 @@
  *               userId:
  *                 type: string
  *                 format: uuid
- *                 description: ID of the user creating the appointment
+ *                 description: "ID of the user creating the appointment"
  *               spaceId:
  *                 type: string
  *                 format: uuid
- *                 description: ID of the space being scheduled
+ *                 description: "ID of the space being scheduled"
  *               date:
  *                 type: string
  *                 format: date-time
- *                 description: Appointment date
+ *                 description: "Appointment date"
  *               startTime:
  *                 type: string
  *                 format: date-time
- *                 description: Appointment start time
+ *                 description: "Appointment start time"
  *               endTime:
  *                 type: string
  *                 format: date-time
- *                 description: Appointment end time
+ *                 description: "Appointment end time"
  *     responses:
  *       201:
- *         description: Appointment created successfully
+ *         description: "Appointment created successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -79,13 +79,13 @@
  *                 originalDate:
  *                   type: string
  *                   format: date-time
- *                   description: Original appointment date (same as creation date initially)
+ *                   description: "Original appointment date (same as creation date initially)"
  *                 changeCount:
  *                   type: integer
- *                   description: Number of changes made (0 for new appointments)
+ *                   description: "Number of changes made (0 for new appointments)"
  *                 maxChanges:
  *                   type: integer
- *                   description: Maximum changes allowed (3 for USER/MANAGER, unlimited for ADMIN)
+ *                   description: "Maximum changes allowed (3 for USER/MANAGER, unlimited for ADMIN)"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -93,9 +93,9 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Invalid data or time conflict
+ *         description: "Invalid data or time conflict"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       404:
- *         description: User or space not found
+ *         description: "User or space not found"
  */

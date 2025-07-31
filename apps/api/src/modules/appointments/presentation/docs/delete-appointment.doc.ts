@@ -18,14 +18,14 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: Appointment ID
+ *         description: "Appointment ID"
  *     responses:
  *       204:
- *         description: Appointment deleted successfully
+ *         description: "Appointment deleted successfully"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to delete appointments
+ *         description: "User does not have permission to delete appointments"
  *       404:
- *         description: Appointment not found
+ *         description: "Appointment not found"
  */

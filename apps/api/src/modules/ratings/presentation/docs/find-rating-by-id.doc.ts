@@ -17,12 +17,12 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: Rating ID
+ *         description: "Rating ID"
  *     responses:
  *       200:
- *         description: Rating found
+ *         description: "Rating found"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       404:
- *         description: Rating not found
+ *         description: "Rating not found"
  */

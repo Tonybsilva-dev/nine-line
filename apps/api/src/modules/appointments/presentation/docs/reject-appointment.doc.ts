@@ -3,7 +3,7 @@
  * /appointments/{id}/reject:
  *   patch:
  *     summary: Reject an appointment
- *     description: Rejects a pending or confirmed appointment, changing its status to CANCELLED
+ *     description: "Rejects a pending or confirmed appointment, changing its status to CANCELLED"
  *     tags: [Appointments]
  *     security:
  *       - bearerAuth: []
@@ -14,10 +14,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID of the appointment to reject
+ *         description: "ID of the appointment to reject"
  *     responses:
  *       200:
- *         description: Appointment rejected successfully
+ *         description: "Appointment rejected successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -51,11 +51,11 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Appointment cannot be rejected (not pending or confirmed)
+ *         description: "Appointment cannot be rejected (not pending or confirmed)"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to reject appointments
+ *         description: "User does not have permission to reject appointments"
  *       404:
- *         description: Appointment not found
+ *         description: "Appointment not found"
  */

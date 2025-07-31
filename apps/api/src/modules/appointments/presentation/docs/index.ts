@@ -1,5 +1,6 @@
 // Importar todas as documentações para que sejam incluídas no Swagger
 import './create-appointment.doc';
+import './find-all-appointments.doc';
 import './find-appointment-by-id.doc';
 import './find-appointments-by-user-id.doc';
 import './find-appointments-by-space-id.doc';

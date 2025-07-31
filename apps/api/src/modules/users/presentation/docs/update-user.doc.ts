@@ -16,7 +16,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID
+ *         description: "User ID"
  *     requestBody:
  *       required: true
  *       content:
@@ -26,20 +26,20 @@
  *             properties:
  *               name:
  *                 type: string
- *                 description: User name
+ *                 description: "User name"
  *               status:
  *                 type: string
  *                 enum: [ACTIVE, INACTIVE, BLOCKED, PENDING]
- *                 description: User status
+ *                 description: "User status"
  *     responses:
  *       200:
- *         description: User updated successfully
+ *         description: "User updated successfully"
  *       400:
- *         description: Invalid data
+ *         description: "Invalid data"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to update this user
+ *         description: "User does not have permission to update this user"
  *       404:
- *         description: User not found
+ *         description: "User not found"
  */

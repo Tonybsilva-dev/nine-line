@@ -16,14 +16,14 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID
+ *         description: "User ID"
  *     responses:
  *       200:
- *         description: User found
+ *         description: "User found"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to view this user
+ *         description: "User does not have permission to view this user"
  *       404:
- *         description: User not found
+ *         description: "User not found"
  */

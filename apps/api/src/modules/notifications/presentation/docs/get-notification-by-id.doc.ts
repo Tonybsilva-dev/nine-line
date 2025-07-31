@@ -17,10 +17,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: Notification ID
+ *         description: "Notification ID"
  *     responses:
  *       200:
- *         description: Notification found
+ *         description: "Notification found"
  *         content:
  *           application/json:
  *             schema:
@@ -122,13 +122,13 @@
  *                       type: string
  *                       example: "1.0.0"
  *       400:
- *         description: Missing notification ID
+ *         description: "Missing notification ID"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to view this notification
+ *         description: "User does not have permission to view this notification"
  *       404:
- *         description: Notification not found
+ *         description: "Notification not found"
  *       500:
- *         description: Internal server error
+ *         description: "Internal server error"
  */

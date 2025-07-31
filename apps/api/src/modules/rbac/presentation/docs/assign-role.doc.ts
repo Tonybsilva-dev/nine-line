@@ -3,7 +3,7 @@
  * /rbac/assign-role:
  *   post:
  *     summary: Assign role to a user
- *     description: Assign a specific role to a user with optional expiration date
+ *     description: "Assign a specific role to a user with optional expiration date"
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -20,11 +20,11 @@
  *               userId:
  *                 type: string
  *                 format: uuid
- *                 description: User ID
+ *                 description: "User ID"
  *               roleId:
  *                 type: string
  *                 format: uuid
- *                 description: Role ID to be assigned
+ *                 description: "Role ID to be assigned"
  *               expiresAt:
  *                 type: string
  *                 format: date-time
@@ -35,7 +35,7 @@
  *                 description: "ID of the user assigning the role (optional)"
  *     responses:
  *       201:
- *         description: Role assigned successfully
+ *         description: "Role assigned successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -60,9 +60,9 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Invalid data
+ *         description: "Invalid data"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       404:
- *         description: User or role not found
+ *         description: "User or role not found"
  */

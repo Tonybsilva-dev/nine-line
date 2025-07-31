@@ -3,7 +3,7 @@
  * /auth/authenticate:
  *   post:
  *     summary: Authenticate user
- *     description: Authenticates a user with email and password, returning access and refresh tokens
+ *     description: "Authenticates a user with email and password, returning access and refresh tokens"
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -18,13 +18,13 @@
  *               email:
  *                 type: string
  *                 format: email
- *                 description: User's email
+ *                 description: "User's email"
  *               password:
  *                 type: string
- *                 description: User's password
+ *                 description: "User's password"
  *     responses:
  *       200:
- *         description: Authentication successful
+ *         description: "Authentication successful"
  *         content:
  *           application/json:
  *             schema:
@@ -50,5 +50,5 @@
  *                     role:
  *                       type: string
  *       401:
- *         description: Invalid credentials
+ *         description: "Invalid credentials"
  */

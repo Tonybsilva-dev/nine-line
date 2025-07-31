@@ -17,7 +17,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: Space ID
+ *         description: "Space ID"
  *     requestBody:
  *       required: true
  *       content:
@@ -27,27 +27,27 @@
  *             properties:
  *               title:
  *                 type: string
- *                 description: New title for the space
+ *                 description: "New title for the space"
  *               description:
  *                 type: string
- *                 description: New description for the space
+ *                 description: "New description for the space"
  *               photos:
  *                 type: array
  *                 items:
  *                   type: string
- *                 description: New array of photo URLs for the space
+ *                 description: "New array of photo URLs for the space"
  *               rules:
  *                 type: string
- *                 description: New rules for the space
+ *                 description: "New rules for the space"
  *     responses:
  *       200:
- *         description: Space updated successfully
+ *         description: "Space updated successfully"
  *       400:
- *         description: Invalid data
+ *         description: "Invalid data"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to update this space
+ *         description: "User does not have permission to update this space"
  *       404:
- *         description: Space not found
+ *         description: "Space not found"
  */

@@ -16,7 +16,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: Rating ID
+ *         description: "Rating ID"
  *     requestBody:
  *       required: true
  *       content:
@@ -26,21 +26,21 @@
  *             properties:
  *               score:
  *                 type: number
- *                 description: Score (1 to 5)
+ *                 description: "Score (1 to 5)"
  *               comment:
  *                 type: string
- *                 description: Comment
+ *                 description: "Comment"
  *     responses:
  *       200:
- *         description: Rating updated successfully
+ *         description: "Rating updated successfully"
  *       400:
- *         description: Invalid data
+ *         description: "Invalid data"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to update this rating
+ *         description: "User does not have permission to update this rating"
  *       404:
- *         description: Rating not found
+ *         description: "Rating not found"
  */
 // Example payload:
 // {

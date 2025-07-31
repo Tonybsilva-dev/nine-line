@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { softDeleteMiddleware } from './prisma-middleware';
+import { softDeleteMiddleware } from '@/core/middlewares/prisma.middleware';
 import { ENV_CONFIG } from './env';
 
 const prisma: PrismaClient = new PrismaClient({

@@ -22,30 +22,30 @@
  *           type: integer
  *           minimum: 1
  *           default: 1
- *         description: Page number
+ *         description: "Page number"
  *       - in: query
  *         name: perPage
  *         schema:
  *           type: integer
  *           minimum: 1
  *           default: 10
- *         description: Items per page
+ *         description: "Items per page"
  *       - in: query
  *         name: orderBy
  *         schema:
  *           type: string
  *           default: createdAt
- *         description: Field to order by
+ *         description: "Field to order by"
  *       - in: query
  *         name: orderDirection
  *         schema:
  *           type: string
  *           enum: [asc, desc]
  *           default: desc
- *         description: Order direction
+ *         description: "Order direction"
  *     responses:
  *       200:
- *         description: Appointments list returned successfully
+ *         description: "Appointments list returned successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -53,7 +53,7 @@
  *               properties:
  *                 total:
  *                   type: integer
- *                   description: Total appointments
+ *                   description: "Total appointments"
  *                 appointments:
  *                   type: array
  *                   items:
@@ -80,13 +80,13 @@
  *                       originalDate:
  *                         type: string
  *                         format: date-time
- *                         description: Original appointment date
+ *                         description: "Original appointment date"
  *                       changeCount:
  *                         type: integer
- *                         description: Number of changes made
+ *                         description: "Number of changes made"
  *                       maxChanges:
  *                         type: integer
- *                         description: Maximum changes allowed
+ *                         description: "Maximum changes allowed"
  *                       createdAt:
  *                         type: string
  *                         format: date-time
@@ -94,5 +94,5 @@
  *                         type: string
  *                         format: date-time
  *       400:
- *         description: Invalid pagination parameters
+ *         description: "Invalid pagination parameters"
  */

@@ -1,13 +1,15 @@
 # TODO.md - Nine Line Project
 
-## 📋 **Versão 2.1 - MIDDLEWARE INTELIGENTE IMPLEMENTADO! 🚀**
+## 📋 **Versão 2.2 - SENTRY E REDIS CORRIGIDOS! 🚀**
 
 ### 🎯 **Resumo do Progresso**
 
 ✅ **Módulos Padronizados**: `notifications`, `users`, `spaces`, `auth`, `rbac`, `appointments`, `ratings`  
 ✅ **Paginação Centralizada**: Sistema unificado com Zod schema  
 ✅ **Rate Limiting Inteligente**: Middleware automático que detecta tipo de operação  
-✅ **Tipagens Corrigidas**: Todos os erros TypeScript resolvidos
+✅ **Tipagens Corrigidas**: Todos os erros TypeScript resolvidos  
+✅ **Sentry Configurado**: Monitoramento de erros funcionando  
+✅ **Redis Estabilizado**: Health check e conectividade corrigidos
 
 ---
 
@@ -56,19 +58,100 @@
 - **Resultado**: ✅ **Todas as rotas limpas, sem rate limits específicos, tipagens funcionando**
 - **Correção**: ✅ **Removido conflito com rate limiter global** - Agora apenas o middleware inteligente está ativo
 
+### 5. **Configuração do Sentry**
+
+- **Status**: ✅ **COMPLETO**
+- **Problema**: Falta de monitoramento de erros e performance
+- **Impacto**: Dificuldade para debugar problemas em produção
+- **Solução**: Implementar Sentry para monitoramento
+- **Arquivos Criados**:
+  - `apps/api/src/config/sentry.config.ts` - Configuração do Sentry
+  - `apps/api/src/index.ts` - Inicialização do Sentry
+- **Variáveis de Ambiente**:
+  - `SENTRY_DSN` - DSN do projeto Sentry
+- **Configurações Implementadas**:
+  - **Environment**: Diferenciação entre dev/prod
+  - **Sample Rates**: 100% em dev, 10% em prod
+  - **PII Data**: Coleta de dados pessoais habilitada
+  - **Before Send**: Log de eventos em desenvolvimento
+  - **Error Handler**: Integração com Express
+  - **Captura Manual**: `captureException()` para erros específicos
+- **Correções Implementadas**:
+  - ✅ **API v10 Compatível**: Removido middlewares obsoletos
+  - ✅ **Captura de Erros**: Implementado `captureException()`
+  - ✅ **Tipagem Corrigida**: Sem erros de linting
+
+### 6. **Configuração do Redis**
+
+- **Status**: ✅ **COMPLETO**
+- **Problema**: Health check do Redis falhando e conectividade instável
+- **Impacto**: Sistema de cache não funcionando corretamente
+- **Solução**: Melhorar configuração e health check do Redis
+- **Arquivo**: `apps/api/src/config/redis.config.ts`
+- **Arquivo**: `apps/api/src/core/middlewares/health-check.middleware.ts`
+- **Melhorias Implementadas**:
+  - ✅ **Conectividade Robusta**: `lazyConnect: false`, `enableOfflineQueue: true`
+  - ✅ **Health Check Melhorado**: Verificação de conectividade antes do ping
+  - ✅ **Timeout e Retry**: Configurações de retry e timeout otimizadas
+  - ✅ **Wait for Ready**: Garantia de conexão antes de usar Redis
+  - ✅ **Error Handling**: Tratamento robusto de erros de conectividade
+- **Resultado**: ✅ **Redis estável e health check funcionando**
+
+### 7. **Configuração de Segurança Básica**
+
+- **Status**: ✅ **COMPLETO**
+- **Problema**: Configurações de segurança básicas não implementadas
+- **Impacto**: Vulnerabilidades de segurança
+- **Solução**: Implementar Helmet, CORS, CSP, HSTS
+- **Arquivo**: `apps/api/src/config/helmet.config.ts` (renomeado e melhorado)
+- **Arquivo**: `apps/api/src/config/cors.config.ts` (renomeado e melhorado)
+- **Arquivo**: `apps/api/src/config/redis.config.ts` (renomeado e melhorado)
+- **Arquivo**: `apps/api/src/core/middlewares/security.middleware.ts` (novo)
+- **Arquivo**: `apps/api/src/core/middlewares/prisma.middleware.ts` (movido para local correto)
+- **Melhorias implementadas**:
+  - **Helmet Configuração Robusta**: CSP, HSTS, XSS Protection, Frame Guard
+  - **CORS Configurado**: Origins específicos por ambiente, credenciais, headers
+  - **Middleware de Segurança Centralizado**: Todas as configurações em um lugar
+  - **Validação de Origin**: Verificação de origens permitidas
+  - **Limites de Payload**: 10MB máximo para requests
+  - **Headers de Segurança**: X-Content-Type-Options, X-Frame-Options, etc.
+  - **Código Limpo**: Index.ts simplificado, configurações centralizadas
+  - **Reorganização**: Arquivos renomeados para `.config.ts`, middleware do Prisma movido
+  - **Padrão Unificado**: Todos os middlewares seguem o mesmo padrão `applyMiddleware(app)`
+
+### 8. **Padronização de Index.ts**
+
+- **Status**: ✅ **COMPLETO**
+- **Problema**: Pastas sem index.ts para reexportação
+- **Impacto**: Imports inconsistentes e código feio
+- **Solução**: Criar index.ts em todas as pastas para reexportar arquivos
+- **Arquivos Criados**:
+  - `apps/api/src/modules/*/domain/entities/value-objects/index.ts`
+  - `apps/api/src/modules/*/domain/repositories/index.ts`
+  - `apps/api/src/modules/*/application/index.ts`
+  - `apps/api/src/modules/*/application/use-cases/index.ts`
+  - `apps/api/src/modules/*/application/events/index.ts`
+  - `apps/api/src/modules/*/infra/index.ts`
+  - `apps/api/src/modules/*/presentation/routes/index.ts`
+- **Módulos Padronizados**:
+  - ✅ **Users**: Todas as pastas com index.ts
+  - ✅ **Spaces**: Todas as pastas com index.ts
+  - ✅ **Appointments**: Todas as pastas com index.ts
+  - ✅ **Auth**: Todas as pastas com index.ts
+  - ✅ **RBAC**: Todas as pastas com index.ts
+  - ✅ **Notifications**: Todas as pastas com index.ts
+  - ✅ **Ratings**: Todas as pastas com index.ts
+- **Benefícios**:
+  - **Imports Limpos**: `import { User } from '@/modules/users'`
+  - **Organização Clara**: Cada pasta reexporta seus arquivos
+  - **Manutenibilidade**: Fácil de adicionar novos arquivos
+  - **Consistência**: Padrão uniforme em todo o projeto
+
 ---
 
 ## 🔄 **EM PROGRESSO**
 
-### 5. **Configuração de Segurança Básica**
-
-- **Status**: 🟡 **PENDENTE**
-- **Problema**: Configurações de segurança básicas não implementadas
-- **Impacto**: Vulnerabilidades de segurança
-- **Solução**: Implementar Helmet, CORS, CSP, HSTS
-- **Arquivo**: `apps/api/src/config/helmet-options.ts` (já existe)
-
-### 6. **Sistema de Logging Estruturado**
+### 9. **Sistema de Logging Estruturado**
 
 - **Status**: 🟡 **PENDENTE**
 - **Problema**: Logs não estruturados e sem contexto
@@ -80,7 +163,7 @@
 
 ## 📋 **PRÓXIMOS PASSOS**
 
-### 7. **Implementação de Testes**
+### 10. **Implementação de Testes**
 
 - **Prioridade**: 🔴 **ALTA**
 - **Problema**: Falta de testes automatizados
@@ -88,7 +171,7 @@
 - **Solução**: Implementar testes unitários, integração e E2E
 - **Ferramentas**: Vitest, Supertest, MSW
 
-### 8. **Sistema de Cache**
+### 11. **Sistema de Cache**
 
 - **Prioridade**: 🟡 **MÉDIA**
 - **Problema**: Sem cache, performance baixa
@@ -96,7 +179,7 @@
 - **Solução**: Implementar Redis para cache distribuído
 - **Arquivo**: `apps/api/src/config/redis.ts`
 
-### 9. **Monitoramento e Métricas**
+### 12. **Monitoramento e Métricas**
 
 - **Prioridade**: 🟡 **MÉDIA**
 - **Problema**: Sem monitoramento de performance
@@ -104,7 +187,7 @@
 - **Solução**: Implementar APM (Application Performance Monitoring)
 - **Ferramentas**: Prometheus, Grafana, Jaeger
 
-### 10. **CI/CD Pipeline**
+### 13. **CI/CD Pipeline**
 
 - **Prioridade**: 🔴 **ALTA**
 - **Problema**: Deploy manual e propenso a erros
@@ -112,7 +195,7 @@
 - **Solução**: Implementar pipeline automatizado
 - **Ferramentas**: GitHub Actions, Docker, Kubernetes
 
-### 11. **Documentação da API**
+### 14. **Documentação da API**
 
 - **Prioridade**: 🟡 **MÉDIA**
 - **Problema**: Documentação incompleta
@@ -120,7 +203,7 @@
 - **Solução**: Melhorar Swagger/OpenAPI
 - **Arquivo**: `apps/api/src/config/swagger.ts`
 
-### 12. **Sistema de Notificações**
+### 15. **Sistema de Notificações**
 
 - **Prioridade**: 🟡 **MÉDIA**
 - **Problema**: Notificações não implementadas
@@ -128,7 +211,7 @@
 - **Solução**: Implementar sistema de notificações
 - **Ferramentas**: BullMQ, WebSockets, Email
 
-### 13. **Otimização de Performance**
+### 16. **Otimização de Performance**
 
 - **Prioridade**: 🟡 **MÉDIA**
 - **Problema**: Queries não otimizadas
@@ -136,7 +219,7 @@
 - **Solução**: Otimizar queries, implementar índices
 - **Arquivo**: `apps/api/prisma/schema.prisma`
 
-### 14. **Sistema de Backup**
+### 17. **Sistema de Backup**
 
 - **Prioridade**: 🟡 **MÉDIA**
 - **Problema**: Sem estratégia de backup
@@ -148,7 +231,7 @@
 
 ## 🚨 **CRÍTICO**
 
-### 15. **Implementação Completa do RBAC**
+### 18. **Implementação Completa do RBAC**
 
 - **Status**: 🔴 **CRÍTICO**
 - **Problema**: RBAC parcialmente implementado
@@ -156,7 +239,7 @@
 - **Solução**: Completar implementação do RBAC
 - **Arquivo**: `apps/api/src/modules/rbac/`
 
-### 16. **Validação de Dados**
+### 19. **Validação de Dados**
 
 - **Status**: 🔴 **CRÍTICO**
 - **Problema**: Validação inconsistente
@@ -164,7 +247,7 @@
 - **Solução**: Implementar validação robusta
 - **Arquivo**: `apps/api/src/core/validators/`
 
-### 17. **Tratamento de Erros**
+### 20. **Tratamento de Erros**
 
 - **Status**: 🔴 **CRÍTICO**
 - **Problema**: Tratamento de erros inconsistente
@@ -180,6 +263,8 @@
 - **Rate Limiting**: ✅ **COMPLETO**
 - **Paginação**: ✅ **COMPLETO**
 - **Tipagens**: ✅ **COMPLETO**
+- **Sentry**: ✅ **COMPLETO**
+- **Redis**: ✅ **COMPLETO**
 - **Testes**: 0% (PENDENTE)
 - **Documentação**: 30% (PENDENTE)
 - **Segurança**: 20% (PENDENTE)
@@ -188,8 +273,8 @@
 
 ## 🎯 **PRÓXIMA AÇÃO RECOMENDADA**
 
-**Testar os endpoints** para verificar se o middleware inteligente de rate limiting está funcionando corretamente em todas as rotas.
+**Implementar testes automatizados** para garantir a estabilidade do sistema após as correções do Sentry e Redis.
 
 ---
 
-_Última atualização: Rate Limiting Inteligente Implementado_ 🚀
+_Última atualização: Sentry e Redis Corrigidos_ 🚀

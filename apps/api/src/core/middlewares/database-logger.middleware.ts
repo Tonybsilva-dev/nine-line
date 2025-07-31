@@ -3,7 +3,6 @@ import { performanceLogger } from '../../config/logger';
 export function createDatabaseLogger() {
   return {
     query: (query: string, params: unknown[], duration: number) => {
-      // Log slow queries
       if (duration > 100) {
         performanceLogger.warn({
           type: 'slow_query',
@@ -14,7 +13,6 @@ export function createDatabaseLogger() {
         });
       }
 
-      // Log all queries in debug mode
       performanceLogger.debug({
         type: 'database_query',
         query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),

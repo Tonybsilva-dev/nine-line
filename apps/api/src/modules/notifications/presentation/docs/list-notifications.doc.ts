@@ -3,7 +3,7 @@
  * /notifications:
  *   get:
  *     summary: Listar notificações
- *     description: Lista as notificações do usuário autenticado ou filtra por status
+ *     description: "Lista as notificações do usuário autenticado ou filtra por status"
  *     tags: [Notifications]
  *     security:
  *       - bearerAuth: []
@@ -13,27 +13,27 @@
  *         schema:
  *           type: integer
  *           default: 1
- *         description: Número da página
+ *         description: "Número da página"
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *           default: 10
- *         description: Número de itens por página
+ *         description: "Número de itens por página"
  *       - in: query
  *         name: status
  *         schema:
  *           type: string
  *           enum: [PENDING, SENT, FAILED]
- *         description: Filtrar por status da notificação
+ *         description: "Filtrar por status da notificação"
  *       - in: query
  *         name: userId
  *         schema:
  *           type: string
- *         description: Filtrar por ID do usuário (apenas ADMIN)
+ *         description: "Filtrar por ID do usuário (apenas ADMIN)"
  *     responses:
  *       200:
- *         description: Lista de notificações
+ *         description: "Lista de notificações"
  *         content:
  *           application/json:
  *             schema:
@@ -88,9 +88,9 @@
  *                       type: integer
  *                       example: 3
  *       401:
- *         description: Não autorizado
+ *         description: "Não autorizado"
  *       403:
- *         description: Sem permissão para visualizar notificações
+ *         description: "Sem permissão para visualizar notificações"
  *       500:
- *         description: Erro interno do servidor
+ *         description: "Erro interno do servidor"
  */

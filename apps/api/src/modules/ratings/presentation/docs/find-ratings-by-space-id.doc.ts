@@ -17,7 +17,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: Space ID
+ *         description: "Space ID"
  *       - in: query
  *         name: page
  *         schema:
@@ -30,9 +30,9 @@
  *         description: "Items per page (default: 10)"
  *     responses:
  *       200:
- *         description: List of ratings
+ *         description: "List of ratings"
  *       400:
- *         description: Invalid pagination parameters
+ *         description: "Invalid pagination parameters"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  */

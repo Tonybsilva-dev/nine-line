@@ -6,6 +6,7 @@ class RedisManager {
   private static instance: RedisManager;
   private client: Redis | null = null;
   private isConnected = false;
+  private connectionPromise: Promise<void> | null = null;
 
   private constructor() {
     this.initializeRedis();
@@ -13,22 +14,47 @@ class RedisManager {
 
   private initializeRedis(): void {
     try {
-      // Configuração básica e robusta do Redis
       this.client = new Redis(ENV_CONFIG.REDIS_URL, {
         maxRetriesPerRequest: 3,
-        lazyConnect: true,
+        lazyConnect: false, // Mudança: conectar imediatamente
         keepAlive: 30000,
         connectTimeout: 10000,
         commandTimeout: 5000,
         enableReadyCheck: true,
-        enableOfflineQueue: false,
+        enableOfflineQueue: true, // Mudança: habilitar fila offline
       });
 
       this.setupEventListeners();
+      this.connectionPromise = this.waitForConnection();
     } catch (error) {
       logger.error('Failed to initialize Redis:', error);
       this.client = null;
     }
+  }
+
+  private async waitForConnection(): Promise<void> {
+    if (!this.client) return;
+
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Redis connection timeout'));
+      }, 10000);
+
+      const onReady = () => {
+        clearTimeout(timeout);
+        this.isConnected = true;
+        resolve();
+      };
+
+      const onError = (error: Error) => {
+        clearTimeout(timeout);
+        this.isConnected = false;
+        reject(error);
+      };
+
+      this.client!.once('ready', onReady);
+      this.client!.once('error', onError);
+    });
   }
 
   private setupEventListeners(): void {
@@ -74,8 +100,15 @@ class RedisManager {
     return this.isConnected && this.client !== null;
   }
 
+  public async waitForReady(): Promise<void> {
+    if (this.connectionPromise) {
+      await this.connectionPromise;
+    }
+  }
+
   public async get<T>(key: string): Promise<T | null> {
     try {
+      await this.waitForReady();
       if (!this.client) {
         logger.warn('Redis client not available');
         return null;
@@ -90,6 +123,7 @@ class RedisManager {
 
   public async set<T>(key: string, value: T, ttl?: number): Promise<void> {
     try {
+      await this.waitForReady();
       if (!this.client) {
         logger.warn('Redis client not available');
         return;
@@ -107,6 +141,7 @@ class RedisManager {
 
   public async del(key: string): Promise<void> {
     try {
+      await this.waitForReady();
       if (!this.client) {
         logger.warn('Redis client not available');
         return;
@@ -119,6 +154,7 @@ class RedisManager {
 
   public async ping(): Promise<boolean> {
     try {
+      await this.waitForReady();
       if (!this.client) {
         return false;
       }

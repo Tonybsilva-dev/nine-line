@@ -1,15 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { errorLogger } from '../../config/logger';
 import { ErrorMapper } from '../errors/error-mapper';
 
-export function errorHandler(
-  err: unknown,
-  req: Request,
-  res: Response,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _next: NextFunction,
-) {
-  // Log error with structured information
+export function errorHandler(err: unknown, req: Request, res: Response) {
   errorLogger.error({
     type: 'application_error',
     error: err instanceof Error ? err.message : 'Unknown error',
@@ -17,8 +10,7 @@ export function errorHandler(
     method: req.method,
     url: req.url,
     requestId: req.requestId,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    userId: (req as any).user?.id,
+    userId: req.user?.id,
     body: req.body,
     query: req.query,
     headers: {
@@ -27,7 +19,6 @@ export function errorHandler(
     },
   });
 
-  // Use the new error mapper for consistent error responses
   const { statusCode, body } = ErrorMapper.toHTTPResponse(err);
   return res.status(statusCode).json(body);
 }

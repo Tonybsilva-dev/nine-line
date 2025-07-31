@@ -17,14 +17,14 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: Space ID
+ *         description: "Space ID"
  *     responses:
  *       204:
- *         description: Space deleted successfully
+ *         description: "Space deleted successfully"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to delete this space
+ *         description: "User does not have permission to delete this space"
  *       404:
- *         description: Space not found
+ *         description: "Space not found"
  */

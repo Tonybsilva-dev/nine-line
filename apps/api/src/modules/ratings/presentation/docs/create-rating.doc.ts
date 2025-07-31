@@ -19,25 +19,25 @@
  *             properties:
  *               spaceId:
  *                 type: string
- *                 description: Space ID
+ *                 description: "Space ID"
  *               userId:
  *                 type: string
- *                 description: User ID
+ *                 description: "User ID"
  *               score:
  *                 type: number
- *                 description: Score (1 to 5)
+ *                 description: "Score (1 to 5)"
  *               comment:
  *                 type: string
- *                 description: Comment
+ *                 description: "Comment"
  *     responses:
  *       201:
- *         description: Rating created successfully
+ *         description: "Rating created successfully"
  *       400:
- *         description: Invalid data
+ *         description: "Invalid data"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to create ratings
+ *         description: "User does not have permission to create ratings"
  */
 // Example payload:
 // {

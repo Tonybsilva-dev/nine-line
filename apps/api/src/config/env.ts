@@ -7,50 +7,47 @@ const envSchema = z.object({
     .default('development'),
   APP_PORT: z.coerce.number().default(3333),
   DATABASE_URL: z.string(),
-  REDIS_URL: z.string(),
+  REDIS_URL: z.string().default('redis://localhost:6379'),
   DOCKER: z.string().default('false'),
   LOG_LEVEL: z
-    .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
+    .enum(['debug', 'fatal', 'error', 'warn', 'info', 'trace'])
     .default('info'),
-  JWT_SECRET: z.string(),
-  JWT_REFRESH_SECRET: z.string(),
-  ALLOWED_ORIGINS: z.string().default('http://localhost:3333'),
-
-  // Rate Limiting - Configurações centralizadas
-  RATE_LIMIT_WINDOW_MS: z.coerce.number().default(60000), // 1 minuto
-  RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100), // 100 requests por janela
-  RATE_LIMIT_SENSITIVE_MAX_REQUESTS: z.coerce.number().default(10), // 10 requests para operações sensíveis
-  RATE_LIMIT_CRITICAL_MAX_REQUESTS: z.coerce.number().default(5), // 5 requests para operações críticas
-
-  // Notification settings
-  SMTP_HOST: z.string().optional(),
-  SMTP_PORT: z.coerce.number().optional(),
-  SMTP_USER: z.string().optional(),
-  SMTP_PASS: z.string().optional(),
-  SMTP_FROM: z.string().optional(),
-
-  // Mailtrap SMTP settings
-  MAILTRAP_HOST: z.string().default('sandbox.smtp.mailtrap.io'),
-  MAILTRAP_PORT: z.coerce.number().default(587),
-  MAILTRAP_USER: z.string(),
-  MAILTRAP_PASS: z.string(),
-  MAILTRAP_FROM: z.string().default('noreply@nine-line.com'),
-  MAILTRAP_FROM_NAME: z.string().default('9line Spaces'),
-
-  // Mailtrap API settings (para MailtrapEmailService)
-  MAILTRAP_TOKEN: z.string().optional(),
-  MAILTRAP_SENDER_EMAIL: z.string().optional(),
-  MAILTRAP_SENDER_NAME: z.string().optional(),
-
-  // App URLs
-  APP_URL: z.string().default('http://localhost:3000'),
+  JWT_SECRET: z.string().optional().default('your-jwt-secret'),
+  JWT_EXPIRES_IN: z.string().default('7d'),
+  REFRESH_TOKEN_SECRET: z
+    .string()
+    .optional()
+    .default('your-refresh-token-secret'),
+  REFRESH_TOKEN_EXPIRES_IN: z.string().default('30d'),
+  BCRYPT_SALT_ROUNDS: z.string().transform(Number).default('12'),
+  RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'),
+  RATE_LIMIT_MAX_REQUESTS: z.string().transform(Number).default('100'),
+  RATE_LIMIT_SENSITIVE_MAX_REQUESTS: z.string().transform(Number).default('50'),
+  RATE_LIMIT_CRITICAL_MAX_REQUESTS: z.string().transform(Number).default('20'),
+  FRONTEND_URL: z.string().default('http://localhost:3000'),
+  BACKOFFICE_URL: z.string().default('http://localhost:3001'),
+  APP_URL: z.string().default('http://localhost:3333'),
   ANDROID_APP_URL: z
     .string()
     .default('https://play.google.com/store/apps/details?id=com.nineline.app'),
   IOS_APP_URL: z
     .string()
     .default('https://apps.apple.com/app/nine-line/id123456789'),
-  ADMIN_URL: z.string().default('http://localhost:3000/admin'),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().transform(Number).optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_SECURE: z.string().transform(Boolean).default('false'),
+  MAILTRAP_HOST: z.string().default('sandbox.smtp.mailtrap.io'),
+  MAILTRAP_PORT: z.coerce.number().default(587),
+  MAILTRAP_USER: z.string().optional(),
+  MAILTRAP_PASS: z.string().optional(),
+  MAILTRAP_FROM: z.string().default('noreply@nine-line.com'),
+  MAILTRAP_FROM_NAME: z.string().default('9line Spaces'),
+  MAILTRAP_TOKEN: z.string().optional(),
+  MAILTRAP_SENDER_EMAIL: z.string().optional(),
+  MAILTRAP_SENDER_NAME: z.string().optional(),
+  SENTRY_DSN: z.string().optional(),
 });
 
 export const ENV_CONFIG = envSchema.parse(process.env);

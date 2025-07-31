@@ -16,14 +16,14 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: Rating ID
+ *         description: "Rating ID"
  *     responses:
  *       204:
- *         description: Rating deleted successfully
+ *         description: "Rating deleted successfully"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to delete this rating
+ *         description: "User does not have permission to delete this rating"
  *       404:
- *         description: Rating not found
+ *         description: "Rating not found"
  */

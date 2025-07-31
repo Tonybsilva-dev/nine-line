@@ -30,11 +30,8 @@ export const logger = pino({
       }),
 });
 
-// Logger específico para requests
 export const requestLogger = logger.child({ module: 'request' });
 
-// Logger específico para erros
 export const errorLogger = logger.child({ module: 'error' });
 
-// Logger específico para performance
 export const performanceLogger = logger.child({ module: 'performance' });

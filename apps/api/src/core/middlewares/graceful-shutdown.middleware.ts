@@ -1,6 +1,6 @@
 import { logger } from '../../config/logger';
-import { prisma } from '../../config/prisma';
-import { redisManager } from '../../config/redis';
+import { prisma } from '@/config/prisma';
+import { redisManager } from '@/config/redis.config';
 import { Server } from 'http';
 
 export function setupGracefulShutdown(server: Server) {
@@ -11,7 +11,6 @@ export function setupGracefulShutdown(server: Server) {
       message: `Received ${signal}. Starting graceful shutdown...`,
     });
 
-    // Stop accepting new connections
     server.close((err: Error | undefined) => {
       if (err) {
         logger.error({
@@ -28,7 +27,6 @@ export function setupGracefulShutdown(server: Server) {
         signal,
       });
 
-      // Close database connections
       prisma
         .$disconnect()
         .then(() => {
@@ -47,7 +45,6 @@ export function setupGracefulShutdown(server: Server) {
           });
         });
 
-      // Close Redis connections
       try {
         const redisClient = redisManager.getClient();
         if (redisClient) {
@@ -67,7 +64,6 @@ export function setupGracefulShutdown(server: Server) {
         });
       }
 
-      // Exit process
       setTimeout(() => {
         logger.info({
           type: 'graceful_shutdown',
@@ -79,11 +75,9 @@ export function setupGracefulShutdown(server: Server) {
     });
   };
 
-  // Listen for shutdown signals
   process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
   process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-  // Handle uncaught exceptions
   process.on('uncaughtException', (error) => {
     logger.fatal({
       type: 'uncaught_exception',
@@ -93,7 +87,6 @@ export function setupGracefulShutdown(server: Server) {
     process.exit(1);
   });
 
-  // Handle unhandled promise rejections
   process.on('unhandledRejection', (reason, promise) => {
     logger.fatal({
       type: 'unhandled_rejection',

@@ -23,10 +23,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: Appointment ID
+ *         description: "Appointment ID"
  *     responses:
  *       200:
- *         description: Appointment found successfully
+ *         description: "Appointment found successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -53,13 +53,13 @@
  *                 originalDate:
  *                   type: string
  *                   format: date-time
- *                   description: Original appointment date (for change limit calculations)
+ *                   description: "Original appointment date (for change limit calculations)"
  *                 changeCount:
  *                   type: integer
- *                   description: Number of times this appointment has been changed
+ *                   description: "Number of times this appointment has been changed"
  *                 maxChanges:
  *                   type: integer
- *                   description: Maximum number of changes allowed
+ *                   description: "Maximum number of changes allowed"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -67,9 +67,9 @@
  *                   type: string
  *                   format: date-time
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to view this appointment
+ *         description: "User does not have permission to view this appointment"
  *       404:
- *         description: Appointment not found
+ *         description: "Appointment not found"
  */

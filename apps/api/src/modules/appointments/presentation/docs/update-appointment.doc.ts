@@ -51,7 +51,7 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: Appointment ID
+ *         description: "Appointment ID"
  *     requestBody:
  *       required: true
  *       content:
@@ -62,15 +62,15 @@
  *               date:
  *                 type: string
  *                 format: date-time
- *                 description: New appointment date (validates 2-month limit for USER/MANAGER)
+ *                 description: "New appointment date (validates 2-month limit for USER/MANAGER)"
  *               startTime:
  *                 type: string
  *                 format: date-time
- *                 description: New start time
+ *                 description: "New start time"
  *               endTime:
  *                 type: string
  *                 format: date-time
- *                 description: New end time
+ *                 description: "New end time"
  *               status:
  *                 type: string
  *                 enum: [PENDING, CONFIRMED, CANCELLED, REJECTED]
@@ -80,7 +80,7 @@
  *                 description: "Reason for cancellation (required when status is CANCELLED)"
  *     responses:
  *       200:
- *         description: Appointment updated successfully
+ *         description: "Appointment updated successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -110,13 +110,13 @@
  *                 originalDate:
  *                   type: string
  *                   format: date-time
- *                   description: Original appointment date (set on first change)
+ *                   description: "Original appointment date (set on first change)"
  *                 changeCount:
  *                   type: integer
- *                   description: Number of times this appointment has been changed
+ *                   description: "Number of times this appointment has been changed"
  *                 maxChanges:
  *                   type: integer
- *                   description: Maximum number of changes allowed (default: 3)
+ *                   description: "Maximum number of changes allowed (default: 3)"
  *                 updatedAt:
  *                   type: string
  *                   format: date-time
@@ -127,9 +127,9 @@
  *           - "Cannot reschedule more than 2 months from the original date."
  *           - "Cancel reason is required when cancelling an appointment."
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
  *         description: "User does not have permission to update this appointment"
  *       404:
- *         description: Appointment not found
+ *         description: "Appointment not found"
  */

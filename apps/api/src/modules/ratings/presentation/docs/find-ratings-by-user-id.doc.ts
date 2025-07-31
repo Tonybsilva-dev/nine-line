@@ -17,7 +17,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID
+ *         description: "User ID"
  *       - in: query
  *         name: page
  *         schema:
@@ -30,9 +30,9 @@
  *         description: "Items per page (default: 10)"
  *     responses:
  *       200:
- *         description: Ratings list
+ *         description: "Ratings list"
  *       400:
- *         description: Invalid pagination parameters
+ *         description: "Invalid pagination parameters"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  */

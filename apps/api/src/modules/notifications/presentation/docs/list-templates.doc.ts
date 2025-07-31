@@ -3,7 +3,7 @@
  * /notifications/templates:
  *   get:
  *     summary: Listar templates de notificação
- *     description: Lista todos os templates de notificação disponíveis
+ *     description: "Lista todos os templates de notificação disponíveis"
  *     tags: [Notifications]
  *     security:
  *       - bearerAuth: []
@@ -13,22 +13,22 @@
  *         schema:
  *           type: integer
  *           default: 1
- *         description: Número da página
+ *         description: "Número da página"
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *           default: 10
- *         description: Número de itens por página
+ *         description: "Número de itens por página"
  *       - in: query
  *         name: type
  *         schema:
  *           type: string
  *           enum: [EMAIL, SMS, PUSH]
- *         description: Filtrar por tipo de template
+ *         description: "Filtrar por tipo de template"
  *     responses:
  *       200:
- *         description: Lista de templates de notificação
+ *         description: "Lista de templates de notificação"
  *         content:
  *           application/json:
  *             schema:
@@ -86,9 +86,9 @@
  *                       type: integer
  *                       example: 1
  *       401:
- *         description: Não autorizado
+ *         description: "Não autorizado"
  *       403:
- *         description: Sem permissão para visualizar templates
+ *         description: "Sem permissão para visualizar templates"
  *       500:
- *         description: Erro interno do servidor
+ *         description: "Erro interno do servidor"
  */

@@ -3,7 +3,7 @@
  * /rbac/users/{userId}/permissions:
  *   get:
  *     summary: Get user permissions
- *     description: Returns all permissions a user has through their roles
+ *     description: "Returns all permissions a user has through their roles"
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -14,10 +14,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: User ID
+ *         description: "User ID"
  *     responses:
  *       200:
- *         description: User permissions
+ *         description: "User permissions"
  *         content:
  *           application/json:
  *             schema:
@@ -38,7 +38,7 @@
  *                       action:
  *                         type: string
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       404:
- *         description: User not found
+ *         description: "User not found"
  */

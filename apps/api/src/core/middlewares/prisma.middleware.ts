@@ -1,5 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const softDeleteMiddleware = async (params: any, next: any) => {
+import { Prisma } from '@prisma/client';
+
+export const softDeleteMiddleware = async (
+  params: Prisma.MiddlewareParams,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  next: (params: Prisma.MiddlewareParams) => Promise<any>,
+) => {
   if (params.model === 'User') {
     const deletedData = {
       deletedAt: new Date(),

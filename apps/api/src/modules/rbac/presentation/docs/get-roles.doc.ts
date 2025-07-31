@@ -3,7 +3,7 @@
  * /rbac/roles:
  *   get:
  *     summary: List roles
- *     description: Lists all available roles in the system with pagination
+ *     description: "Lists all available roles in the system with pagination"
  *     tags: [RBAC]
  *     security:
  *       - bearerAuth: []
@@ -14,17 +14,17 @@
  *         schema:
  *           type: integer
  *           default: 1
- *         description: Page number
+ *         description: "Page number"
  *       - name: perPage
  *         in: query
  *         required: false
  *         schema:
  *           type: integer
  *           default: 10
- *         description: Items per page
+ *         description: "Items per page"
  *     responses:
  *       200:
- *         description: List of roles
+ *         description: "List of roles"
  *         content:
  *           application/json:
  *             schema:
@@ -58,5 +58,5 @@
  *                     total:
  *                       type: integer
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  */

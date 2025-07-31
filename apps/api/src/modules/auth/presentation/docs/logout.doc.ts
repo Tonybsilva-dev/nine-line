@@ -3,7 +3,7 @@
  * /auth/logout:
  *   post:
  *     summary: Logout user
- *     description: Invalidates the current access token by adding it to the blacklist
+ *     description: "Invalidates the current access token by adding it to the blacklist"
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
@@ -19,7 +19,7 @@
  *                 description: "Access token to invalidate (optional, uses token from header if not provided)"
  *     responses:
  *       200:
- *         description: Logout successful
+ *         description: "Logout successful"
  *         content:
  *           application/json:
  *             schema:
@@ -29,5 +29,5 @@
  *                   type: string
  *                   example: "Logout successful"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  */

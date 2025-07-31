@@ -17,14 +17,14 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: ID of the space to retrieve
+ *         description: "ID of the space to retrieve"
  *     responses:
  *       200:
- *         description: Space found
+ *         description: "Space found"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to view this space
+ *         description: "User does not have permission to view this space"
  *       404:
- *         description: Space not found
+ *         description: "Space not found"
  */

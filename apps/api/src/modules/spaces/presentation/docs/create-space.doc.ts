@@ -20,28 +20,28 @@
  *             properties:
  *               title:
  *                 type: string
- *                 description: Space title
+ *                 description: "Space title"
  *               description:
  *                 type: string
- *                 description: Space description
+ *                 description: "Space description"
  *               photos:
  *                 type: array
  *                 items:
  *                   type: string
- *                 description: Array of photo URLs
+ *                 description: "Array of photo URLs"
  *               rules:
  *                 type: string
- *                 description: Space rules
+ *                 description: "Space rules"
  *               hostId:
  *                 type: string
- *                 description: ID of the user who owns/hosts the space (required for ADMIN, auto-set for MANAGER)
+ *                 description: "ID of the user who owns/hosts the space (required for ADMIN, auto-set for MANAGER)"
  *     responses:
  *       201:
- *         description: Space created successfully
+ *         description: "Space created successfully"
  *       400:
- *         description: Invalid data
+ *         description: "Invalid data"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to create spaces
+ *         description: "User does not have permission to create spaces"
  */

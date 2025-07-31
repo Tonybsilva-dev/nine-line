@@ -22,7 +22,7 @@
  *                 enum: [ACTIVE, INACTIVE, BLOCKED, PENDING]
  *     responses:
  *       201:
- *         description: User created
+ *         description: "User created"
  *       400:
- *         description: Validation error
+ *         description: "Validation error"
  */

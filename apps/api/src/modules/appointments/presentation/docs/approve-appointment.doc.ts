@@ -3,7 +3,7 @@
  * /appointments/{id}/approve:
  *   patch:
  *     summary: Approve an appointment
- *     description: Approves a pending appointment, changing its status to CONFIRMED
+ *     description: "Approves a pending appointment, changing its status to CONFIRMED"
  *     tags: [Appointments]
  *     security:
  *       - bearerAuth: []
@@ -14,10 +14,10 @@
  *         schema:
  *           type: string
  *           format: uuid
- *         description: ID of the appointment to approve
+ *         description: "ID of the appointment to approve"
  *     responses:
  *       200:
- *         description: Appointment approved successfully
+ *         description: "Appointment approved successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -51,11 +51,11 @@
  *                   type: string
  *                   format: date-time
  *       400:
- *         description: Appointment cannot be approved (not pending)
+ *         description: "Appointment cannot be approved (not pending)"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to approve appointments
+ *         description: "User does not have permission to approve appointments"
  *       404:
- *         description: Appointment not found
+ *         description: "Appointment not found"
  */

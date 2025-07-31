@@ -19,9 +19,13 @@ npx tsx src/modules/rbac/infra/seeders/rbac-seeder.ts
 echo "👤 Criando usuários default..."
 npx tsx src/modules/users/infra/seeders/create-default-users.ts
 
-# 5. Executar seeder de notificações
+# 5. Associar roles RBAC aos usuários existentes
+echo "🔗 Associando roles RBAC aos usuários..."
+npx tsx src/modules/rbac/infra/seeders/assign-roles-to-users.ts
+
+# 6. Executar seeder de notificações
 echo "📧 Populando templates de notificação..."
 npx tsx src/modules/notifications/infra/seeders/notification-seeder.ts
 
-# 6. Iniciar a aplicação
+# 7. Iniciar a aplicação
 npm run start 

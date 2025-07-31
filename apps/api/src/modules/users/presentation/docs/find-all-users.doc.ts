@@ -16,20 +16,20 @@
  *         required: true
  *         schema:
  *           type: integer
- *         description: Page number
+ *         description: "Page number"
  *       - name: perPage
  *         in: query
  *         required: true
  *         schema:
  *           type: integer
- *         description: Items per page
+ *         description: "Items per page"
  *     responses:
  *       200:
- *         description: List of users
+ *         description: "List of users"
  *       400:
- *         description: Invalid parameters
+ *         description: "Invalid parameters"
  *       401:
- *         description: Invalid or missing authentication token
+ *         description: "Invalid or missing authentication token"
  *       403:
- *         description: User does not have permission to list users
+ *         description: "User does not have permission to list users"
  */

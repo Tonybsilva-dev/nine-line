@@ -7,7 +7,7 @@ import {
   toPrismaPagination,
 } from '@/core/repositories/pagination-params';
 import { Password } from '../../domain/entities/value-objects/password';
-import { getCache, setCache, deleteCache } from '@/config/redis';
+import { getCache, setCache, deleteCache } from '@/config/redis.config';
 import { User as PrismaUser } from '@prisma/client';
 
 export class PrismaUserRepository implements UserRepository {

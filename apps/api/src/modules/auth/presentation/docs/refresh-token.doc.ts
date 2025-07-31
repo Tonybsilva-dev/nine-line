@@ -3,7 +3,7 @@
  * /auth/refresh-token:
  *   post:
  *     summary: Refresh access token
- *     description: Renews the access token using a valid refresh token
+ *     description: "Renews the access token using a valid refresh token"
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -16,10 +16,10 @@
  *             properties:
  *               refreshToken:
  *                 type: string
- *                 description: Valid refresh token
+ *                 description: "Valid refresh token"
  *     responses:
  *       200:
- *         description: Token refreshed successfully
+ *         description: "Token refreshed successfully"
  *         content:
  *           application/json:
  *             schema:
@@ -32,5 +32,5 @@
  *                   type: string
  *                   description: "New JWT refresh token (valid for 7 days)"
  *       401:
- *         description: Invalid or expired refresh token
+ *         description: "Invalid or expired refresh token"
  */
