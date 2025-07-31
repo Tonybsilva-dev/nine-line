@@ -16,6 +16,12 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string(),
   ALLOWED_ORIGINS: z.string().default('http://localhost:3333'),
 
+  // Rate Limiting - Configurações centralizadas
+  RATE_LIMIT_WINDOW_MS: z.coerce.number().default(60000), // 1 minuto
+  RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100), // 100 requests por janela
+  RATE_LIMIT_SENSITIVE_MAX_REQUESTS: z.coerce.number().default(10), // 10 requests para operações sensíveis
+  RATE_LIMIT_CRITICAL_MAX_REQUESTS: z.coerce.number().default(5), // 5 requests para operações críticas
+
   // Notification settings
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().optional(),

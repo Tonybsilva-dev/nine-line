@@ -5,7 +5,6 @@ import {
   validateGetNotification,
   validateListTemplates,
 } from '../validators';
-import { notificationRateLimit } from '../middlewares';
 import { requirePermission } from '@/modules/rbac/presentation/middleware/authorization.middleware';
 import {
   sendNotificationController,
@@ -19,7 +18,6 @@ export const notificationRoutes = Router();
 notificationRoutes.post(
   '/send',
   validateSendNotification,
-  notificationRateLimit(5, 60000), // 5 requests por minuto
   requirePermission('notifications:send'),
   sendNotificationController,
 );

@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { spaceRateLimit } from '../middlewares';
 
 import {
   validateCreateSpace,
@@ -17,24 +16,13 @@ import { updateSpaceController } from '../controllers/update-space.controller';
 
 export const spaceRoutes = Router();
 
-spaceRoutes.post(
-  '/',
-  validateCreateSpace,
-  spaceRateLimit(5, 60000),
-  createSpaceController,
-);
+spaceRoutes.post('/', validateCreateSpace, createSpaceController);
 spaceRoutes.get('/', validateFindAllSpaces, findAllSpacesController);
 spaceRoutes.get('/:id', validateFindSpaceById, findSpaceByIdController);
 spaceRoutes.put(
   '/:id',
   validateFindSpaceById,
   validateUpdateSpace,
-  spaceRateLimit(3, 60000), // Rate limit mais restritivo para updates
   updateSpaceController,
 );
-spaceRoutes.delete(
-  '/:id',
-  validateDeleteSpace,
-  spaceRateLimit(2, 60000),
-  deleteSpaceController,
-);
+spaceRoutes.delete('/:id', validateDeleteSpace, deleteSpaceController);

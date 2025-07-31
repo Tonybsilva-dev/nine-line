@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { appointmentRateLimit } from '../middlewares';
 import {
   validateCreateAppointment,
   validateUpdateAppointment,
@@ -28,7 +27,6 @@ export const appointmentRoutes = Router();
 appointmentRoutes.post(
   '/',
   validateCreateAppointment,
-  appointmentRateLimit(5, 60000),
   createAppointmentController,
 );
 appointmentRoutes.get(
@@ -55,24 +53,20 @@ appointmentRoutes.put(
   '/:id',
   validateFindAppointmentById,
   validateUpdateAppointment,
-  appointmentRateLimit(3, 60000),
   updateAppointmentController,
 );
 appointmentRoutes.delete(
   '/:id',
   validateDeleteAppointment,
-  appointmentRateLimit(2, 60000),
   deleteAppointmentController,
 );
 appointmentRoutes.patch(
   '/:id/approve',
   validateApproveAppointment,
-  appointmentRateLimit(3, 60000),
   approveAppointmentController,
 );
 appointmentRoutes.patch(
   '/:id/reject',
   validateRejectAppointment,
-  appointmentRateLimit(3, 60000),
   rejectAppointmentController,
 );

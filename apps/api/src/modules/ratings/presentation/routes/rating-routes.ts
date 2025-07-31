@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { ratingRateLimit } from '../middlewares';
 import {
   validateCreateRating,
   validateUpdateRating,
@@ -27,25 +26,14 @@ import { findRatingsByUserIdController } from '../controllers/find-ratings-by-us
  */
 export const ratingRoutes = Router();
 
-ratingRoutes.post(
-  '/',
-  validateCreateRating,
-  ratingRateLimit(5, 60000),
-  createRatingController,
-);
+ratingRoutes.post('/', validateCreateRating, createRatingController);
 ratingRoutes.put(
   '/:id',
   validateFindRatingById,
   validateUpdateRating,
-  ratingRateLimit(3, 60000),
   updateRatingController,
 );
-ratingRoutes.delete(
-  '/:id',
-  validateDeleteRating,
-  ratingRateLimit(2, 60000),
-  deleteRatingController,
-);
+ratingRoutes.delete('/:id', validateDeleteRating, deleteRatingController);
 ratingRoutes.get('/:id', validateFindRatingById, findRatingByIdController);
 ratingRoutes.get(
   '/space/:id',

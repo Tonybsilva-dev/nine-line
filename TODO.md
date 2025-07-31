@@ -52,7 +52,24 @@ Este documento contém a análise completa do projeto **9line Spaces** identific
 - **Arquivo**: `apps/api/src/core/validators/base.validator.ts`
 - **Validators corrigidos**: Todos os validators com paginação
 
-### 5. **Configuração de Segurança Básica**
+### 5. **Padronização de Rate Limiting**
+
+- **Status**: ✅ **COMPLETO**
+- **Problema**: Cada módulo tinha seu próprio middleware de rate limiting com configurações diferentes
+- **Evidência**: Variáveis hardcoded em cada middleware (maxRequests, windowMs)
+- **Impacto**: Inconsistência e dificuldade de configuração
+- **Solução**: Sistema centralizado com middleware inteligente que detecta automaticamente o tipo de operação
+- **Arquivo**: `apps/api/src/core/middlewares/rate-limit.middleware.ts`
+- **Configuração**: `apps/api/src/config/env.ts`
+- **Módulos atualizados**: `notifications`, `users`, `spaces`, `auth`, `rbac`, `appointments`, `ratings`
+- **Melhoria**: Middleware inteligente aplicado globalmente que detecta automaticamente:
+  - Operações críticas (auth, rbac, notificações): 5 requests/minuto
+  - Operações sensíveis (usuários, espaços, agendamentos, avaliações): 10 requests/minuto
+  - Operações padrão: 100 requests/minuto
+  - Ajustes automáticos por método HTTP (DELETE: -50%, PUT/PATCH: -30%)
+- **Resultado**: ✅ **Todas as rotas limpas, sem rate limits específicos, tipagens funcionando**
+
+### 6. **Configuração de Segurança Básica**
 
 - **Status**: ⚠️ Configuração permissiva
 - **Problema**: Configurações de segurança muito permissivas
@@ -61,7 +78,7 @@ Este documento contém a análise completa do projeto **9line Spaces** identific
 - **Solução**: Revisar e fortalecer configurações de segurança
 - **Arquivo**: `apps/api/src/config/helmet-options.ts`
 
-### 6. **Rate Limiting Básico**
+### 7. **Rate Limiting Básico**
 
 - **Status**: ✅ Implementado (básico)
 - **Problema**: Rate limiting muito permissivo (100 requests/15min)

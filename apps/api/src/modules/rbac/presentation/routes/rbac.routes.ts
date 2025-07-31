@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { rbacRateLimit } from '../middlewares';
 import {
   validateAssignRole,
   validateRevokeRole,
@@ -15,19 +14,9 @@ import {
 const rbacRoutes = Router();
 
 // RBAC Routes
-rbacRoutes.post(
-  '/assign-role',
-  validateAssignRole,
-  rbacRateLimit(5, 60000),
-  assignRoleController,
-);
+rbacRoutes.post('/assign-role', validateAssignRole, assignRoleController);
 rbacRoutes.get('/roles', getRolesController);
-rbacRoutes.post(
-  '/revoke-role',
-  validateRevokeRole,
-  rbacRateLimit(5, 60000),
-  revokeRoleController,
-);
+rbacRoutes.post('/revoke-role', validateRevokeRole, revokeRoleController);
 rbacRoutes.get(
   '/user-permissions/:userId',
   validateGetUserPermissions,
