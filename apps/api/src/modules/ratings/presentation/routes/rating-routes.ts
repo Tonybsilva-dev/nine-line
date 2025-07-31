@@ -1,12 +1,19 @@
 import { Router } from 'express';
+import { ratingRateLimit } from '../middlewares';
+import {
+  validateCreateRating,
+  validateUpdateRating,
+  validateFindRatingById,
+  validateDeleteRating,
+  validateFindRatingsBySpaceId,
+  validateFindRatingsByUserId,
+} from '../validators';
 import { createRatingController } from '../controllers/create-rating.controller';
 import { updateRatingController } from '../controllers/update-rating.controller';
 import { deleteRatingController } from '../controllers/delete-rating.controller';
 import { findRatingByIdController } from '../controllers/find-rating-by-id.controller';
 import { findRatingsBySpaceIdController } from '../controllers/find-ratings-by-space-id.controller';
 import { findRatingsByUserIdController } from '../controllers/find-ratings-by-user-id.controller';
-import { validateCreateRating, validateUpdateRating } from '../validators';
-import { validateParamsId } from '@/core/validators';
 
 /**
  * Rotas de Ratings
@@ -20,18 +27,33 @@ import { validateParamsId } from '@/core/validators';
  */
 export const ratingRoutes = Router();
 
-ratingRoutes.post('/', validateCreateRating, createRatingController);
+ratingRoutes.post(
+  '/',
+  validateCreateRating,
+  ratingRateLimit(5, 60000),
+  createRatingController,
+);
 ratingRoutes.put(
   '/:id',
-  validateParamsId,
+  validateFindRatingById,
   validateUpdateRating,
+  ratingRateLimit(3, 60000),
   updateRatingController,
 );
-ratingRoutes.delete('/:id', validateParamsId, deleteRatingController);
-ratingRoutes.get('/:id', validateParamsId, findRatingByIdController);
+ratingRoutes.delete(
+  '/:id',
+  validateDeleteRating,
+  ratingRateLimit(2, 60000),
+  deleteRatingController,
+);
+ratingRoutes.get('/:id', validateFindRatingById, findRatingByIdController);
 ratingRoutes.get(
   '/space/:id',
-  validateParamsId,
+  validateFindRatingsBySpaceId,
   findRatingsBySpaceIdController,
 );
-ratingRoutes.get('/user/:id', validateParamsId, findRatingsByUserIdController);
+ratingRoutes.get(
+  '/user/:id',
+  validateFindRatingsByUserId,
+  findRatingsByUserIdController,
+);

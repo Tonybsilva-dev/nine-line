@@ -1,9 +1,14 @@
 import { Router } from 'express';
+import { spaceRateLimit } from '../middlewares';
 
-import { validateCreateSpace } from '../validators/create-space.validator';
-import { validateUpdateSpace } from '../validators/update-space.validator';
+import {
+  validateCreateSpace,
+  validateUpdateSpace,
+  validateFindSpaceById,
+  validateDeleteSpace,
+  validateFindAllSpaces,
+} from '../validators';
 
-import { validatePagination, validateParamsId } from '@/core/validators';
 import { createSpaceController } from '../controllers/create-space.controller';
 import { deleteSpaceController } from '../controllers/delete-space.controller';
 import { findAllSpacesController } from '../controllers/find-all-spaces.controller';
@@ -12,13 +17,24 @@ import { updateSpaceController } from '../controllers/update-space.controller';
 
 export const spaceRoutes = Router();
 
-spaceRoutes.post('/', validateCreateSpace, createSpaceController);
-spaceRoutes.get('/', validatePagination, findAllSpacesController);
-spaceRoutes.get('/:id', validateParamsId, findSpaceByIdController);
+spaceRoutes.post(
+  '/',
+  validateCreateSpace,
+  spaceRateLimit(5, 60000),
+  createSpaceController,
+);
+spaceRoutes.get('/', validateFindAllSpaces, findAllSpacesController);
+spaceRoutes.get('/:id', validateFindSpaceById, findSpaceByIdController);
 spaceRoutes.put(
   '/:id',
-  validateParamsId,
+  validateFindSpaceById,
   validateUpdateSpace,
+  spaceRateLimit(3, 60000), // Rate limit mais restritivo para updates
   updateSpaceController,
 );
-spaceRoutes.delete('/:id', validateParamsId, deleteSpaceController);
+spaceRoutes.delete(
+  '/:id',
+  validateDeleteSpace,
+  spaceRateLimit(2, 60000),
+  deleteSpaceController,
+);

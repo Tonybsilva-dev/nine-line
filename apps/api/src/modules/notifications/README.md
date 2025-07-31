@@ -6,7 +6,7 @@ Este módulo gerencia as notificações da aplicação, permitindo o envio de em
 
 **Enviar email de boas-vindas quando um usuário é criado**, assim como acontece no `create-appointment`.
 
-## 📁 Estrutura do Módulo
+## 📁 Estrutura do Módulo (Padronizada)
 
 ```
 notifications/
@@ -15,10 +15,12 @@ notifications/
 │   │   ├── notification.ts              # Entidade de notificação
 │   │   ├── notification-template.ts     # Template de notificação
 │   │   └── user-notification-settings.ts # Configurações do usuário
-│   └── repositories/
-│       ├── notification-repository.ts
-│       ├── notification-template-repository.ts
-│       └── user-notification-settings-repository.ts
+│   ├── repositories/
+│   │   ├── notification-repository.ts
+│   │   ├── notification-template-repository.ts
+│   │   └── user-notification-settings-repository.ts
+│   └── events/
+│       └── index.ts                     # Eventos do domínio
 ├── application/
 │   ├── use-cases/
 │   │   └── send-notification/
@@ -28,19 +30,57 @@ notifications/
 │       ├── appointment-approved.handler.ts # Notifica usuário sobre aprovação
 │       ├── appointment-cancelled.handler.ts # Notifica sobre cancelamento
 │       └── notification-events.config.ts # Configuração centralizada
-├── infra/
-│   ├── services/
-│   │   ├── email.service.ts             # Serviço de email
-│   │   └── queue.service.ts             # Serviço de fila
-│   ├── templates/
-│   │   └── email/                       # Templates Handlebars
-│   └── seeders/
-│       └── notification-template-seeder.ts
-└── presentation/
-    ├── controllers/
-    ├── routes/
-    └── validators/
+├── presentation/
+│   ├── controllers/
+│   │   ├── send-notification.controller.ts
+│   │   ├── list-notifications.controller.ts
+│   │   ├── list-templates.controller.ts
+│   │   ├── get-notification.controller.ts
+│   │   └── index.ts
+│   ├── routes/
+│   │   └── notification.routes.ts
+│   ├── validators/
+│   │   ├── send-notification.validator.ts
+│   │   ├── list-notifications.validator.ts
+│   │   ├── get-notification.validator.ts
+│   │   ├── list-templates.validator.ts
+│   │   └── index.ts
+│   ├── middlewares/
+│   │   ├── notification-rate-limit.middleware.ts
+│   │   └── index.ts
+│   ├── docs/
+│   │   └── *.doc.ts
+│   └── index.ts
+└── infra/
+    ├── services/
+    │   ├── email.service.ts             # Serviço de email
+    │   └── queue.service.ts             # Serviço de fila
+    ├── templates/
+    │   └── email/                       # Templates Handlebars
+    └── seeders/
+        └── notification-template-seeder.ts
 ```
+
+## 🔒 Segurança Implementada
+
+### Rate Limiting
+
+- **Endpoint**: `/notifications/send`
+- **Limite**: 5 requests por minuto por usuário
+- **Middleware**: `notificationRateLimit`
+
+### Validações
+
+- ✅ **Send Notification**: Validação de userId, type, templateId
+- ✅ **List Notifications**: Validação de paginação e filtros
+- ✅ **Get Notification**: Validação de ID
+- ✅ **List Templates**: Validação de paginação e tipo
+
+### Autorização
+
+- **Send**: `notifications:send`
+- **Read**: `notifications:read`
+- **Templates**: `notifications:templates:read`
 
 ## 📧 Tipos de Notificação
 
@@ -151,6 +191,11 @@ configureNotificationEvents(eventBus);
 - Verificar se o template foi criado pelo seeder
 - Verificar se o nome do template está correto (`welcome-email`)
 
+### Rate Limit Exceeded
+
+- Verificar se o usuário não excedeu o limite de 5 requests/minuto
+- Aguardar o reset da janela de tempo
+
 ## 📈 Logs
 
 Todos os handlers registram logs estruturados:
@@ -173,3 +218,27 @@ logger.info({
 5. **Registro é criado** na tabela `notifications`
 
 **Resultado**: Usuário recebe email de boas-vindas! 🎉
+
+## 📋 Status de Padronização
+
+### ✅ Implementado
+
+- ✅ Estrutura Clean Architecture completa
+- ✅ README.md detalhado
+- ✅ index.ts com exports organizados
+- ✅ Validações para todos os endpoints
+- ✅ Middleware de rate limiting
+- ✅ Documentação de arquitetura
+- ✅ Logs estruturados
+
+### 🎯 Próximos Passos
+
+- Implementar testes para middlewares
+- Implementar testes para services
+- Adicionar métricas de monitoramento
+- Implementar alertas para falhas
+
+---
+
+_Última atualização: $(date)_
+_Versão: 2.0 - Padronizado_

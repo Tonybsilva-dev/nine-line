@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { ensureAuthenticated } from '@/modules/auth/presentation/middlewares/ensure-authenticated';
+import { userRateLimit } from '../middlewares';
 
 import {
   createUserController,
@@ -9,37 +10,49 @@ import {
   updateUserController,
 } from '../controllers';
 
-import { validateCreateUser, validateUpdateUser } from '../validators';
-import { validatePagination, validateParamsId } from '@/core/validators';
+import {
+  validateCreateUser,
+  validateUpdateUser,
+  validateFindUserById,
+  validateDeleteUser,
+  validateFindAllUsers,
+} from '../validators';
 
 export const userRoutes = Router();
 
 // Public route
-userRoutes.post('/', validateCreateUser, createUserController);
+userRoutes.post(
+  '/',
+  validateCreateUser,
+  userRateLimit(5, 60000),
+  createUserController,
+);
 
 // Protected routes
 userRoutes.get(
   '/',
   ensureAuthenticated,
-  validatePagination,
+  validateFindAllUsers,
   findAllUsersController,
 );
 userRoutes.get(
   '/:id',
   ensureAuthenticated,
-  validateParamsId,
+  validateFindUserById,
   findUserByIdController,
 );
 userRoutes.put(
   '/:id',
   ensureAuthenticated,
-  validateParamsId,
+  validateFindUserById,
   validateUpdateUser,
+  userRateLimit(3, 60000), // Rate limit mais restritivo para updates
   updateUserController,
 );
 userRoutes.delete(
   '/:id',
   ensureAuthenticated,
-  validateParamsId,
+  validateDeleteUser,
+  userRateLimit(2, 60000), // Rate limit muito restritivo para deletes
   deleteUserController,
 );
