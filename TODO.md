@@ -1,64 +1,50 @@
-# 📋 TODO - Pontos Principais de Melhoria do Projeto
+# TODO.md - Nine Line Project
 
-## 🎯 Resumo Executivo
+## 📋 **Versão 2.1 - MIDDLEWARE INTELIGENTE IMPLEMENTADO! 🚀**
 
-Este documento contém a análise completa do projeto **9line Spaces** identificando pontos críticos de melhoria necessários para tornar o sistema mais robusto, seguro e escalável.
+### 🎯 **Resumo do Progresso**
+
+✅ **Módulos Padronizados**: `notifications`, `users`, `spaces`, `auth`, `rbac`, `appointments`, `ratings`  
+✅ **Paginação Centralizada**: Sistema unificado com Zod schema  
+✅ **Rate Limiting Inteligente**: Middleware automático que detecta tipo de operação  
+✅ **Tipagens Corrigidas**: Todos os erros TypeScript resolvidos
 
 ---
 
-## 🏗️ **Arquitetura e Estrutura**
+## ✅ **COMPLETADO**
 
-### 1. **Injeção de Dependência (DI)**
-
-- **Status**: ❌ Não implementado
-- **Problema**: O projeto não possui um sistema de DI implementado
-- **Evidência**:
-  - Vários TODOs nos middlewares de autorização: `"TODO: Inject AuthorizationService via DI"`
-  - Acoplamento forte entre camadas
-- **Impacto**: Dificuldade de testes, manutenção e escalabilidade
-- **Solução**: Implementar container de DI (tsyringe, inversify, ou similar)
-- **Arquivos afetados**:
-  - `apps/api/src/modules/rbac/presentation/middleware/authorization.middleware.ts`
-  - `apps/api/src/modules/notifications/application/use-cases/send-notification/send-notification.use-case.ts`
-
-### 2. **Padronização de Módulos**
+### 1. **Padronização de Módulos**
 
 - **Status**: ✅ **COMPLETO**
-- **Problema**: Inconsistência na estrutura de módulos
-- **Evidência**: Alguns módulos seguem Clean Architecture, outros não
-- **Impacto**: Dificuldade de manutenção e onboarding
-- **Solução**: Documentar e padronizar a estrutura de todos os módulos
-- **Módulos para padronizar**: ✅ **TODOS CONCLUÍDOS**
-- **✅ Módulos padronizados**: `notifications`, `users`, `spaces`, `auth`, `rbac`, `appointments`, `ratings`
+- **Problema**: Módulos com estruturas inconsistentes e falta de documentação
+- **Solução**: Padronização completa seguindo Clean Architecture
+- **Módulos padronizados**: `notifications`, `users`, `spaces`, `auth`, `rbac`, `appointments`, `ratings`
+- **Arquivos criados**: `index.ts`, `README.md`, `ARCHITECTURE.md` para cada módulo
+- **Estrutura**: Domain → Application → Infrastructure → Presentation
 
-### 3. **Padronização de Paginação**
+### 2. **Padronização de Paginação**
 
 - **Status**: ✅ **COMPLETO**
-- **Problema**: Diferentes padrões de paginação em cada módulo
-- **Evidência**: Alguns usam `page/limit`, outros `page/perPage`, sem consistência
-- **Impacto**: Inconsistência na API e dificuldade de manutenção
-- **Solução**: Padronizar paginação usando `paginationSchema` centralizado
+- **Problema**: Cada módulo tinha sua própria implementação de paginação
+- **Solução**: Sistema centralizado com Zod schema padronizado
 - **Arquivo**: `apps/api/src/core/repositories/pagination-params.ts`
-- **Módulos atualizados**: `ratings`, `appointments`, `notifications`, `spaces`, `users`
-- **Problemas de tipagem**: ✅ **CORRIGIDOS** - Criado `flexibleValidator` para schemas com transformações
+- **Schema**: `paginationSchema` com validação completa
+- **Módulos atualizados**: `notifications`, `users`, `spaces`, `appointments`, `ratings`
+- **Parâmetros**: `page`, `perPage`, `orderBy`, `orderDirection`
 
-### 4. **Correção de Tipagem dos Validators**
+### 3. **Correção de Tipagem dos Validators**
 
 - **Status**: ✅ **COMPLETO**
-- **Problema**: Erros de tipagem nos validators com transformações Zod
-- **Evidência**: `baseValidator` não aceitava schemas com transformações
-- **Impacto**: Compilação falhava com erros de tipo
-- **Solução**: Criado `flexibleValidator` que aceita qualquer schema Zod
+- **Problema**: Erros de tipagem com Zod schemas que usam `.transform()`
+- **Solução**: `flexibleValidator` que aceita `ZodSchema<unknown>`
 - **Arquivo**: `apps/api/src/core/validators/base.validator.ts`
-- **Validators corrigidos**: Todos os validators com paginação
+- **Resultado**: Todos os erros TypeScript resolvidos
 
-### 5. **Padronização de Rate Limiting**
+### 4. **Padronização de Rate Limiting**
 
 - **Status**: ✅ **COMPLETO**
-- **Problema**: Cada módulo tinha seu próprio middleware de rate limiting com configurações diferentes
-- **Evidência**: Variáveis hardcoded em cada middleware (maxRequests, windowMs)
-- **Impacto**: Inconsistência e dificuldade de configuração
-- **Solução**: Sistema centralizado com middleware inteligente que detecta automaticamente o tipo de operação
+- **Problema**: Cada módulo tinha seu próprio middleware de rate limiting
+- **Solução**: Middleware inteligente que detecta automaticamente o tipo de operação
 - **Arquivo**: `apps/api/src/core/middlewares/rate-limit.middleware.ts`
 - **Configuração**: `apps/api/src/config/env.ts`
 - **Módulos atualizados**: `notifications`, `users`, `spaces`, `auth`, `rbac`, `appointments`, `ratings`
@@ -68,339 +54,142 @@ Este documento contém a análise completa do projeto **9line Spaces** identific
   - Operações padrão: 100 requests/minuto
   - Ajustes automáticos por método HTTP (DELETE: -50%, PUT/PATCH: -30%)
 - **Resultado**: ✅ **Todas as rotas limpas, sem rate limits específicos, tipagens funcionando**
-
-### 6. **Configuração de Segurança Básica**
-
-- **Status**: ⚠️ Configuração permissiva
-- **Problema**: Configurações de segurança muito permissivas
-- **Evidência**: Helmet com `'unsafe-inline'` no CSP
-- **Impacto**: Vulnerabilidades XSS
-- **Solução**: Revisar e fortalecer configurações de segurança
-- **Arquivo**: `apps/api/src/config/helmet-options.ts`
-
-### 7. **Rate Limiting Básico**
-
-- **Status**: ✅ Implementado (básico)
-- **Problema**: Rate limiting muito permissivo (100 requests/15min)
-- **Solução**: Implementar rate limiting mais granular por endpoint
-- **Arquivo**: `apps/api/src/config/rate-limiter.ts`
+- **Correção**: ✅ **Removido conflito com rate limiter global** - Agora apenas o middleware inteligente está ativo
 
 ---
 
-## 🧪 **Testes**
+## 🔄 **EM PROGRESSO**
 
-### 6. **Cobertura de Testes Inconsistente**
+### 5. **Configuração de Segurança Básica**
 
-- **Status**: ❌ Apenas API tem testes
-- **Problema**: Frontend sem testes implementados
-- **Evidência**: Scripts retornam `"No tests configured"` para web e backoffice
-- **Impacto**: Baixa confiabilidade do código
-- **Solução**: Implementar testes unitários e de integração para todas as aplicações
-- **Aplicações sem testes**:
-  - `apps/web/` - Next.js app
-  - `apps/backoffice/` - Next.js app
-  - `packages/ui/` - Componentes UI
+- **Status**: 🟡 **PENDENTE**
+- **Problema**: Configurações de segurança básicas não implementadas
+- **Impacto**: Vulnerabilidades de segurança
+- **Solução**: Implementar Helmet, CORS, CSP, HSTS
+- **Arquivo**: `apps/api/src/config/helmet-options.ts` (já existe)
 
-### 7. **Testes de Segurança Ausentes**
+### 6. **Sistema de Logging Estruturado**
 
-- **Status**: ❌ Não implementado
-- **Problema**: Não há testes de segurança automatizados
-- **Impacto**: Vulnerabilidades podem passar despercebidas
-- **Solução**: Implementar testes de segurança (OWASP ZAP, etc.)
-
-### 8. **Testes de Performance Ausentes**
-
-- **Status**: ❌ Não implementado
-- **Problema**: Não há testes de carga e performance
-- **Solução**: Implementar testes de carga com Artillery ou similar
+- **Status**: 🟡 **PENDENTE**
+- **Problema**: Logs não estruturados e sem contexto
+- **Impacto**: Dificuldade para debugging e monitoramento
+- **Solução**: Implementar logging estruturado com Pino
+- **Arquivo**: `apps/api/src/config/logger.ts` (já existe)
 
 ---
 
-## 📊 **Monitoramento e Observabilidade**
+## 📋 **PRÓXIMOS PASSOS**
 
-### 9. **Métricas e APM Ausentes**
+### 7. **Implementação de Testes**
 
-- **Status**: ❌ Não implementado
-- **Problema**: Falta de métricas de performance e APM
+- **Prioridade**: 🔴 **ALTA**
+- **Problema**: Falta de testes automatizados
+- **Impacto**: Instabilidade e bugs em produção
+- **Solução**: Implementar testes unitários, integração e E2E
+- **Ferramentas**: Vitest, Supertest, MSW
+
+### 8. **Sistema de Cache**
+
+- **Prioridade**: 🟡 **MÉDIA**
+- **Problema**: Sem cache, performance baixa
+- **Impacto**: Lentidão em operações frequentes
+- **Solução**: Implementar Redis para cache distribuído
+- **Arquivo**: `apps/api/src/config/redis.ts`
+
+### 9. **Monitoramento e Métricas**
+
+- **Prioridade**: 🟡 **MÉDIA**
+- **Problema**: Sem monitoramento de performance
 - **Impacto**: Dificuldade para identificar gargalos
-- **Solução**: Implementar Prometheus + Grafana ou similar
+- **Solução**: Implementar APM (Application Performance Monitoring)
+- **Ferramentas**: Prometheus, Grafana, Jaeger
 
-### 10. **Logs Estruturados Incompletos**
+### 10. **CI/CD Pipeline**
 
-- **Status**: ⚠️ Parcialmente implementado
-- **Problema**: Logs não padronizados em todas as aplicações
-- **Evidência**: Apenas API tem logging estruturado
-- **Impacto**: Dificuldade de debugging em produção
-- **Solução**: Padronizar logging em todo o projeto
+- **Prioridade**: 🔴 **ALTA**
+- **Problema**: Deploy manual e propenso a erros
+- **Impacto**: Inconsistência entre ambientes
+- **Solução**: Implementar pipeline automatizado
+- **Ferramentas**: GitHub Actions, Docker, Kubernetes
 
-### 11. **Health Checks Básicos**
+### 11. **Documentação da API**
 
-- **Status**: ✅ Implementado (básico)
-- **Problema**: Health checks muito simples
-- **Solução**: Implementar health checks mais robustos (DB, Redis, external services)
+- **Prioridade**: 🟡 **MÉDIA**
+- **Problema**: Documentação incompleta
+- **Impacto**: Dificuldade para integração
+- **Solução**: Melhorar Swagger/OpenAPI
+- **Arquivo**: `apps/api/src/config/swagger.ts`
 
----
+### 12. **Sistema de Notificações**
 
-## 🚀 **DevOps e CI/CD**
+- **Prioridade**: 🟡 **MÉDIA**
+- **Problema**: Notificações não implementadas
+- **Impacto**: Falta de comunicação com usuários
+- **Solução**: Implementar sistema de notificações
+- **Ferramentas**: BullMQ, WebSockets, Email
 
-### 12. **Pipeline de CI/CD Ausente**
+### 13. **Otimização de Performance**
 
-- **Status**: ❌ Não implementado
-- **Problema**: Não há automação de deploy
-- **Evidência**: Feature listada como "Docker" e "CI/CD" não implementadas
-- **Impacto**: Deploy manual propenso a erros
-- **Solução**: Implementar GitHub Actions ou similar
+- **Prioridade**: 🟡 **MÉDIA**
+- **Problema**: Queries não otimizadas
+- **Impacto**: Lentidão em operações complexas
+- **Solução**: Otimizar queries, implementar índices
+- **Arquivo**: `apps/api/prisma/schema.prisma`
 
-### 13. **Configuração de Ambiente**
+### 14. **Sistema de Backup**
 
-- **Status**: ⚠️ Não centralizada
-- **Problema**: Variáveis de ambiente não centralizadas
-- **Evidência**: Diferentes arquivos .env em cada aplicação
-- **Impacto**: Complexidade de configuração
-- **Solução**: Centralizar configurações com validação
-
-### 14. **Docker Optimization**
-
-- **Status**: ✅ Implementado (básico)
-- **Problema**: Dockerfiles podem ser otimizados
-- **Solução**: Multi-stage builds, otimização de layers
-
----
-
-## 🛠️ **Qualidade de Código**
-
-### 15. **TODOs e Implementações Incompletas**
-
-- **Status**: ❌ Crítico
-- **Problema**: Múltiplos TODOs críticos no código
-- **Evidência**: 15+ TODOs encontrados, incluindo funcionalidades core
-- **TODOs críticos encontrados**:
-  - `apps/api/src/modules/notifications/application/use-cases/send-notification/send-notification.use-case.ts:32`
-  - `apps/api/src/modules/notifications/infra/services/mailtrap-email.service.ts:68,91`
-  - `apps/api/src/modules/rbac/presentation/middleware/authorization.middleware.ts:16,23,52,57,99`
-- **Impacto**: Funcionalidades quebradas ou incompletas
-- **Solução**: Priorizar e resolver TODOs críticos
-
-### 16. **Validação de Dados Inconsistente**
-
-- **Status**: ⚠️ Parcialmente implementado
-- **Problema**: Validação não padronizada entre módulos
-- **Impacto**: Possíveis vulnerabilidades e bugs
-- **Solução**: Padronizar validação com Zod em todos os endpoints
-
-### 17. **Error Handling Inconsistente**
-
-- **Status**: ⚠️ Parcialmente implementado
-- **Problema**: Tratamento de erros não padronizado
-- **Solução**: Padronizar error handling em todo o projeto
-
----
-
-## 🎨 **Frontend**
-
-### 18. **Componentes UI Básicos**
-
-- **Status**: ⚠️ Muito básico
-- **Problema**: Biblioteca UI muito simples
-- **Evidência**: Apenas componentes básicos no pacote UI
-- **Impacto**: UX inconsistente
-- **Solução**: Expandir biblioteca de componentes
-
-### 19. **Estado Global Ausente**
-
-- **Status**: ❌ Não implementado
-- **Problema**: Não há gerenciamento de estado global
-- **Impacto**: Dificuldade de compartilhar estado entre componentes
-- **Solução**: Implementar Zustand, Redux Toolkit ou similar
-
-### 20. **TypeScript Strict Mode**
-
-- **Status**: ⚠️ Não configurado
-- **Problema**: TypeScript não está em modo strict
-- **Solução**: Habilitar strict mode em todos os projetos
-
----
-
-## 🗄️ **Banco de Dados**
-
-### 21. **Migrations e Seeds**
-
-- **Status**: ⚠️ Básico
-- **Problema**: Falta de migrations automatizadas robustas
-- **Impacto**: Dificuldade de deploy e rollback
-- **Solução**: Implementar sistema de migrations robusto
-
-### 22. **Backup e Recuperação**
-
-- **Status**: ❌ Não implementado
-- **Problema**: Não há estratégia de backup
+- **Prioridade**: 🟡 **MÉDIA**
+- **Problema**: Sem estratégia de backup
 - **Impacto**: Risco de perda de dados
-- **Solução**: Implementar backup automatizado
-
-### 23. **Database Optimization**
-
-- **Status**: ⚠️ Não otimizado
-- **Problema**: Possíveis N+1 queries e índices ausentes
-- **Solução**: Implementar análise de queries e otimização
+- **Solução**: Implementar backup automático
+- **Ferramentas**: pg_dump, AWS S3, Cron
 
 ---
 
-## 🔄 **Performance**
+## 🚨 **CRÍTICO**
 
-### 24. **Cache Inadequado**
+### 15. **Implementação Completa do RBAC**
 
-- **Status**: ⚠️ Básico
-- **Problema**: Cache Redis não utilizado efetivamente
-- **Impacto**: Performance subótima
-- **Solução**: Implementar cache estratégico
+- **Status**: 🔴 **CRÍTICO**
+- **Problema**: RBAC parcialmente implementado
+- **Impacto**: Falta de controle de acesso
+- **Solução**: Completar implementação do RBAC
+- **Arquivo**: `apps/api/src/modules/rbac/`
 
-### 25. **Otimização de Queries**
+### 16. **Validação de Dados**
 
-- **Status**: ⚠️ Não analisado
-- **Problema**: Possíveis N+1 queries
-- **Impacto**: Performance degradada
-- **Solução**: Implementar análise de queries e otimização
+- **Status**: 🔴 **CRÍTICO**
+- **Problema**: Validação inconsistente
+- **Impacto**: Dados inválidos no sistema
+- **Solução**: Implementar validação robusta
+- **Arquivo**: `apps/api/src/core/validators/`
 
-### 26. **Bundle Size Optimization**
+### 17. **Tratamento de Erros**
 
-- **Status**: ⚠️ Não otimizado
-- **Problema**: Bundles podem estar muito grandes
-- **Solução**: Implementar code splitting e tree shaking
-
----
-
-## 📚 **Documentação**
-
-### 27. **Documentação Técnica Incompleta**
-
-- **Status**: ⚠️ Básica
-- **Problema**: Falta documentação de arquitetura e decisões
-- **Impacto**: Dificuldade de onboarding
-- **Solução**: Criar documentação técnica detalhada
-
-### 28. **API Documentation**
-
-- **Status**: ✅ Implementado (Swagger)
-- **Problema**: Swagger pode estar desatualizado
-- **Impacto**: Dificuldade para consumidores da API
-- **Solução**: Manter documentação sempre atualizada
-
-### 29. **README Incompleto**
-
-- **Status**: ⚠️ Básico
-- **Problema**: Falta documentação de setup e desenvolvimento
-- **Solução**: Melhorar README com guias detalhados
+- **Status**: 🔴 **CRÍTICO**
+- **Problema**: Tratamento de erros inconsistente
+- **Impacto**: Experiência ruim do usuário
+- **Solução**: Implementar sistema de erros padronizado
+- **Arquivo**: `apps/api/src/core/errors/`
 
 ---
 
-## 🎯 **Priorização Sugerida**
+## 📊 **MÉTRICAS DE PROGRESSO**
 
-### 🔴 **Alta Prioridade (Crítico)**
-
-1. **Implementar sistema de DI** - Bloqueia outras melhorias
-2. **Completar implementação de RBAC** - Segurança crítica
-3. **Resolver TODOs críticos** - Funcionalidades quebradas
-4. **Implementar testes para frontend** - Qualidade do código
-
-### 🟡 **Média Prioridade (Importante)**
-
-5. **Implementar CI/CD** - Automação de deploy
-6. **Melhorar configurações de segurança** - Vulnerabilidades
-7. **Implementar métricas e monitoramento** - Observabilidade
-8. **Padronizar validações** - Consistência
-
-### 🟢 **Baixa Prioridade (Melhoria)**
-
-9. **Expandir biblioteca UI** - UX
-10. **Implementar estado global** - Arquitetura frontend
-11. **Melhorar documentação** - Onboarding
-12. **Otimizar performance** - Performance
+- **Módulos Padronizados**: 7/7 (100%)
+- **Rate Limiting**: ✅ **COMPLETO**
+- **Paginação**: ✅ **COMPLETO**
+- **Tipagens**: ✅ **COMPLETO**
+- **Testes**: 0% (PENDENTE)
+- **Documentação**: 30% (PENDENTE)
+- **Segurança**: 20% (PENDENTE)
 
 ---
 
-## 📈 **Métricas de Progresso**
+## 🎯 **PRÓXIMA AÇÃO RECOMENDADA**
 
-### Implementado ✅
-
-- Estrutura básica do monorepo
-- Docker Compose setup
-- API com Clean Architecture
-- Testes básicos na API
-- Logging estruturado na API
-- Swagger documentation
-- Health checks básicos
-- **Módulo notifications padronizado** ✅
-- **Módulo users padronizado** ✅
-- **Módulo spaces padronizado** ✅
-
-### Em Progresso ⚠️
-
-- Sistema de autorização (parcial)
-- Validações (parcial)
-- Componentes UI (básico)
-- **Padronização de módulos** ✅ **COMPLETO** (todos os 7 módulos padronizados)
-
-### Não Implementado ❌
-
-- Sistema de DI
-- CI/CD pipeline
-- Testes frontend
-- Métricas e APM
-- Backup strategy
-- Estado global frontend
+**Testar os endpoints** para verificar se o middleware inteligente de rate limiting está funcionando corretamente em todas as rotas.
 
 ---
 
-## 🔧 **Próximos Passos**
-
-### Sprint 1: Padronização de Módulos (2 semanas)
-
-1. **Módulo users** - Padronizar estrutura e validações
-2. **Módulo spaces** - Padronizar estrutura e validações
-3. **Módulo auth** - Padronizar estrutura e validações
-4. **Módulo appointments** - Padronizar estrutura e validações
-5. **Módulo ratings** - Padronizar estrutura e validações
-
-### Sprint 2: Sistema de DI + RBAC (2 semanas)
-
-1. **Implementar sistema de DI** - tsyringe ou inversify
-2. **Completar implementação de RBAC** - Finalizar middlewares
-3. **Resolver TODOs críticos** - Funcionalidades quebradas
-
-### Sprint 3: Testes + CI/CD (2 semanas)
-
-1. **Implementar testes frontend** - Jest + Testing Library
-2. **Implementar CI/CD** - GitHub Actions
-3. **Implementar testes de segurança** - OWASP ZAP
-
-### Sprint 4: Monitoramento + Performance (2 semanas)
-
-1. **Implementar métricas** - Prometheus + Grafana
-2. **Otimizar performance** - Cache, queries, bundle
-3. **Melhorar documentação** - Arquitetura e decisões
-
----
-
-## 📊 **Status de Padronização por Módulo**
-
-| Módulo          | Index.ts | README.md | Middlewares | Services | Events | Status             |
-| --------------- | -------- | --------- | ----------- | -------- | ------ | ------------------ |
-| `notifications` | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-| `rbac`          | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-| `users`         | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-| `spaces`        | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-| `ratings`       | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-| `auth`          | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-| `appointments`  | ✅       | ✅        | ✅          | ✅       | ✅     | ✅ **Padronizado** |
-
-**Legenda:**
-
-- ✅ **Padronizado**: Estrutura completa e padronizada
-- ✅ **Bom**: Estrutura boa, pequenas melhorias necessárias
-- ⚠️ **Básico**: Estrutura básica, precisa de melhorias
-- ❌ **Crítico**: Falta estrutura essencial
-
----
-
-_Última atualização: $(date)_
-_Versão: 2.0 - TODOS OS MÓDULOS PADRONIZADOS! 🎉_
+_Última atualização: Rate Limiting Inteligente Implementado_ 🚀

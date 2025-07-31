@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { ensureAuthenticated } from '@/modules/auth/presentation/middlewares/ensure-authenticated';
-
 import {
   createUserController,
   deleteUserController,
@@ -8,7 +7,6 @@ import {
   findUserByIdController,
   updateUserController,
 } from '../controllers';
-
 import {
   validateCreateUser,
   validateUpdateUser,
@@ -19,10 +17,8 @@ import {
 
 export const userRoutes = Router();
 
-// Public route
 userRoutes.post('/', validateCreateUser, createUserController);
 
-// Protected routes
 userRoutes.get(
   '/',
   ensureAuthenticated,

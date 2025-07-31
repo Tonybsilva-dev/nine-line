@@ -65,12 +65,10 @@ export const smartRateLimit = () => {
     const path = req.path;
     const method = req.method;
 
-    // Detectar tipo de operação baseado no path e method
     let operationType = 'standard';
     let maxRequests = ENV_CONFIG.RATE_LIMIT_MAX_REQUESTS;
     const windowMs = ENV_CONFIG.RATE_LIMIT_WINDOW_MS;
 
-    // Operações críticas (auth, rbac, notificações)
     if (
       path.includes('/auth') ||
       path.includes('/rbac') ||
@@ -78,9 +76,7 @@ export const smartRateLimit = () => {
     ) {
       operationType = 'critical';
       maxRequests = ENV_CONFIG.RATE_LIMIT_CRITICAL_MAX_REQUESTS;
-    }
-    // Operações sensíveis (usuários, espaços, agendamentos, avaliações)
-    else if (
+    } else if (
       path.includes('/users') ||
       path.includes('/spaces') ||
       path.includes('/appointments') ||
@@ -90,11 +86,10 @@ export const smartRateLimit = () => {
       maxRequests = ENV_CONFIG.RATE_LIMIT_SENSITIVE_MAX_REQUESTS;
     }
 
-    // Ajustar baseado no método HTTP
     if (method === 'DELETE') {
-      maxRequests = Math.floor(maxRequests * 0.5); // 50% menos para deletes
+      maxRequests = Math.floor(maxRequests * 0.5);
     } else if (method === 'PUT' || method === 'PATCH') {
-      maxRequests = Math.floor(maxRequests * 0.7); // 70% para updates
+      maxRequests = Math.floor(maxRequests * 0.7);
     }
 
     const now = Date.now();

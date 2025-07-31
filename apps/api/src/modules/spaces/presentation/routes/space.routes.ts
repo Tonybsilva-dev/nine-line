@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import {
   validateCreateSpace,
   validateUpdateSpace,
@@ -7,7 +6,6 @@ import {
   validateDeleteSpace,
   validateFindAllSpaces,
 } from '../validators';
-
 import { createSpaceController } from '../controllers/create-space.controller';
 import { deleteSpaceController } from '../controllers/delete-space.controller';
 import { findAllSpacesController } from '../controllers/find-all-spaces.controller';

@@ -12,9 +12,7 @@ import { smartRateLimit } from '../middlewares/rate-limit.middleware';
 
 export const routes = Router();
 
-// Health check endpoint
 routes.get('/health', healthCheck);
-
 routes.use(smartRateLimit());
 
 routes.use('/users', userRoutes);

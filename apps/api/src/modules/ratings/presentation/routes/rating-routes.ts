@@ -14,16 +14,6 @@ import { findRatingByIdController } from '../controllers/find-rating-by-id.contr
 import { findRatingsBySpaceIdController } from '../controllers/find-ratings-by-space-id.controller';
 import { findRatingsByUserIdController } from '../controllers/find-ratings-by-user-id.controller';
 
-/**
- * Rotas de Ratings
- *
- * POST   /api/ratings           - Cria uma nova avaliação
- * PUT    /api/ratings/:id       - Atualiza uma avaliação existente
- * DELETE /api/ratings/:id       - Remove uma avaliação
- * GET    /api/ratings/:id       - Busca uma avaliação por ID
- * GET    /api/ratings/space/:spaceId - Lista avaliações de um espaço
- * GET    /api/ratings/user/:userId   - Lista avaliações de um usuário
- */
 export const ratingRoutes = Router();
 
 ratingRoutes.post('/', validateCreateRating, createRatingController);
