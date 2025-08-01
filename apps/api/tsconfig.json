@@ -1,5 +1,5 @@
 {
-  "extends": "@nine-line/tsconfig/node",
+  "extends": "../../packages/config/tsconfig/node.tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "./",
@@ -8,8 +8,7 @@
       "@/*": ["./src/*"],
       "@/test/*": ["./test/*"]
     },
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["node"]
+    "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
   "include": ["src", "test", "src/@types/**/*.d.ts", "vitest.config.ts"]
 }
