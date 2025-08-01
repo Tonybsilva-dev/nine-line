@@ -12,9 +12,10 @@ env:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   REDIS_URL: redis://localhost:6379
-  NODE_ENV: development
+  NODE_ENV: test
   APP_PORT: 3333
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
+  # Test values for CI - real values come from secrets
   JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
   JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
   REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
@@ -75,6 +76,13 @@ jobs:
         run: |
           cd packages/ui
           npm run build
+
+      - name: Generate Prisma client for type checking
+        run: |
+          cd apps/api
+          npm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
 
       - name: Lint all packages
         run: npm run lint
@@ -176,6 +184,8 @@ jobs:
 
       - name: Generate Prisma client
         run: cd apps/api && npm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
 
       - name: Run database migrations
         run: cd apps/api && npm run prisma:migrate
@@ -301,6 +311,8 @@ jobs:
 
       - name: Build Web app
         run: cd apps/web && npm run build
+        env:
+          NODE_ENV: production
 
       - name: Lint Web app
         run: cd apps/web && npm run lint
@@ -341,6 +353,8 @@ jobs:
 
       - name: Build Backoffice
         run: cd apps/backoffice && npm run build
+        env:
+          NODE_ENV: production
 
       - name: Lint Backoffice
         run: cd apps/backoffice && npm run lint
@@ -381,6 +395,8 @@ jobs:
 
       - name: Build Docs
         run: cd apps/docs && npm run build
+        env:
+          NODE_ENV: production
 
       - name: Lint Docs
         run: cd apps/docs && npm run lint
