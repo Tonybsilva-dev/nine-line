@@ -1,335 +1,295 @@
-# Módulo RBAC (Role-Based Access Control)
+# Sistema RBAC (Role-Based Access Control)
 
-Este módulo implementa um sistema completo de controle de acesso baseado em roles, seguindo o padrão estrito dos outros módulos. O sistema permite hierarquia de roles, permissões granulares, cache para performance e auditoria completa.
+## 📋 **Visão Geral**
 
-## 🎯 Funcionalidade Principal
+O sistema RBAC implementa controle de acesso baseado em roles e permissões, permitindo granularidade no controle de acesso às funcionalidades da aplicação.
 
-**Sistema completo de controle de acesso** com hierarquia de roles, permissões granulares, cache para performance e auditoria completa.
+## 🏗️ **Arquitetura**
 
-## 📁 Estrutura do Módulo (Padronizada)
+### **Entidades Principais**
+
+- **Role**: Define um papel no sistema (USER, MANAGER, ADMIN)
+- **Permission**: Define uma permissão específica (ex: `appointment:create`)
+- **UserRoleAssignment**: Associa um usuário a uma role
+- **RolePermission**: Associa uma role a uma permissão
+
+### **Hierarquia de Roles**
 
 ```
-rbac/
-├── domain/
-│   ├── entities/
-│   │   ├── permission.ts          # Entidade de permissão
-│   │   ├── role.ts               # Entidade de role com hierarquia
-│   │   ├── user-role-assignment.ts # Associação usuário-role
-│   │   ├── permissions.ts        # Constantes de permissões
-│   │   ├── roles.ts              # Constantes de roles
-│   │   └── index.ts
-│   ├── events/
-│   │   ├── role-assigned.event.ts
-│   │   ├── role-revoked.event.ts
-│   │   ├── role-created.event.ts
-│   │   └── index.ts
-│   ├── repositories/
-│   │   ├── permission-repository.ts
-│   │   ├── role-repository.ts
-│   │   ├── user-role-repository.ts
-│   │   └── index.ts
-│   └── services/
-│       └── authorization.service.ts # Serviço principal com cache
-├── application/
-│   ├── events/
-│   │   ├── role-assigned.handler.ts
-│   │   ├── role-revoked.handler.ts
-│   │   ├── role-created.handler.ts
-│   │   └── index.ts
-│   └── use-cases/
-│       ├── assign-role/
-│       ├── revoke-role/
-│       ├── create-role/
-│       ├── check-permission/
-│       ├── get-user-permissions/
-│       └── index.ts
-├── presentation/
-│   ├── controllers/
-│   │   ├── assign-role.controller.ts
-│   │   ├── revoke-role.controller.ts
-│   │   ├── get-roles.controller.ts
-│   │   ├── get-user-permissions.controller.ts
-│   │   └── index.ts
-│   ├── routes/
-│   │   └── rbac.routes.ts
-│   ├── validators/
-│   │   ├── assign-role.validator.ts
-│   │   ├── revoke-role.validator.ts
-│   │   ├── get-user-permissions.validator.ts
-│   │   └── index.ts
-│   ├── middlewares/
-│   │   ├── rbac-rate-limit.middleware.ts
-│   │   └── index.ts
-│   ├── middleware/
-│   │   └── authorization.middleware.ts
-│   ├── docs/
-│   │   ├── assign-role.doc.ts
-│   │   ├── revoke-role.doc.ts
-│   │   ├── get-roles.doc.ts
-│   │   ├── get-user-permissions.doc.ts
-│   │   └── index.ts
-│   └── index.ts
-└── infra/
-    ├── repositories/
-    │   ├── prisma-permission.repository.ts
-    │   ├── prisma-role.repository.ts
-    │   ├── prisma-user-role.repository.ts
-    │   └── index.ts
-    ├── services/
-    └── seeders/
+ADMIN (Level 2) > MANAGER (Level 1) > USER (Level 0)
 ```
 
-## 🔒 Segurança Implementada
+## 🔐 **Sistema de Permissões**
 
-### Rate Limiting
+### **Formato das Permissões**
 
-- **Assign Role**: 5 requests por minuto por IP
-- **Revoke Role**: 5 requests por minuto por IP
-- **Middleware**: `rbacRateLimit`
-
-### Validações
-
-- ✅ **Assign Role**: Validação de userId, roleId, assignedBy
-- ✅ **Revoke Role**: Validação de userId, roleId, revokedBy
-- ✅ **Get User Permissions**: Validação de userId
-
-### Autorização
-
-- **Assign Role**: `rbac:assign` (administrador)
-- **Revoke Role**: `rbac:revoke` (administrador)
-- **Get Roles**: `rbac:read` (autenticado)
-- **Get User Permissions**: `rbac:read` (autenticado)
-
-### Middlewares de Segurança
-
-- **authorization.middleware**: Verifica permissões
-- **rbac-rate-limit**: Rate limiting específico para RBAC
-
-## 🏗️ Hierarquia de Roles
-
-```typescript
-ROLE_LEVELS = {
-  USER: 0, // Usuário básico
-  MANAGER: 1, // Gerente com permissões elevadas
-  ADMIN: 2, // Administrador com todas as permissões
-};
+```
+{recurso}:{ação}
 ```
 
-## 🔐 Permissões Granulares
+**Exemplos:**
 
-### Appointments
-
-- `appointment:create` - Criar agendamento
+- `appointment:create` - Criar agendamentos
 - `appointment:read:own` - Ler próprios agendamentos
 - `appointment:read:all` - Ler todos os agendamentos
-- `appointment:update:own` - Atualizar próprios agendamentos
-- `appointment:update:all` - Atualizar todos os agendamentos
-- `appointment:delete:own` - Deletar próprios agendamentos
-- `appointment:delete:all` - Deletar todos os agendamentos
-- `appointment:approve` - Aprovar agendamentos
-- `appointment:reject` - Rejeitar agendamentos
-- `appointment:cancel:own` - Cancelar próprios agendamentos
-- `appointment:cancel:all` - Cancelar todos os agendamentos
-
-### Users
-
-- `user:create` - Criar usuário
-- `user:read:own` - Ler próprio perfil
-- `user:read:all` - Ler todos os usuários
 - `user:update:own` - Atualizar próprio perfil
-- `user:update:all` - Atualizar todos os usuários
-- `user:delete` - Deletar usuários
-- `user:block` - Bloquear usuários
-- `user:unblock` - Desbloquear usuários
+- `user:delete` - Deletar usuários (admin)
 
-### Spaces
+### **Permissões por Recurso**
 
-- `space:create` - Criar espaço
-- `space:read` - Ler espaços
-- `space:update:own` - Atualizar próprios espaços
-- `space:update:all` - Atualizar todos os espaços
-- `space:delete:own` - Deletar próprios espaços
-- `space:delete:all` - Deletar todos os espaços
+#### **Appointments**
 
-### Ratings
+- `create` - Criar agendamento
+- `read:own` - Ver próprios agendamentos
+- `read:all` - Ver todos os agendamentos
+- `update:own` - Atualizar próprio agendamento
+- `update:all` - Atualizar qualquer agendamento
+- `delete:own` - Deletar próprio agendamento
+- `delete:all` - Deletar qualquer agendamento
+- `approve` - Aprovar agendamentos
+- `reject` - Rejeitar agendamentos
+- `cancel:own` - Cancelar próprio agendamento
+- `cancel:all` - Cancelar qualquer agendamento
 
-- `rating:create` - Criar avaliação
-- `rating:read` - Ler avaliações
-- `rating:update:own` - Atualizar próprias avaliações
-- `rating:update:all` - Atualizar todas as avaliações
-- `rating:delete:own` - Deletar próprias avaliações
-- `rating:delete:all` - Deletar todas as avaliações
+#### **Users**
 
-## ⚙️ Configuração
+- `create` - Criar usuário (registro)
+- `read:own` - Ver próprio perfil
+- `read:all` - Ver todos os usuários
+- `update:own` - Atualizar próprio perfil
+- `update:all` - Atualizar qualquer usuário
+- `delete` - Deletar usuários
+- `block` - Bloquear usuários
+- `unblock` - Desbloquear usuários
 
-### Variáveis de Ambiente
+#### **Spaces**
 
-```env
-# RBAC
-RBAC_CACHE_TTL=300
-RBAC_RATE_LIMIT_ASSIGN=5
-RBAC_RATE_LIMIT_REVOKE=5
-RBAC_RATE_LIMIT_WINDOW=60000
-```
+- `create` - Criar espaço
+- `read` - Ver espaços
+- `update:own` - Atualizar próprio espaço
+- `update:all` - Atualizar qualquer espaço
+- `delete:own` - Deletar próprio espaço
+- `delete:all` - Deletar qualquer espaço
 
-### Configuração de Eventos
+#### **Ratings**
 
-```typescript
-// ✅ Simples e direto
-import { configureRbacEvents } from '@/modules/rbac';
+- `create` - Criar avaliação
+- `read` - Ver avaliações
+- `update:own` - Atualizar própria avaliação
+- `update:all` - Atualizar qualquer avaliação
+- `delete:own` - Deletar própria avaliação
+- `delete:all` - Deletar qualquer avaliação
 
-configureRbacEvents(eventBus);
-```
+#### **RBAC**
 
-## 🎯 Handlers Disponíveis
+- `role:assign` - Atribuir roles
+- `role:revoke` - Revogar roles
+- `role:create` - Criar roles
+- `role:update` - Atualizar roles
+- `role:delete` - Deletar roles
+- `permission:assign` - Atribuir permissões
+- `permission:revoke` - Revogar permissões
+- `permission:create` - Criar permissões
+- `permission:update` - Atualizar permissões
+- `permission:delete` - Deletar permissões
 
-### RoleAssignedHandler ✅
+## 🛠️ **Como Usar**
 
-- **Função**: Processa eventos quando role é atribuído
-- **Ações**: Logs, auditoria, cache invalidation
-
-### RoleRevokedHandler
-
-- **Função**: Processa eventos quando role é revogado
-- **Ações**: Logs, auditoria, cache invalidation
-
-### RoleCreatedHandler
-
-- **Função**: Processa eventos quando role é criado
-- **Ações**: Logs, auditoria, cache invalidation
-
-## 📊 Endpoints Disponíveis
-
-### POST /rbac/assign-role
-
-- **Função**: Atribuir role a usuário
-- **Validação**: userId, roleId, assignedBy
-- **Rate Limit**: 5 requests/minuto
-- **Autenticação**: Obrigatória
-
-### GET /rbac/roles
-
-- **Função**: Listar todos os roles
-- **Autenticação**: Obrigatória
-
-### POST /rbac/revoke-role
-
-- **Função**: Revogar role de usuário
-- **Validação**: userId, roleId, revokedBy
-- **Rate Limit**: 5 requests/minuto
-- **Autenticação**: Obrigatória
-
-### GET /rbac/user-permissions/:userId
-
-- **Função**: Obter permissões de usuário
-- **Validação**: userId
-- **Autenticação**: Obrigatória
-
-## 🗄️ Banco de Dados
-
-### Tabelas
-
-- **roles**: Roles do sistema
-- **permissions**: Permissões do sistema
-- **user_roles**: Associações usuário-role
-
-### Relacionamentos
-
-- `Role` → `Permission` (many-to-many)
-- `User` → `Role` (many-to-many via user_roles)
-
-## 🎯 Eventos Integrados
-
-### RoleAssignedEvent ✅
-
-- ✅ Dispara notificação para usuário
-- ✅ Cria registro de auditoria
-- ✅ Logs estruturados
-
-### RoleRevokedEvent
-
-- ✅ Dispara notificação para usuário
-- ✅ Registra auditoria
-- ✅ Logs estruturados
-
-### RoleCreatedEvent
-
-- ✅ Registra auditoria
-- ✅ Logs estruturados
-
-## 🔍 Troubleshooting
-
-### Role não encontrado
-
-- Verificar se o roleId é um UUID válido
-- Verificar se o role existe no sistema
-- Verificar logs de auditoria
-
-### Permissão negada
-
-- Verificar se o usuário tem a permissão necessária
-- Verificar se o role tem a permissão
-- Verificar hierarquia de roles
-- Verificar logs de auditoria
-
-### Rate Limit Exceeded
-
-- Verificar se o IP não excedeu o limite
-- Aguardar o reset da janela de tempo
-- Verificar logs de rate limiting
-
-### Validação falhou
-
-- Verificar se todos os UUIDs são válidos
-- Verificar se os campos obrigatórios estão presentes
-- Verificar se os IDs existem no sistema
-
-## 📈 Logs
-
-Todos os handlers registram logs estruturados:
+### **1. Middleware de Autenticação**
 
 ```typescript
-logger.info({
-  type: 'role_assigned_handler',
-  eventId: event.eventId,
-  userId: event.userId.toString(),
-  roleId: event.roleId.toString(),
+import { ensureAuthenticated } from '@/modules/auth/presentation/middlewares/authentication.middleware';
+
+// Aplicar em rotas que requerem autenticação
+app.get('/protected', ensureAuthenticated, controller);
+```
+
+### **2. Middleware de Autorização**
+
+```typescript
+import {
+  requirePermission,
+  requireUserRole,
+  requireManagerRole,
+  requireAdminRole,
+  requireAppointmentPermission,
+  requireUserPermission,
+} from '@/modules/rbac/presentation/middlewares/authorization.middleware';
+
+// Verificar permissão específica
+app.post(
+  '/appointments',
+  ensureAuthenticated,
+  requireAppointmentPermission('create'),
+  controller,
+);
+
+// Verificar nível de role
+app.get('/admin/users', ensureAuthenticated, requireAdminRole(), controller);
+
+// Verificar permissão de recurso
+app.put(
+  '/users/:id',
+  ensureAuthenticated,
+  requireUserPermission('update:own'),
+  controller,
+);
+```
+
+### **3. Verificação Programática**
+
+```typescript
+import { AuthorizationService } from '@/modules/rbac/domain/services/authorization.service';
+
+const authService = new AuthorizationService(roleRepo, userRoleRepo);
+
+// Verificar se usuário tem permissão
+const hasPermission = await authService.hasPermission(
+  userId,
+  'appointment:create',
+);
+
+// Verificar acesso a recurso
+const canAccess = await authService.canAccessResource(
+  userId,
+  'appointment',
+  'create',
+);
+
+// Verificar nível de role
+await authService.requireRoleLevel(userId, 1); // Manager ou superior
+```
+
+## 🔄 **Fluxo de Autorização**
+
+1. **Autenticação**: Middleware `ensureAuthenticated` verifica JWT
+2. **Cache Redis**: Verifica cache antes de consultar banco
+3. **Autorização**: Middleware `requirePermission` verifica permissões
+4. **Cache**: Permissões são cacheadas por 5 minutos
+5. **Logs**: Todas as tentativas são logadas
+
+## 🚀 **Cache Redis**
+
+### **Autenticação com Cache**
+
+O middleware `ensureAuthenticated` implementa cache Redis para otimizar performance:
+
+- **Cache TTL**: 5 minutos
+- **Chave**: `auth:user:{userId}`
+- **Dados**: Informações do usuário (id, name, email, role, status)
+- **Invalidação**: Automática quando usuário é inativado
+
+### **Benefícios do Cache**
+
+- ✅ **Performance**: Reduz consultas ao banco de dados
+- ✅ **Escalabilidade**: Suporta múltiplas instâncias
+- ✅ **Consistência**: Verifica status do usuário em cache
+- ✅ **Segurança**: Invalida cache quando usuário é inativado
+
+### **Invalidar Cache**
+
+```typescript
+import { invalidateUserCache } from '@/modules/auth/presentation/middlewares/authentication.middleware';
+
+// Útil para logout ou atualização de perfil
+await invalidateUserCache(userId);
+```
+
+## 📊 **Logs**
+
+### **Sucesso (Cache)**
+
+```json
+{
+  "type": "authentication_success_cached",
+  "userId": "user123",
+  "userEmail": "user@example.com",
+  "method": "POST",
+  "url": "/api/appointments"
+}
+```
+
+### **Sucesso (Banco)**
+
+```json
+{
+  "type": "authentication_success_db",
+  "userId": "user123",
+  "userEmail": "user@example.com",
+  "method": "POST",
+  "url": "/api/appointments"
+}
+```
+
+### **Autorização Sucesso**
+
+```json
+{
+  "type": "authorization_success",
+  "userId": "user123",
+  "permission": "appointment:create",
+  "method": "POST",
+  "url": "/api/appointments"
+}
+```
+
+### **Falha**
+
+```json
+{
+  "type": "authorization_failed",
+  "userId": "user123",
+  "error": "User does not have permission: appointment:create",
+  "method": "POST",
+  "url": "/api/appointments"
+}
+```
+
+### **Cache Invalidado**
+
+```json
+{
+  "type": "user_cache_invalidated",
+  "userId": "user123"
+}
+```
+
+## 🧪 **Testando**
+
+### **1. Executar Seeders**
+
+```bash
+# Criar roles e permissões
+npx tsx src/modules/rbac/infra/seeders/rbac-seeder.ts
+
+# Associar roles aos usuários existentes
+npx tsx src/modules/rbac/infra/seeders/assign-roles-to-users.ts
+```
+
+### **2. Verificar Permissões**
+
+```bash
+# Verificar roles criadas
+docker exec api npx tsx -e "
+import { prisma } from './src/config/prisma';
+const roles = await prisma.role.findMany();
+console.log('Roles:', roles.map(r => r.name));
+"
+
+# Verificar assignments
+docker exec api npx tsx -e "
+import { prisma } from './src/config/prisma';
+const assignments = await prisma.userRoleAssignment.findMany({
+  include: { user: true, role: true }
 });
+console.log('Assignments:', assignments.map(a => \`\${a.user.email} -> \${a.role.name}\`));
+"
 ```
 
-## ✅ Como Funciona
+## 🚀 **Próximos Passos**
 
-1. **Role é atribuído** → `RoleAssignedEvent` é disparado
-2. **RoleAssignedHandler** é executado
-3. **Notificação é enviada** para o usuário
-4. **Auditoria é registrada** no banco de dados
-5. **Cache é invalidado** para performance
-6. **Logs são estruturados** para monitoramento
-
-**Resultado**: Role atribuído com todas as validações e eventos! 🎉
-
-## 📋 Status de Padronização
-
-### ✅ Implementado
-
-- ✅ Estrutura Clean Architecture completa
-- ✅ README.md detalhado
-- ✅ index.ts com exports organizados
-- ✅ Validações para todos os endpoints
-- ✅ Middleware de rate limiting
-- ✅ Documentação Swagger
-- ✅ Logs estruturados
-- ✅ Middlewares de segurança
-- ✅ Cache para performance
-
-### 🎯 Próximos Passos
-
-- Implementar testes para middlewares
-- Implementar testes para use cases
-- Adicionar métricas de monitoramento
-- Implementar cache distribuído
-
----
-
-_Última atualização: $(date)_
-_Versão: 1.0 - Padronizado_
+- [ ] Implementar cache Redis para permissões
+- [ ] Adicionar middleware para verificação de propriedade (own vs all)
+- [ ] Criar testes automatizados
+- [ ] Implementar auditoria de acesso
+- [ ] Adicionar interface de gerenciamento de roles

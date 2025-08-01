@@ -1,270 +1,273 @@
 # Módulo de Autenticação
 
-Este módulo gerencia a autenticação da aplicação, incluindo login, logout, refresh token e controle de sessões.
+## 📋 **Visão Geral**
 
-## 🎯 Funcionalidade Principal
+O módulo de autenticação implementa um sistema robusto de autenticação com JWT, cache Redis e integração com RBAC. O sistema oferece performance otimizada através de cache e segurança avançada com verificação de status do usuário.
 
-**Sistema completo de autenticação** com JWT, refresh tokens, blacklist de tokens e controle de sessões seguras.
+## 🏗️ **Arquitetura**
 
-## 📁 Estrutura do Módulo (Padronizada)
+### **Componentes Principais**
+
+- **JWT Authentication**: Tokens de acesso e refresh
+- **Redis Cache**: Cache de dados do usuário (5 minutos)
+- **User Status Verification**: Verificação de usuário ativo
+- **RBAC Integration**: Integração com sistema de autorização
+- **Structured Logging**: Logs detalhados para auditoria
+
+### **Fluxo de Autenticação**
 
 ```
-auth/
-├── domain/
-│   └── entities/
-│       ├── refresh-token.ts      # Entidade de refresh token
-│       └── index.ts
-├── application/
-│   └── use-cases/
-│       ├── authenticate/          # Caso de uso de autenticação
-│       ├── refresh-token/         # Caso de uso de refresh token
-│       ├── logout/                # Caso de uso de logout
-│       └── index.ts
-├── presentation/
-│   ├── controllers/
-│   │   ├── authenticate.controller.ts
-│   │   ├── refresh-token.controller.ts
-│   │   ├── logout.controller.ts
-│   │   └── index.ts
-│   ├── routes/
-│   │   └── auth.routes.ts
-│   ├── validators/
-│   │   ├── auth.validators.ts
-│   │   ├── login.validator.ts
-│   │   ├── refresh-token.validator.ts
-│   │   ├── logout.validator.ts
-│   │   └── index.ts
-│   ├── middlewares/
-│   │   ├── ensure-authenticated.ts
-│   │   ├── check-blacklist.ts
-│   │   ├── auth-rate-limit.middleware.ts
-│   │   └── index.ts
-│   ├── docs/
-│   │   ├── authenticate.doc.ts
-│   │   ├── refresh-token.doc.ts
-│   │   ├── logout.doc.ts
-│   │   └── index.ts
-│   └── index.ts
-└── infra/
-    └── repositories/
-        ├── refresh-token.repository.ts
-        ├── token-blacklist.repository.ts
-        └── index.ts
+1. Login → JWT Tokens → Cache User Data
+2. Request → Verify JWT → Check Cache → Verify User Status
+3. Authorization → Check Permissions → Allow/Deny
 ```
 
-## 🔒 Segurança Implementada
+## 🔐 **Funcionalidades**
 
-### Rate Limiting
+### **Autenticação**
 
-- **Login**: 3 requests por 5 minutos por IP
-- **Refresh Token**: 5 requests por 5 minutos por IP
-- **Middleware**: `authRateLimit`
+- **Login**: Email/password → JWT tokens
+- **Token Validation**: Verificação de JWT + status do usuário
+- **Cache Management**: Cache Redis para performance
+- **Logout**: Invalidação de token + limpeza de cache
 
-### Validações
+### **Segurança**
 
-- ✅ **Login**: Validação de email e senha
-- ✅ **Refresh Token**: Validação de refresh token
-- ✅ **Logout**: Validação de refresh token
+- **JWT Tokens**: Access token (15min) + Refresh token (7 dias)
+- **User Status**: Verificação de usuário ACTIVE
+- **Soft Delete**: Proteção contra usuários deletados
+- **Rate Limiting**: Proteção contra ataques de força bruta
 
-### Autorização
+### **Performance**
 
-- **Login**: Público
-- **Refresh Token**: Público (com validação)
-- **Logout**: Autenticado
+- **Cache Redis**: Dados do usuário cacheados por 5 minutos
+- **Cache-First**: Verifica cache antes do banco
+- **Auto-Invalidation**: Cache limpo quando usuário inativado
+- **Structured Logs**: Logs diferenciados para cache vs banco
 
-### Middlewares de Segurança
+## 🛠️ **Como Usar**
 
-- **ensure-authenticated**: Verifica se o usuário está autenticado
-- **check-blacklist**: Verifica se o token está na blacklist
-- **auth-rate-limit**: Rate limiting específico para auth
-
-## 🔐 Tipos de Token
-
-### JWT Access Token
-
-- **Duração**: 15 minutos
-- **Conteúdo**: User ID, roles, permissions
-- **Uso**: Autenticação em endpoints protegidos
-
-### Refresh Token
-
-- **Duração**: 7 dias
-- **Conteúdo**: User ID, token ID
-- **Uso**: Renovação de access tokens
-
-### Token Blacklist
-
-- **Armazenamento**: Redis/PostgreSQL
-- **Uso**: Invalidação de tokens revogados
-
-## ⚙️ Configuração
-
-### Variáveis de Ambiente
-
-```env
-# JWT
-JWT_SECRET=your-super-secret-jwt-key
-JWT_EXPIRES_IN=15m
-JWT_REFRESH_EXPIRES_IN=7d
-
-# Rate Limiting
-AUTH_RATE_LIMIT_LOGIN=3
-AUTH_RATE_LIMIT_REFRESH=5
-AUTH_RATE_LIMIT_WINDOW=300000
-```
-
-### Configuração de Eventos
+### **1. Middleware de Autenticação**
 
 ```typescript
-// ✅ Simples e direto
-import { configureAuthEvents } from '@/modules/auth';
+import { ensureAuthenticated } from '@/modules/auth/presentation/middlewares/authentication.middleware';
 
-configureAuthEvents(eventBus);
+// Rota protegida
+app.get('/protected', ensureAuthenticated, controller);
+
+// Autenticação opcional
+app.get('/public', optionalAuth, controller);
 ```
 
-## 🎯 Handlers Disponíveis
+### **2. Integração com RBAC**
 
-### AuthSuccessHandler ✅
+```typescript
+import { ensureAuthenticated } from '@/modules/auth/presentation/middlewares/authentication.middleware';
+import { requirePermission } from '@/modules/rbac/presentation/middlewares/authorization.middleware';
 
-- **Função**: Processa eventos quando autenticação é bem-sucedida
-- **Ações**: Logs, auditoria, cache invalidation
+app.post(
+  '/appointments',
+  ensureAuthenticated, // Verifica JWT e status
+  requirePermission('create'), // Verifica permissões
+  controller,
+);
+```
 
-### AuthFailedHandler
+### **3. Gerenciamento de Cache**
 
-- **Função**: Processa eventos quando autenticação falha
-- **Ações**: Logs, auditoria, rate limiting
+```typescript
+import { invalidateUserCache } from '@/modules/auth/presentation/middlewares/authentication.middleware';
 
-### TokenRevokedHandler
+// Útil para logout ou atualização de perfil
+await invalidateUserCache(userId);
+```
 
-- **Função**: Processa eventos quando token é revogado
-- **Ações**: Logs, auditoria, blacklist
+## 📊 **Logs**
 
-## 📊 Endpoints Disponíveis
+### **Sucesso (Cache Hit)**
 
-### POST /auth/login
+```json
+{
+  "type": "authentication_success_cached",
+  "userId": "user123",
+  "userEmail": "user@example.com",
+  "method": "GET",
+  "url": "/api/protected"
+}
+```
+
+### **Sucesso (Database Hit)**
+
+```json
+{
+  "type": "authentication_success_db",
+  "userId": "user123",
+  "userEmail": "user@example.com",
+  "method": "GET",
+  "url": "/api/protected"
+}
+```
+
+### **Cache Invalidado**
+
+```json
+{
+  "type": "user_cache_invalidated",
+  "userId": "user123"
+}
+```
+
+### **Falha de Autenticação**
+
+```json
+{
+  "type": "authentication_failed",
+  "error": "User not found or inactive",
+  "method": "GET",
+  "url": "/api/protected"
+}
+```
+
+## 🔄 **Endpoints**
+
+### **POST /auth/authenticate**
 
 - **Função**: Autenticar usuário
-- **Validação**: Email e senha
-- **Rate Limit**: 3 requests/5 minutos
-- **Público**: Sim
+- **Cache**: Dados do usuário cacheados em Redis
+- **Response**: JWT tokens + dados do usuário
 
-### POST /auth/refresh
+### **POST /auth/logout**
+
+- **Função**: Fazer logout
+- **Cache**: Limpa cache do usuário
+- **Security**: Invalida token atual
+
+### **POST /auth/refresh-token**
 
 - **Função**: Renovar access token
-- **Validação**: Refresh token válido
-- **Rate Limit**: 5 requests/5 minutos
-- **Público**: Sim
+- **Cache**: Mantém cache do usuário
+- **Security**: Usa refresh token válido
 
-### POST /auth/logout
+## 🚀 **Cache Redis**
 
-- **Função**: Fazer logout e revogar tokens
-- **Validação**: Refresh token
-- **Autenticação**: Obrigatória
+### **Configuração**
 
-## 🗄️ Banco de Dados
+- **TTL**: 5 minutos
+- **Chave**: `auth:user:{userId}`
+- **Dados**: `{id, name, email, role, status}`
 
-### Tabelas
+### **Benefícios**
 
-- **refresh_tokens**: Refresh tokens dos usuários
-- **token_blacklist**: Tokens revogados
+- ✅ **Performance**: Reduz consultas ao banco
+- ✅ **Escalabilidade**: Cache compartilhado
+- ✅ **Consistência**: Verificação de status
+- ✅ **Segurança**: Auto-invalidação
 
-### Relacionamentos
-
-- `RefreshToken` → `User` (proprietário)
-- `TokenBlacklist` → `User` (proprietário)
-
-## 🎯 Eventos Integrados
-
-### AuthSuccessEvent ✅
-
-- ✅ Dispara notificação de login bem-sucedido
-- ✅ Cria registro de auditoria
-- ✅ Logs estruturados
-
-### AuthFailedEvent
-
-- ✅ Registra tentativa de login falhada
-- ✅ Logs estruturados
-- ✅ Rate limiting
-
-### TokenRevokedEvent
-
-- ✅ Adiciona token à blacklist
-- ✅ Registra auditoria
-- ✅ Logs estruturados
-
-## 🔍 Troubleshooting
-
-### Login falhou
-
-- Verificar se o email e senha estão corretos
-- Verificar se o usuário está ativo
-- Verificar se não excedeu o rate limit
-- Verificar logs de auditoria
-
-### Refresh token inválido
-
-- Verificar se o token não expirou
-- Verificar se o token não está na blacklist
-- Verificar se o token pertence ao usuário
-- Verificar logs de auditoria
-
-### Rate Limit Exceeded
-
-- Verificar se o IP não excedeu o limite
-- Aguardar o reset da janela de tempo
-- Verificar logs de rate limiting
-
-### Validação falhou
-
-- Verificar se o email é válido
-- Verificar se a senha tem pelo menos 6 caracteres
-- Verificar se o refresh token tem pelo menos 10 caracteres
-
-## 📈 Logs
-
-Todos os handlers registram logs estruturados:
+### **Gerenciamento**
 
 ```typescript
-logger.info({
-  type: 'auth_success_handler',
-  eventId: event.eventId,
-  userId: event.user.id.toString(),
-  userEmail: event.user.email,
-});
+// Cache automático no login
+const user = await authenticateUser(email, password);
+// Cache criado automaticamente
+
+// Invalidação manual
+await invalidateUserCache(userId);
+
+// Invalidação automática
+// - Usuário inativado
+// - Usuário deletado
+// - Logout
 ```
 
-## ✅ Como Funciona
+## 🔒 **Segurança**
 
-1. **Usuário faz login** → `AuthSuccessEvent` é disparado
-2. **AuthSuccessHandler** é executado
-3. **Notificação é enviada** para o usuário
-4. **Auditoria é registrada** no banco de dados
-5. **Logs são estruturados** para monitoramento
+### **JWT Tokens**
 
-**Resultado**: Usuário autenticado com todas as validações e eventos! 🎉
+- **Access Token**: 15 minutos
+- **Refresh Token**: 7 dias
+- **Algorithm**: HS256
+- **Claims**: userId, email, role
 
-## 📋 Status de Padronização
+### **User Status Verification**
 
-### ✅ Implementado
+- **ACTIVE**: Usuário pode acessar
+- **INACTIVE**: Usuário bloqueado
+- **BLOCKED**: Usuário bloqueado
+- **Soft Delete**: Proteção adicional
 
-- ✅ Estrutura Clean Architecture completa
-- ✅ README.md detalhado
-- ✅ index.ts com exports organizados
-- ✅ Validações para todos os endpoints
-- ✅ Middleware de rate limiting
-- ✅ Documentação Swagger
-- ✅ Logs estruturados
-- ✅ Middlewares de segurança
+### **Rate Limiting**
 
-### 🎯 Próximos Passos
+- **Login**: 5 tentativas por minuto
+- **Refresh**: 10 tentativas por minuto
+- **Logout**: Sem limite
 
-- Implementar testes para middlewares
-- Implementar testes para use cases
-- Adicionar métricas de monitoramento
-- Implementar cache de tokens
+## 🧪 **Testando**
+
+### **1. Login**
+
+```bash
+curl -X POST http://localhost:3333/api/auth/authenticate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password123"
+  }'
+```
+
+### **2. Acessar Rota Protegida**
+
+```bash
+curl -X GET http://localhost:3333/api/appointments \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### **3. Verificar Cache**
+
+```bash
+# Verificar se dados estão em cache
+docker exec api redis-cli keys "auth:user:*"
+```
+
+## 🚨 **Troubleshooting**
+
+### **Token Expired**
+
+- Use refresh token para obter novo access token
+- Cache é mantido durante refresh
+
+### **User Not Found**
+
+- Verificar se usuário existe no banco
+- Verificar se status é ACTIVE
+- Verificar se não foi soft deleted
+
+### **Cache Issues**
+
+- Verificar se Redis está rodando
+- Verificar conectividade Redis
+- Verificar logs de cache
+
+### **Performance Issues**
+
+- Verificar hit rate do cache
+- Ajustar TTL se necessário
+- Monitorar logs de performance
+
+## 📈 **Monitoramento**
+
+### **Métricas Importantes**
+
+- **Cache Hit Rate**: % de hits no cache
+- **Authentication Success Rate**: % de autenticações bem-sucedidas
+- **Token Refresh Rate**: Frequência de refresh
+- **Logout Rate**: Frequência de logout
+
+### **Logs Estruturados**
+
+- Todos os eventos são logados
+- Logs diferenciados por origem (cache/banco)
+- Informações de performance incluídas
 
 ---
 
-_Última atualização: $(date)_
-_Versão: 1.0 - Padronizado_
+_Última atualização: Cache Redis Implementado_ 🚀
