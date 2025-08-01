@@ -81,6 +81,12 @@ jobs:
       - name: Check UI package types
         run: cd packages/ui && npm run check-types
 
+      - name: Cache UI package build
+        uses: actions/cache@v4
+        with:
+          path: packages/ui/dist
+          key: ui-package-${{ matrix.node-version }}-${{ hashFiles('packages/ui/package.json') }}
+
   # ========================================
   # API TESTS & BUILD
   # ========================================
@@ -170,7 +176,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-    needs: [ui-package]
 
     steps:
       - name: Checkout code
@@ -184,6 +189,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build UI package for this job
+        run: |
+          cd packages/ui
+          npm run build
 
       - name: Run Web app tests
         run: cd apps/web && npm run test
@@ -206,7 +216,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-    needs: [ui-package]
 
     steps:
       - name: Checkout code
@@ -220,6 +229,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build UI package for this job
+        run: |
+          cd packages/ui
+          npm run build
 
       - name: Run Backoffice tests
         run: cd apps/backoffice && npm run test
@@ -242,7 +256,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-    needs: [ui-package]
 
     steps:
       - name: Checkout code
@@ -256,6 +269,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build UI package for this job
+        run: |
+          cd packages/ui
+          npm run build
 
       - name: Run Docs tests
         run: cd apps/docs && npm run test
