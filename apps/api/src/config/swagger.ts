@@ -38,7 +38,10 @@ const options: swaggerJsdoc.Options = {
       },
     },
   },
-  apis: ['./src/modules/**/presentation/docs/*.ts'],
+  apis: [
+    './src/core/docs/*.doc.ts',
+    './src/modules/**/presentation/docs/*.doc.ts',
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

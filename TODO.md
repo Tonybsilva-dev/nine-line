@@ -233,11 +233,32 @@
 
 ### 18. **Implementação Completa do RBAC**
 
-- **Status**: 🔴 **CRÍTICO**
+- **Status**: ✅ **COMPLETO**
 - **Problema**: RBAC parcialmente implementado
 - **Impacto**: Falta de controle de acesso
 - **Solução**: Completar implementação do RBAC
 - **Arquivo**: `apps/api/src/modules/rbac/`
+- **Progresso Realizado**:
+  - ✅ **Seeder RBAC**: Roles e permissões sendo criadas corretamente
+  - ✅ **Handler de Eventos**: UserCreatedHandler readicionado e melhorado
+  - ✅ **Associação de Roles**: Seeder para associar roles aos usuários existentes
+  - ✅ **Repositório**: Método findByUserIdAndRoleId adicionado
+  - ✅ **Logs Detalhados**: Handler com logs de debug para troubleshooting
+  - ✅ **Middleware de Autorização**: Implementado com verificação de permissões
+  - ✅ **Middleware de Autenticação**: Implementado com verificação de JWT
+  - ✅ **Rotas Protegidas**: Appointments e Users com autorização
+  - ✅ **Documentação**: README completo com exemplos de uso
+- **Funcionalidades Implementadas**:
+  - **Autenticação**: Middleware `authenticateToken` para verificar JWT
+  - **Autorização**: Middleware `requirePermission` para verificar permissões
+  - **Cache**: Permissões cacheadas por 5 minutos para performance
+  - **Logs**: Logs estruturados para sucesso e falha de autorização
+  - **Convenience Functions**: Funções prontas para roles e recursos específicos
+  - **Hierarquia**: Sistema de níveis de role (USER=0, MANAGER=1, ADMIN=2)
+- **Rotas Protegidas**:
+  - **Appointments**: Todas as rotas com permissões específicas
+  - **Users**: Rotas com verificação de permissões
+  - **Middleware Reutilizável**: Fácil aplicação em outros módulos
 
 ### 19. **Validação de Dados**
 

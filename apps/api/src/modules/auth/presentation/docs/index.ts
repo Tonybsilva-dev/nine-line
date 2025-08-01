@@ -2,3 +2,4 @@
 import './authenticate.doc';
 import './refresh-token.doc';
 import './logout.doc';
+import './authentication-middleware.doc';
