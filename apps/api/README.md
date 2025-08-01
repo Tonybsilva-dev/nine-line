@@ -8,43 +8,41 @@
 <br />
 <p align="center">
   <a href="#">
-    <img src="./assets/pool-appointment-icon.png" alt="Logo" width="150" height="150">
+    <img src="./assets/nine-line-spaces.png" alt="Logo" width="150" height="150">
   </a>
 
   <h3 align="center">9line Spaces API</h3>
 
   <p align="center">
-    Appointment Manager System.
-    <br />ı
-    <a href="#"><strong>Explore the docs »</strong></a>
+    Space Management and Appointment Booking System with Clean Architecture.
+    <br />
+    <a href="#"><strong>Explore the documentation »</strong></a>
     <br />
     <br />
     <a href="#">View Demo</a>
     ·
     <a href="https://github.com/Tonybsilva-dev/nine-line/issues">Report Bug / Request Feature</a>
     ·
-    <a href="https://stats.uptimerobot.com/No5gmhZgx7">Status Application</a>
+    <a href="https://stats.uptimerobot.com/No5gmhZgx7">Application Status</a>
   </p>
 </p>
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+## 🚀 Getting Started
 
 To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
 - **Node.js** (v18 or higher)
 - **npm** or **yarn**
-- **Docker** (for Redis)
+- **Docker** (for Redis and PostgreSQL)
 - **PostgreSQL** (for database)
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repository
 
    ```sh
    git clone https://github.com/Tonybsilva-dev/nine-line.git
@@ -57,48 +55,42 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 
-## 🚀 Setup com Docker Compose (Monorepo)
-
-Agora o setup de todos os serviços (API, banco de dados, Redis) é feito a partir da raiz do monorepo:
-
-```sh
-# Na raiz do projeto
-cp env.example .env # Ajuste as variáveis conforme necessário
-cp apps/api/.env.example apps/api/.env # Ajuste as variáveis da API
-
-docker-compose up --build
-```
-
-- O banco de dados e o Redis já estarão disponíveis para a API via os hosts `db` e `redis`.
-- Não é mais necessário rodar docker-compose localmente dentro de apps/api.
-- O arquivo `docker-compose.redis.yml` foi removido pois está obsoleto.
-
-4. Install optional development dependencies
-
-   ```sh
-   # For colored logs and better development experience
-   ./scripts/install-dev-deps.sh
-   ```
-
-5. Configure environment variables
+3. Configure environment variables
 
    ```sh
    # Copy the example file
-   cp env.example .env
+   cp apps/api/.env.example apps/api/.env
 
-   # Edit the file with your database configuration
-   nano .env
+   # Edit the file with your configurations
+   nano apps/api/.env
    ```
 
-6. Run database migrations
+4. Setup the project (migrations, seeders, RBAC)
 
    ```sh
-   npm run db:migrate
+   cd apps/api
+   npm run setup
    ```
 
-   <!-- USAGE EXAMPLES -->
+## 🐳 Setup with Docker Compose (Monorepo)
 
-## Usage
+Now the setup of all services (API, database, Redis) is done from the monorepo root:
+
+```sh
+# In the project root
+cp apps/api/.env.example apps/api/.env # Adjust variables as needed
+
+# Start all services
+npm run dev:docker
+
+# Or in background
+npm run dev:docker:detached
+```
+
+- The database and Redis will already be available to the API via the hosts `db` and `redis`.
+- It's no longer necessary to run docker-compose locally within apps/api.
+
+## 📖 Usage
 
 ### Development
 
@@ -109,11 +101,23 @@ npm run dev
 # Run tests
 npm run test
 
+# Run tests with coverage
+npm run test:coverage
+
 # Check types
 npm run check-types
 
 # Run linting
 npm run lint
+
+# Generate Prisma client
+npm run prisma:generate
+
+# Run migrations
+npm run prisma:migrate
+
+# Open Prisma Studio
+npm run prisma:studio
 ```
 
 ### Production
@@ -131,7 +135,7 @@ npm start
 The API provides a health check endpoint:
 
 ```sh
-curl http://localhost:3000/api/health
+curl http://localhost:3333/health
 ```
 
 ### API Documentation
@@ -139,41 +143,10 @@ curl http://localhost:3000/api/health
 Once the server is running, you can access the Swagger documentation at:
 
 ```
-http://localhost:3000/api-docs
+http://localhost:3333/api-docs
 ```
 
-_For more examples, please refer to the [Documentation](docs/)_
-
-## Download API
-
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Pool%20Appointment%20Api&uri=https%3A%2F%2Fgithub.com%2FTonybsilva-dev%2Fpool-appointment-api%2Fblob%2Fdevelop%2Fsrc%2Fcore%2Fdocs%2Finsomnia.json)
-
-## Roadmap
-
-See the [open issues](https://github.com/Tonybsilva-dev/pool-appointment-api/issues) for a list of proposed features (and known issues).
-
-## Features
-
-```bash
-📝 Notes.
-
-- [x] Domain Driven Design
-- [x] Automated Tests
-- [x] Clean Architecture
-- [x] Functional Error Handling
-- [x] Factory and Repository Pattern
-- [x] Swagger Documentation
-- [x] Redis Caching
-- [x] Structured Logging
-- [x] Health Checks
-- [x] Graceful Shutdown
-- [x] Request/Response Logging
-- [x] Performance Monitoring
-- [ ] Docker
-- [ ] CI/CD
-```
-
-## Architecture
+## 🏗️ Architecture
 
 The API follows Clean Architecture principles with:
 
@@ -181,6 +154,16 @@ The API follows Clean Architecture principles with:
 - **Application Layer**: Use cases and application services
 - **Infrastructure Layer**: External services (database, Redis, etc.)
 - **Presentation Layer**: Controllers and routes
+
+### Application Modules
+
+- **Auth**: Authentication and authorization with JWT
+- **Users**: User management
+- **Appointments**: Appointments and bookings
+- **Spaces**: Space management
+- **Notifications**: Notification system
+- **Ratings**: Rating system
+- **RBAC**: Role-based access control
 
 ### Logging & Monitoring
 
@@ -191,6 +174,262 @@ The API includes comprehensive logging and monitoring:
 - **Performance Monitoring**: Automatic detection of slow requests and queries
 - **Health Checks**: Database and Redis connectivity monitoring
 - **Graceful Shutdown**: Proper cleanup of connections and resources
+- **Sentry Integration**: Error monitoring in production
+
+## 🔐 Authentication and Authorization
+
+### JWT Authentication
+
+- Access and refresh tokens
+- Token validation with Redis cache
+- Automatic cache invalidation
+
+### RBAC (Role-Based Access Control)
+
+- **System Roles**: ADMIN, MANAGER, USER
+- **Permissions**: Granular permission control
+- **Role Assignment**: Automatic role assignment to users
+
+### Security Middleware
+
+- Rate limiting
+- CORS configuration
+- Helmet security headers
+- Request validation
+
+## 💾 Cache and Performance
+
+### Redis Cache
+
+- Authenticated user cache
+- Configurable TTL (5 minutes)
+- Automatic invalidation
+- Database fallback
+
+### Optimizations
+
+- Response compression
+- Lazy loading of dependencies
+- Connection pooling
+- Query optimization
+
+## 📊 Features
+
+```bash
+📝 Implemented Features.
+
+- [x] Domain Driven Design
+- [x] Clean Architecture
+- [x] RBAC System (Role-Based Access Control)
+- [x] JWT Authentication
+- [x] Redis Caching
+- [x] Sentry Error Monitoring
+- [x] Automated Tests (Vitest)
+- [x] Swagger Documentation
+- [x] Structured Logging (Pino)
+- [x] Health Checks
+- [x] Graceful Shutdown
+- [x] Request/Response Logging
+- [x] Performance Monitoring
+- [x] Rate Limiting
+- [x] CORS Configuration
+- [x] Helmet Security
+- [x] Compression
+- [x] Docker Support
+- [x] CI/CD Pipeline
+- [x] GitHub Templates
+- [x] Prisma ORM
+- [x] PostgreSQL Database
+- [x] TypeScript
+- [x] ESLint & Prettier
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+```env
+# Database
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/pool_appointments"
+
+# Redis
+REDIS_URL="redis://localhost:6379"
+
+# JWT
+JWT_SECRET="your-jwt-secret"
+JWT_EXPIRES_IN="1d"
+JWT_REFRESH_EXPIRES_IN="7d"
+
+# Sentry
+SENTRY_DSN="your-sentry-dsn"
+
+# Server
+PORT=3333
+NODE_ENV=development
+
+# Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+```
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev              # Development server
+npm run test             # Run tests
+npm run test:watch       # Tests in watch mode
+npm run test:coverage    # Tests with coverage
+
+# Build
+npm run build            # Build application
+npm run start            # Start production
+
+# Database
+npm run prisma:generate  # Generate Prisma client
+npm run prisma:migrate   # Run migrations
+npm run prisma:studio    # Open Prisma Studio
+
+# Setup
+npm run setup            # Setup project (migrations, seeders, RBAC)
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run check-types      # Check TypeScript types
+```
+
+## 📚 Documentation
+
+### Main Endpoints
+
+- `POST /auth/login` - Authentication
+- `POST /auth/logout` - Logout
+- `GET /health` - Health check
+- `GET /api-docs` - Swagger documentation
+
+### Modules
+
+- **Auth**: `/auth/*` - Authentication and authorization
+- **Users**: `/users/*` - User management
+- **Appointments**: `/appointments/*` - Appointments
+- **Spaces**: `/spaces/*` - Spaces
+- **Notifications**: `/notifications/*` - Notifications
+- **Ratings**: `/ratings/*` - Ratings
+- **RBAC**: `/rbac/*` - Access control
+
+## 🧪 Testing
+
+### Test Types
+
+- **Unit Tests**: Unit tests with Vitest
+- **Integration Tests**: Integration tests
+- **API Tests**: Endpoint tests
+- **Database Tests**: Database tests
+
+### Run Tests
+
+```bash
+# All tests
+npm run test
+
+# Tests in watch mode
+npm run test:watch
+
+# Tests with coverage
+npm run test:coverage
+
+# Specific tests
+npm run test -- --grep "auth"
+```
+
+## 🚀 Deploy
+
+### Docker
+
+```bash
+# Build image
+docker build -f Dockerfile -t nine-line-api .
+
+# Run container
+docker run -p 3333:3333 nine-line-api
+```
+
+### Docker Compose
+
+```bash
+# Start all services
+docker-compose up --build
+
+# API only
+docker-compose up api
+```
+
+## 📈 Monitoring
+
+### Health Check
+
+```bash
+curl http://localhost:3333/health
+```
+
+Response:
+
+```json
+{
+  "status": "OK",
+  "timestamp": "2025-01-31T22:55:04.970Z",
+  "uptime": 237.826921858,
+  "environment": "development",
+  "services": {
+    "database": "OK",
+    "redis": "OK"
+  }
+}
+```
+
+### Logs
+
+The API uses Pino for structured logging:
+
+```bash
+# Development logs
+npm run dev
+
+# Production logs
+npm start
+```
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+1. **Database connection error**: Check `DATABASE_URL`
+2. **Redis connection error**: Check `REDIS_URL`
+3. **JWT error**: Check `JWT_SECRET`
+4. **Sentry error**: Check `SENTRY_DSN`
+
+### Debug Logs
+
+```bash
+# Enable detailed logs
+DEBUG=* npm run dev
+
+# Specific logs
+DEBUG=prisma:* npm run dev
+DEBUG=redis:* npm run dev
+```
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is under the MIT license. See the `LICENSE` file for more details.
 
 <!-- CONTACT -->
 
@@ -200,20 +439,20 @@ The API includes comprehensive logging and monitoring:
 
  <table>
   <tr>
-    <td align="center"><a href="https://github.com/Tonybsilva-dev"><img src="https://avatars.githubusercontent.com/u/54373473?v=4" width="100px;" alt=""/><br /><sub><b>Antonio Silva</b></sub></a><br /><a href="https://github.com/Tonybsilva-dev/pool-appointment-api/commits?author=Tonybsilva-dev" title="Documentation">📖</a> <a href="https://github.com/Tonybsilva-dev/pool-appointment-api/pulls?q=is%3Apr+reviewed-by%3ATonybsilva-dev" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/Tonybsilva-dev"><img src="https://avatars.githubusercontent.com/u/54373473?v=4" width="100px;" alt=""/><br /><sub><b>Antonio Silva</b></sub></a><br /><a href="https://github.com/Tonybsilva-dev/nine-line/commits?author=Tonybsilva-dev" title="Documentation">📖</a> <a href="https://github.com/Tonybsilva-dev/nine-line/pulls?q=is%3Apr+reviewed-by%3ATonybsilva-dev" title="Reviewed Pull Requests">👀</a></td>
  </tr>
 </table>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/Tonybsilva-dev/pool-appointment-api.svg?style=for-the-badge
-[contributors-url]: https://github.com/Tonybsilva-dev/pool-appointment-api/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Tonybsilva-dev/pool-appointment-api.svg?style=for-the-badge
-[forks-url]: https://github.com/Tonybsilva-dev/pool-appointment-api/network/members
-[stars-shield]: https://img.shields.io/github/stars/Tonybsilva-dev/pool-appointment-api.svg?style=for-the-badge
-[stars-url]: https://github.com/Tonybsilva-dev/pool-appointment-api/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Tonybsilva-dev/pool-appointment-api.svg?style=for-the-badge
-[issues-url]: https://github.com/Tonybsilva-dev/pool-appointment-api/issues
+[contributors-shield]: https://img.shields.io/github/contributors/Tonybsilva-dev/nine-line.svg?style=for-the-badge
+[contributors-url]: https://github.com/Tonybsilva-dev/nine-line/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Tonybsilva-dev/nine-line.svg?style=for-the-badge
+[forks-url]: https://github.com/Tonybsilva-dev/nine-line/network/members
+[stars-shield]: https://img.shields.io/github/stars/Tonybsilva-dev/nine-line.svg?style=for-the-badge
+[stars-url]: https://github.com/Tonybsilva-dev/nine-line/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Tonybsilva-dev/nine-line.svg?style=for-the-badge
+[issues-url]: https://github.com/Tonybsilva-dev/nine-line/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/tony-silva/
