@@ -50,11 +50,48 @@ env:
 
 jobs:
   # ========================================
+  # PRISMA CLIENT GENERATION (FIRST)
+  # ========================================
+  prisma-generate:
+    name: Generate Prisma Client
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: |
+          cd apps/api
+          npm run prisma:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
+
+      - name: Cache Prisma client
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.prisma
+          key: prisma-client-${{ hashFiles('apps/api/prisma/schema.prisma') }}
+
+  # ========================================
   # LINTING & TYPE CHECKING
   # ========================================
   lint-and-types:
     name: Lint & Type Check
     runs-on: ubuntu-latest
+    needs: [prisma-generate]
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -72,17 +109,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore Prisma client cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.prisma
+          key: prisma-client-${{ hashFiles('apps/api/prisma/schema.prisma') }}
+
       - name: Build UI package for type checking
         run: |
           cd packages/ui
           npm run build
-
-      - name: Generate Prisma client for type checking
-        run: |
-          cd apps/api
-          npm run prisma:generate
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
 
       - name: Lint all packages
         run: npm run lint
@@ -140,6 +176,7 @@ jobs:
   api-tests:
     name: API Tests & Build
     runs-on: ubuntu-latest
+    needs: [prisma-generate]
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -182,10 +219,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate Prisma client
-        run: cd apps/api && npm run prisma:generate
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
+      - name: Restore Prisma client cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.prisma
+          key: prisma-client-${{ hashFiles('apps/api/prisma/schema.prisma') }}
 
       - name: Run database migrations
         run: cd apps/api && npm run prisma:migrate
@@ -478,10 +516,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore Prisma client cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.prisma
+          key: prisma-client-${{ hashFiles('apps/api/prisma/schema.prisma') }}
+
       - name: Setup test environment
         run: |
           cd apps/api
-          npm run prisma:generate
           npm run prisma:migrate
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments

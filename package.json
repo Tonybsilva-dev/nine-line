@@ -1,21 +1,24 @@
 {
   "name": "nine-line",
-  "type": "module",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prepare": "husky install",
-    "build": "tsc --noEmit && turbo build",
+    "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:docker": "docker-compose up --build",
-    "dev:docker:detached": "docker-compose up --build -d",
-    "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f",
+    "lint": "turbo run lint",
+    "check-types": "turbo run check-types",
     "test": "turbo run test",
-    "test:watch": "turbo run test:watch",
     "test:coverage": "turbo run test:coverage",
-    "lint": "turbo run lint -- --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "prisma:generate": "cd apps/api && npm run prisma:generate",
+    "prisma:migrate": "cd apps/api && npm run prisma:migrate",
+    "setup": "cd apps/api && npm run setup"
+  },
+  "devDependencies": {
+    "@nine-line/eslint": "*",
+    "@nine-line/tsconfig": "*",
+    "prettier": "^3.2.5",
+    "turbo": "^2.1.7"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -25,24 +28,9 @@
       "prettier --write"
     ]
   },
-  "devDependencies": {
-    "husky": "^9.0.0",
-    "lint-staged": "^15.0.0",
-    "prettier": "^3.6.2",
-    "tsup": "^8.5.0",
-    "turbo": "^2.5.4",
-    "typescript": "5.8.3"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "npm@11.2.0",
+  "packageManager": "npm@10.8.1",
   "workspaces": [
     "apps/*",
-    "packages/*",
-    "packages/config/*"
-  ],
-  "dependencies": {
-    "git-commit-msg-linter": "^5.0.8"
-  }
+    "packages/*"
+  ]
 }
