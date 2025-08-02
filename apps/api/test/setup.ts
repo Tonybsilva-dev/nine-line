@@ -1,32 +1,41 @@
-// setup test environment
+process.env.NODE_ENV = 'test';
+process.env.APP_PORT = '3333';
 
-// import { beforeAll, afterAll } from 'vitest';
-// import { PrismaClient } from '@prisma/client';
-// import { execSync } from 'child_process';
+process.env.JWT_SECRET =
+  process.env.JWT_SECRET || 'test-jwt-secret-key-for-testing-only';
+process.env.JWT_REFRESH_SECRET =
+  process.env.JWT_REFRESH_SECRET ||
+  'test-jwt-refresh-secret-key-for-testing-only';
+process.env.JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
+process.env.REFRESH_TOKEN_EXPIRES_IN =
+  process.env.REFRESH_TOKEN_EXPIRES_IN || '7d';
 
-// const prisma = new PrismaClient();
+process.env.BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS || '10';
 
-// beforeAll(async () => {
-//   try {
-//     // Executa as migrações do Prisma
-//     execSync('npx prisma migrate deploy', { stdio: 'inherit' });
+process.env.RATE_LIMIT_WINDOW_MS = process.env.RATE_LIMIT_WINDOW_MS || '60000';
+process.env.RATE_LIMIT_MAX_REQUESTS =
+  process.env.RATE_LIMIT_MAX_REQUESTS || '100';
+process.env.RATE_LIMIT_SENSITIVE_MAX_REQUESTS =
+  process.env.RATE_LIMIT_SENSITIVE_MAX_REQUESTS || '10';
+process.env.RATE_LIMIT_CRITICAL_MAX_REQUESTS =
+  process.env.RATE_LIMIT_CRITICAL_MAX_REQUESTS || '5';
 
-//     // Limpa o banco de dados antes dos testes
-//     await prisma.user.deleteMany();
-//   } catch (error) {
-//     console.error('Erro ao configurar o banco de dados:', error);
-//     throw error;
-//   }
-// });
+process.env.FRONTEND_URL = process.env.FRONTEND_URL || 'localhost:3000';
+process.env.BACKOFFICE_URL = process.env.BACKOFFICE_URL || 'localhost:3001';
+process.env.APP_URL = process.env.APP_URL || 'localhost:3000';
 
-// afterAll(async () => {
-//   try {
-//     // Fecha a conexão com o banco de dados
-//     await prisma.$disconnect();
-//   } catch (error) {
-//     console.error('Erro ao desconectar do banco de dados:', error);
-//     throw error;
-//   }
-// });
-// This file is intentionally empty since tests use in-memory repositories
-// No database connection is needed for unit tests
+process.env.DATABASE_URL =
+  process.env.DATABASE_URL || 'postgresql://test:test@localhost:5432/test_db';
+
+process.env.REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+
+process.env.SMTP_HOST = process.env.SMTP_HOST || 'smtp.test.com';
+process.env.SMTP_PORT = process.env.SMTP_PORT || '587';
+process.env.SMTP_USER = process.env.SMTP_USER || 'test';
+process.env.SMTP_PASS = process.env.SMTP_PASS || 'test';
+process.env.SMTP_SECURE = process.env.SMTP_SECURE || 'false';
+
+process.env.SENTRY_DSN =
+  process.env.SENTRY_DSN || 'https://test@sentry.io/test';
+
+process.env.LOG_LEVEL = process.env.LOG_LEVEL || 'error';
