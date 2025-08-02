@@ -6,7 +6,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "build": "tsup src/index.ts --format esm --outDir dist --splitting --shims --clean --no-dts --external @sentry/node",
+    "build": "npm run prisma:generate && tsup src/index.ts --format esm,cjs --dts --clean",
     "dev": "tsx --watch src/index.ts",
     "start": "node --enable-source-maps dist/index.js",
     "prisma:generate": "prisma generate",

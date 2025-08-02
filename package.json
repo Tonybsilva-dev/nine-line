@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "build": "tsc --noEmit && turbo build",
+    "build": "turbo run build:packages && turbo run check-types && turbo run build --filter=!./packages/*",
     "dev": "turbo run dev",
     "dev:docker": "docker-compose up --build",
     "dev:docker:detached": "docker-compose up --build -d",

@@ -8,15 +8,20 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "build:packages": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**"]
+    },
+    "check-types": {
+      "dependsOn": ["^build:packages", "^prisma:generate"],
+      "outputs": []
     },
     "lint": {
       "outputs": [],
       "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^prisma:generate"],
-      "outputs": []
     },
     "test": {
       "dependsOn": ["^prisma:generate"],

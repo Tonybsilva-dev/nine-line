@@ -6,8 +6,6 @@ export const metadata: Metadata = {
   description: "Backoffice para gerenciamento do 9line Spaces",
 };
 
-export const dynamic = "force-dynamic";
-
 export default function RootLayout({
   children,
 }: Readonly<{
