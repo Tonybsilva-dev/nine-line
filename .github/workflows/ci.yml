@@ -20,7 +20,7 @@ env:
   # Test values for CI - real values come from secrets
   JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
   JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-  REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+  JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-jwt-refresh-secret-for-ci' }}
   REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
   BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS || '12' }}
   RATE_LIMIT_WINDOW_MS: ${{ secrets.RATE_LIMIT_WINDOW_MS || '900000' }}
@@ -82,7 +82,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
 
       - name: Cache Prisma client
@@ -129,7 +129,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
 
       - name: Build UI package for type checking
@@ -250,7 +250,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
 
       - name: Run database migrations
@@ -266,7 +266,7 @@ jobs:
           NODE_ENV: test
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
           BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS || '12' }}
           RATE_LIMIT_WINDOW_MS: ${{ secrets.RATE_LIMIT_WINDOW_MS || '900000' }}
@@ -304,7 +304,7 @@ jobs:
           NODE_ENV: test
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
           BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS || '12' }}
           RATE_LIMIT_WINDOW_MS: ${{ secrets.RATE_LIMIT_WINDOW_MS || '900000' }}
@@ -570,7 +570,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/pool_appointments
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
 
       - name: Setup test environment
@@ -591,7 +591,7 @@ jobs:
           NODE_ENV: test
           JWT_SECRET: ${{ secrets.JWT_SECRET || 'test-jwt-secret-for-ci' }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN || '7d' }}
-          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET || 'test-refresh-token-secret-for-ci' }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'test-refresh-token-secret-for-ci' }}
           REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.REFRESH_TOKEN_EXPIRES_IN || '30d' }}
           BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS || '12' }}
           RATE_LIMIT_WINDOW_MS: ${{ secrets.RATE_LIMIT_WINDOW_MS || '900000' }}
@@ -658,12 +658,28 @@ jobs:
             echo "✅ Apenas vulnerabilidades em ferramentas de build encontradas - continuando..."
           }
 
+      - name: Check if SNYK_TOKEN is available
+        id: check-snyk-token
+        run: |
+          if [ -n "${{ secrets.SNYK_TOKEN }}" ]; then
+            echo "token_available=true" >> $GITHUB_OUTPUT
+          else
+            echo "token_available=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run Snyk security scan
+        if: steps.check-snyk-token.outputs.token_available == 'true'
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+
+      - name: Skip Snyk scan (no token available)
+        if: steps.check-snyk-token.outputs.token_available == 'false'
+        run: |
+          echo "⚠️  SNYK_TOKEN not configured - skipping Snyk security scan"
+          echo "To enable Snyk security scanning, add SNYK_TOKEN to repository secrets"
 
   # ========================================
   # DEPLOY TO DEVELOPMENT
