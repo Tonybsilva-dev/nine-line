@@ -1,9 +1,8 @@
-import { Prisma } from '@prisma/client';
-
 export const softDeleteMiddleware = async (
-  params: Prisma.MiddlewareParams,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  next: (params: Prisma.MiddlewareParams) => Promise<any>,
+  params: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  next: (params: any) => Promise<any>,
 ) => {
   if (params.model === 'User') {
     const deletedData = {

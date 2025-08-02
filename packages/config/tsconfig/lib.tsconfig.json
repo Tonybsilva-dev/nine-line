@@ -3,9 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "declarationMap": true,
-    "lib": [
-      "ESNext"
-    ]
+    "declarationMap": true
   }
 }

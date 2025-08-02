@@ -9,6 +9,7 @@ export default [
       "*.config.mjs",
       "postcss.config.mjs",
       "tailwind.config.ts",
+      "src/scripts/**",
     ],
   },
   ...config,

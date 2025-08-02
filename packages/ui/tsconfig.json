@@ -6,9 +6,9 @@
     "declarationMap": true,
     "sourceMap": true,
     "noEmit": false,
-    "moduleResolution": "bundler",
     "module": "esnext",
     "allowImportingTsExtensions": false,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx"
   },
   "include": ["src/**/*"],

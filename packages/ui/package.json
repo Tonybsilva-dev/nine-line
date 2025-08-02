@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "tsc && npm run copy-assets",
-    "copy-assets": "cp src/styles.css dist/ 2>/dev/null || echo 'Styles copied'",
+    "copy-assets": "node src/scripts/copy-assets.mjs",
     "dev": "tsc --watch",
     "lint": "eslint . --fix --max-warnings 0",
     "check-types": "tsc --noEmit",

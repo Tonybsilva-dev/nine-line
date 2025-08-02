@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "build": "tsc --noEmit && turbo build",
+    "build": "turbo run build:packages && turbo run check-types && turbo run build --filter=!./packages/*",
     "dev": "turbo run dev",
     "dev:docker": "docker-compose up --build",
     "dev:docker:detached": "docker-compose up --build -d",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "packageManager": "npm@11.2.0",
   "workspaces": [
