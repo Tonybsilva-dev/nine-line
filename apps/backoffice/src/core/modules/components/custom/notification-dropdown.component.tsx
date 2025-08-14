@@ -126,7 +126,11 @@ export function NotificationDropdown({
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
-          <Button variant="ghost" size="icon" className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative px-4 py-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors h-12"
+          >
             <Iconify icon={Bell} className="text-muted-foreground" />
             {unread > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -150,7 +154,11 @@ export function NotificationDropdown({
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative px-4 py-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors h-12"
+        >
           <Iconify icon={Bell} className="text-muted-foreground" />
           {unread > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">

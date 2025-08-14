@@ -2,8 +2,8 @@ import { Metadata } from "next";
 
 export const metadataConfig: Metadata = {
   title: {
-    template: "%s | Pedido Certo!",
-    default: "Pedido Certo!",
+    template: "%s | 9Line Spaces",
+    default: "9Line Spaces",
   },
   description:
     "Explore a wide variety of delicious cuisines and find the perfect gastronomic experience for you.",
@@ -28,29 +28,29 @@ export const metadataConfig: Metadata = {
   },
   manifest: "/site.webmanifest",
   appleWebApp: {
-    title: "Pedido Certo!",
+    title: "9Line Spaces",
   },
   twitter: {
     card: "summary_large_image",
     site: "@tonybsilvadev",
     creator: "@antonio_silva",
-    title: "Pedido Certo!",
+    title: "9Line Spaces",
     description:
       "Explore a wide variety of delicious cuisines and find the perfect gastronomic experience for you.",
     images: ["https://i.imgur.com/mEQ86C1.png"],
   },
   openGraph: {
     type: "website",
-    siteName: "Pedido Certo!",
+    siteName: "9Line Spaces",
     url: "https://pedido-certo.vercel.app",
-    title: "Pedido Certo!",
-    description: "Pedido Certo!",
+    title: "9Line Spaces",
+    description: "9Line Spaces",
     images: [
       {
         url: "https://i.imgur.com/mEQ86C1.png",
         width: 1200,
         height: 630,
-        alt: "Pedido Certo!",
+        alt: "9Line Spaces",
       },
     ],
   },

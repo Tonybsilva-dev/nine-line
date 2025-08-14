@@ -30,7 +30,7 @@
   },
   "auth": {
     "signin": {
-      "title": "Bienvenido a Pedido Certo",
+      "title": "Bienvenido a 9Line Spaces",
       "subtitle": "Inicia sesión para acceder a tu cuenta",
       "email": {
         "label": "Email",
@@ -214,7 +214,7 @@
     "customers-reports": "Clientes"
   },
   "dashboard": {
-    "title": "Pedido Certo!",
+    "title": "9Line Spaces",
     "navigation": {
       "dashboard": "Dashboard",
       "orders": "Pedidos",
@@ -238,7 +238,10 @@
       "monthlyGrowth": "Crecimiento Mensal",
       "fromLastMonth": "del mes pasado",
       "awaitingProcessing": "Esperando procesamiento",
-      "inTransit": "En tránsito"
+      "inTransit": "En tránsito",
+      "totalIncomingTickets": "Total de Solicitudes",
+      "avgResponseTime": "Tiempo Promedio de Respuesta",
+      "agentSatisfaction": "Puntuación de Satisfacción del Clientes"
     },
     "views": {
       "manager": {
@@ -314,7 +317,15 @@
         "title": "Control de Inventario",
         "totalItems": "Total de Artículos",
         "lowStock": "Stock Bajo",
-        "outOfStock": "Sin Stock"
+        "outOfStock": "Sin Stock",
+        "subtitle": "Gestiona tu inventario.",
+        "addItem": "Agregar Artículo",
+        "status": "Estado",
+        "itemName": "Nombre del Artículo",
+        "quantity": "Cantidad",
+        "rowsSelected": "fila(s) seleccionada(s)",
+        "previous": "Anterior",
+        "next": "Siguiente"
       }
     }
   }

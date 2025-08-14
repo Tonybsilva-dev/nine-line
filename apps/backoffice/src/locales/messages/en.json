@@ -30,7 +30,7 @@
   },
   "auth": {
     "signin": {
-      "title": "Welcome to Pedido Certo",
+      "title": "Welcome to 9Line Spaces",
       "subtitle": "Sign in to access your account",
       "email": {
         "label": "Email",
@@ -239,7 +239,9 @@
       "fromLastMonth": "from last month",
       "awaitingProcessing": "Awaiting processing",
       "inTransit": "In transit",
-      "totalRevenue": "Total Revenue"
+      "totalIncomingTickets": "Total Incoming Tickets",
+      "avgResponseTime": "Avg. First Response Time",
+      "agentSatisfaction": "Customer Satisfaction Score"
     },
     "views": {
       "manager": {
@@ -335,7 +337,15 @@
         "title": "Inventory Control",
         "totalItems": "Total Items",
         "lowStock": "Low Stock",
-        "outOfStock": "Out of Stock"
+        "outOfStock": "Out of Stock",
+        "subtitle": "Manage your inventory.",
+        "addItem": "Add Item",
+        "status": "Status",
+        "itemName": "Item Name",
+        "quantity": "Quantity",
+        "rowsSelected": "row(s) selected",
+        "previous": "Previous",
+        "next": "Next"
       }
     }
   }
