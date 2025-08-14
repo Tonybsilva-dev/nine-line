@@ -1,0 +1,332 @@
+{
+  "app": {
+    "name": "Cardápio Certo",
+    "tagline": "Gestión de Mercados"
+  },
+  "loading": {
+    "title": "Cargando...",
+    "subtitle": "Espere un momento"
+  },
+  "home": {
+    "title": "Bienvenido a Next.js",
+    "description": "Comienza editando app/page.tsx para ver el resultado",
+    "step1": {
+      "start": "Comienza editando",
+      "file": "app/page.tsx"
+    },
+    "step2": "Guarda y ve tus cambios en tiempo real",
+    "deploy": "Desplegar",
+    "docs": "Documentación",
+    "learn": "Aprende",
+    "examples": "Ejemplos",
+    "nextjs": "Next.js"
+  },
+  "not-found": {
+    "alt": "Imagen ilustrativa de página no encontrada",
+    "title": "Página no encontrada",
+    "description": "La página que solicitaste no fue encontrada. Verifica la URL o navega de vuelta a la página principal.",
+    "back-button": "Volver",
+    "logout-button": "Cerrar sesión"
+  },
+  "auth": {
+    "signin": {
+      "title": "Bienvenido a 9Line Spaces",
+      "subtitle": "Inicia sesión para acceder a tu cuenta",
+      "email": {
+        "label": "Email",
+        "placeholder": "m@ejemplo.com"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Ingresa tu contraseña"
+      },
+      "login": {
+        "button": "Iniciar sesión",
+        "loading": "Iniciando sesión..."
+      },
+      "divider": "o",
+      "social": {
+        "apple": "Continuar con Apple",
+        "google": "Continuar con Google"
+      },
+      "signup": {
+        "text": "¿No tienes una cuenta?",
+        "link": "Regístrate"
+      },
+      "terms": {
+        "text": "Al hacer clic en continuar, aceptas nuestros",
+        "terms": "Términos de Servicio",
+        "and": "y",
+        "privacy": "Política de Privacidad"
+      },
+      "credentials": {
+        "title": "Credenciales de prueba:",
+        "admin": "Admin: admin@pedidocerto.com / admin123",
+        "manager": "Gerente: gerente@pedidocerto.com / gerente123",
+        "user": "Usuario: user@pedidocerto.com / user123"
+      },
+      "error": {
+        "invalid": "Credenciales inválidas",
+        "general": "Error al iniciar sesión"
+      }
+    },
+    "error": {
+      "title": "Error de Autenticación",
+      "credentials": "Credenciales inválidas. Verifica tu email y contraseña.",
+      "accessDenied": "Acceso denegado. No tienes permiso para acceder a esta área.",
+      "verification": "Error de verificación. Intenta nuevamente.",
+      "general": "Ocurrió un error durante la autenticación. Intenta nuevamente.",
+      "backButton": "Volver"
+    }
+  },
+  "components": {
+    "language-switcher": {
+      "label": "Seleccionar idioma",
+      "options": {
+        "en": "Inglés",
+        "pt": "Portugués",
+        "es": "Español"
+      },
+      "sr-only": {
+        "aria-label": {
+          "select": "Seleccionar idioma"
+        },
+        "announcements": {
+          "changed-to": "Idioma cambiado a {locale}"
+        }
+      }
+    },
+    "theme-switcher": {
+      "label": "Seleccionar tema",
+      "options": {
+        "light": "Claro",
+        "dark": "Oscuro",
+        "system": "Sistema"
+      },
+      "sr-only": {
+        "aria-label": {
+          "select": "Seleccionar tema"
+        },
+        "announcements": {
+          "changed-to": "Tema cambiado a {theme}"
+        }
+      }
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "recent": "Recientes",
+      "old": "Antiguas",
+      "markAllAsRead": "MARCAR TODAS COMO VISTAS",
+      "showAllNotifications": "Mostrar todas las notificaciones",
+      "viewAll": "Ver todas",
+      "empty": "Sin notificaciones"
+    },
+    "loading-spinner": {
+      "title": "Cargando...",
+      "subtitle": "Espere un momento"
+    },
+    "error-boundary": {
+      "title": "¡Ups! Algo salió mal",
+      "description": "Encontramos un problema inesperado. No te preocupes, nuestro equipo ha sido notificado.",
+      "retry-button": "Intentar de Nuevo",
+      "home-button": "Ir al Inicio",
+      "details-title": "Detalles del error (solo desarrollo)"
+    }
+  },
+  "terms": {
+    "title": "Términos y Condiciones",
+    "lastUpdated": "Última actualización: 18 de mayo de 2024",
+    "sections": {
+      "userResponsibilities": {
+        "title": "Responsabilidades del usuario",
+        "content": "Al usar Cardápio Certo, aceptas usar el servicio de manera responsable y legal. Esto incluye respetar la privacidad de otros, no participar en comportamiento abusivo o acoso, y no realizar actividades ilegales a través de la plataforma."
+      },
+      "dataPrivacy": {
+        "title": "Privacidad de datos",
+        "content": "Tomamos la privacidad de datos muy en serio. Cualquier información personal que proporciones será tratada de acuerdo con nuestra Política de Privacidad y no será compartida o vendida a terceros sin tu consentimiento, excepto cuando sea requerido por ley."
+      },
+      "intellectualProperty": {
+        "title": "Propiedad intelectual",
+        "content": "Cardápio Certo, incluyendo su software, contenido y marca, es propiedad de Antonio S y está protegido por leyes de derechos de autor y otras leyes de propiedad intelectual. Está prohibida la reproducción, modificación o distribución de cualquier parte del servicio sin consentimiento previo por escrito."
+      },
+      "limitationOfLiability": {
+        "title": "Limitación de responsabilidad",
+        "content": "Haremos esfuerzos razonables para garantizar la confiabilidad y disponibilidad del \"AI Meeting Bot Manager\", pero no garantizamos que el servicio será ininterrumpido o libre de errores. No seremos responsables por cualquier daño directo, indirecto, incidental o consecuencial o pérdidas resultantes del uso del servicio."
+      },
+      "changesToTerms": {
+        "title": "Cambios en los Términos",
+        "content": "Nos reservamos el derecho de actualizar estos Términos y Condiciones en cualquier momento. Cualquier cambio entrará en vigor inmediatamente después de la publicación en nuestro sitio. Es tu responsabilidad revisar los términos periódicamente para actualizaciones."
+      },
+      "contactUs": {
+        "title": "Contáctanos",
+        "content": "Si tienes alguna pregunta o inquietud sobre estos Términos y Condiciones, contáctanos en:"
+      }
+    },
+    "reportBug": "Reportar un Bug"
+  },
+  "user": {
+    "profile": "Mi Perfil",
+    "settings": "Configuración",
+    "notifications": "Notificaciones",
+    "logout": "Cerrar Sesión"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "backoffice": "Backoffice",
+    "manager": "Gerente",
+    "logout": "Cerrar Sesión",
+    "orders": "Pedidos",
+    "inventory": "Inventario",
+    "deliveries": "Entregas",
+    "analytics": "Analíticas",
+    "markets": "Mercados",
+    "all-markets": "Todos los Mercados",
+    "add-market": "Agregar Mercado",
+    "location": "Ubicación",
+    "performance": "Rendimiento",
+    "products": "Productos",
+    "catalog": "Catálogo",
+    "stock": "Stock",
+    "categories": "Categorías",
+    "prices": "Precios",
+    "sales": "Ventas",
+    "transactions": "Transacciones",
+    "campaigns": "Campañas",
+    "promotions": "Promociones",
+    "financial": "Financiero",
+    "revenue": "Ingresos",
+    "expenses": "Gastos",
+    "cash-flow": "Flujo de Caja",
+    "reports": "Reportes",
+    "settings": "Configuración",
+    "users": "Usuarios",
+    "manage-users": "Gestionar",
+    "permissions": "Permisos",
+    "teams": "Equipos",
+    "tools": "Herramientas",
+    "calendar": "Calendario",
+    "notifications": "Notificaciones",
+    "documents": "Documentos",
+    "help": "Ayuda",
+    "sales-reports": "Ventas",
+    "markets-reports": "Mercados",
+    "products-reports": "Productos",
+    "customers-reports": "Clientes"
+  },
+  "dashboard": {
+    "title": "9Line Spaces",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "orders": "Pedidos",
+      "inventory": "Inventario",
+      "deliveries": "Entregas",
+      "analytics": "Analytics",
+      "reports": "Reportes",
+      "settings": "Configuraciones",
+      "logout": "Cerrar sesión"
+    },
+    "stats": {
+      "totalOrders": "Total Pedidos",
+      "pendingOrders": "Pedidos Pendientes",
+      "totalRevenue": "Ingresos Totales",
+      "activeDeliveries": "Entregas Activas",
+      "lowStockItems": "Artículos con Stock Bajo",
+      "completedDeliveries": "Entregas Completadas",
+      "averageDeliveryTime": "Tiempo Promedio de Entrega",
+      "customerSatisfaction": "Satisfacción del Cliente",
+      "returnRate": "Tasa de Devolución",
+      "monthlyGrowth": "Crecimiento Mensal",
+      "fromLastMonth": "del mes pasado",
+      "awaitingProcessing": "Esperando procesamiento",
+      "inTransit": "En tránsito",
+      "totalIncomingTickets": "Total de Solicitudes",
+      "avgResponseTime": "Tiempo Promedio de Respuesta",
+      "agentSatisfaction": "Puntuación de Satisfacción del Clientes"
+    },
+    "views": {
+      "manager": {
+        "title": "Panel del Gerente",
+        "description": "Rastrear pedidos, inventario y entregas para tu mercado.",
+        "cards": {
+          "pendingOrders": {
+            "title": "Pedidos Pendientes",
+            "description": "Rastrear pedidos esperando procesamiento.",
+            "awaiting": "Esperando procesamiento"
+          },
+          "inventory": {
+            "title": "Control de Inventario",
+            "description": "Monitorear productos con stock bajo y gestionar reposición.",
+            "lowStock": "Artículos con stock bajo"
+          },
+          "deliveries": {
+            "title": "Entregas Activas",
+            "description": "Rastrear entregas en curso y tiempo de entrega.",
+            "inTransit": "Entregas en tránsito"
+          },
+          "activeCustomers": {
+            "title": "Clientes Activos",
+            "today": "Hoy",
+            "thisWeek": "Esta semana",
+            "loyalty": "Lealtad"
+          },
+          "salesAnalysis": {
+            "title": "Análisis de Ventas",
+            "today": "Hoy",
+            "thisWeek": "Esta semana",
+            "growth": "Crecimiento"
+          }
+        },
+        "activities": {
+          "title": "Actividades Recientes",
+          "orderProcessed": "Nuevo pedido procesado",
+          "deliveryStarted": "Entrega iniciada",
+          "stockReplenished": "Stock repuesto"
+        },
+        "notifications": {
+          "title": "Notificaciones",
+          "subtitle": "Gestiona tus notificaciones y mantente actualizado",
+          "filters": {
+            "title": "Filtros",
+            "all": "Todas",
+            "archived": "Archivadas",
+            "favorite": "Favoritas"
+          },
+          "empty": {
+            "all": "No se encontraron notificaciones",
+            "archived": "No hay notificaciones archivadas",
+            "favorite": "No hay notificaciones favoritas"
+          }
+        },
+        "metrics": {
+          "title": "Métricas del Mercado",
+          "completedDeliveries": "Entregas completadas",
+          "customerSatisfaction": "Satisfacción del cliente",
+          "averageDeliveryTime": "Tiempo promedio de entrega",
+          "returnRate": "Tasa de devolución"
+        }
+      }
+    },
+    "manager": {
+      "orderManagement": {
+        "title": "Gestión de Pedidos",
+        "pending": "Pendientes",
+        "processing": "Procesando",
+        "completed": "Completados"
+      },
+      "inventoryControl": {
+        "title": "Control de Inventario",
+        "totalItems": "Total de Artículos",
+        "lowStock": "Stock Bajo",
+        "outOfStock": "Sin Stock",
+        "subtitle": "Gestiona tu inventario.",
+        "addItem": "Agregar Artículo",
+        "status": "Estado",
+        "itemName": "Nombre del Artículo",
+        "quantity": "Cantidad",
+        "rowsSelected": "fila(s) seleccionada(s)",
+        "previous": "Anterior",
+        "next": "Siguiente"
+      }
+    }
+  }
+}

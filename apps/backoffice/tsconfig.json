@@ -2,6 +2,10 @@
   "extends": "@nine-line/tsconfig/react",
   "compilerOptions": {
     "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "plugins": [
       {
         "name": "next"

@@ -1,0 +1,352 @@
+{
+  "app": {
+    "name": "Cardápio Certo",
+    "tagline": "Market Management"
+  },
+  "loading": {
+    "title": "Loading...",
+    "subtitle": "Please wait a moment"
+  },
+  "home": {
+    "title": "Welcome to Next.js",
+    "description": "Start editing app/page.tsx to see the result",
+    "step1": {
+      "start": "Start editing",
+      "file": "app/page.tsx"
+    },
+    "step2": "Save and see your changes in real time",
+    "deploy": "Deploy",
+    "docs": "Documentation",
+    "learn": "Learn",
+    "examples": "Examples",
+    "nextjs": "Next.js"
+  },
+  "not-found": {
+    "alt": "Illustrative image of page not found",
+    "title": "Page not found",
+    "description": "The page you requested was not found. Check the URL or navigate back to the main page.",
+    "back-button": "Back",
+    "logout-button": "Logout"
+  },
+  "auth": {
+    "signin": {
+      "title": "Welcome to 9Line Spaces",
+      "subtitle": "Sign in to access your account",
+      "email": {
+        "label": "Email",
+        "placeholder": "m@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "login": {
+        "button": "Login",
+        "loading": "Signing in..."
+      },
+      "divider": "or",
+      "social": {
+        "apple": "Continue with Apple",
+        "google": "Continue with Google"
+      },
+      "signup": {
+        "text": "Don't have an account?",
+        "link": "Sign up"
+      },
+      "terms": {
+        "text": "By clicking continue, you agree to our",
+        "terms": "Terms of Service",
+        "and": "and",
+        "privacy": "Privacy Policy"
+      },
+      "credentials": {
+        "title": "Test credentials:",
+        "admin": "Admin: admin@pedidocerto.com / admin123",
+        "manager": "Manager: gerente@pedidocerto.com / gerente123",
+        "user": "User: user@pedidocerto.com / user123"
+      },
+      "error": {
+        "invalid": "Invalid credentials",
+        "general": "Error signing in"
+      }
+    },
+    "error": {
+      "title": "Authentication Error",
+      "credentials": "Invalid credentials. Please check your email and password.",
+      "accessDenied": "Access denied. You don't have permission to access this area.",
+      "verification": "Verification error. Please try again.",
+      "general": "An error occurred during authentication. Please try again.",
+      "backButton": "Back"
+    }
+  },
+  "components": {
+    "language-switcher": {
+      "label": "Select language",
+      "options": {
+        "en": "English",
+        "pt": "Portuguese",
+        "es": "Spanish"
+      },
+      "sr-only": {
+        "aria-label": {
+          "select": "Select language"
+        },
+        "announcements": {
+          "changed-to": "Language changed to {locale}"
+        }
+      }
+    },
+    "theme-switcher": {
+      "label": "Select theme",
+      "options": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "sr-only": {
+        "aria-label": {
+          "select": "Select theme"
+        },
+        "announcements": {
+          "changed-to": "Theme changed to {theme}"
+        }
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "recent": "Recent",
+      "old": "Old",
+      "markAllAsRead": "MARK ALL AS SEEN",
+      "showAllNotifications": "Show all notifications",
+      "viewAll": "View all",
+      "empty": "No notifications"
+    },
+    "loading-spinner": {
+      "title": "Loading...",
+      "subtitle": "Please wait a moment"
+    },
+    "error-boundary": {
+      "title": "Oops! Something went wrong",
+      "description": "We encountered an unexpected problem. Don't worry, our team has been notified.",
+      "retry-button": "Try Again",
+      "home-button": "Go to Home",
+      "details-title": "Error details (development only)"
+    }
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "lastUpdated": "Last updated: May 18, 2024",
+    "sections": {
+      "userResponsibilities": {
+        "title": "User responsibilities",
+        "content": "By using Cardápio Certo, you agree to use the service responsibly and legally. This includes respecting the privacy of others, not engaging in abusive or harassing behavior, and not performing illegal activities through the platform."
+      },
+      "dataPrivacy": {
+        "title": "Data privacy",
+        "content": "We take data privacy very seriously. Any personal information you provide will be handled according to our Privacy Policy and will not be shared or sold to third parties without your consent, except when required by law."
+      },
+      "intellectualProperty": {
+        "title": "Intellectual property",
+        "content": "Cardápio Certo, including its software, content and brand, is the property of Antonio S and is protected by copyright laws and other intellectual property laws. Reproduction, modification or distribution of any part of the service without prior written consent is prohibited."
+      },
+      "limitationOfLiability": {
+        "title": "Limitation of liability",
+        "content": "We will make reasonable efforts to ensure the reliability and availability of \"AI Meeting Bot Manager\", but we do not guarantee that the service will be uninterrupted or error-free. We will not be responsible for any direct, indirect, incidental or consequential damages or losses resulting from the use of the service."
+      },
+      "changesToTerms": {
+        "title": "Changes to Terms",
+        "content": "We reserve the right to update these Terms and Conditions at any time. Any changes will take effect immediately after publication on our website. It is your responsibility to review the terms periodically for updates."
+      },
+      "contactUs": {
+        "title": "Contact us",
+        "content": "If you have any questions or concerns about these Terms and Conditions, contact us at:"
+      }
+    },
+    "reportBug": "Report a Bug"
+  },
+  "user": {
+    "profile": "My Profile",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "logout": "Logout"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "backoffice": "Backoffice",
+    "manager": "Manager",
+    "logout": "Logout",
+    "orders": "Orders",
+    "inventory": "Inventory",
+    "deliveries": "Deliveries",
+    "analytics": "Analytics",
+    "markets": "Markets",
+    "all-markets": "All Markets",
+    "add-market": "Add Market",
+    "location": "Location",
+    "performance": "Performance",
+    "products": "Products",
+    "catalog": "Catalog",
+    "stock": "Stock",
+    "categories": "Categories",
+    "prices": "Prices",
+    "sales": "Sales",
+    "transactions": "Transactions",
+    "campaigns": "Campaigns",
+    "promotions": "Promotions",
+    "financial": "Financial",
+    "revenue": "Revenue",
+    "expenses": "Expenses",
+    "cash-flow": "Cash Flow",
+    "reports": "Reports",
+    "settings": "Settings",
+    "users": "Users",
+    "manage-users": "Manage",
+    "permissions": "Permissions",
+    "teams": "Teams",
+    "tools": "Tools",
+    "calendar": "Calendar",
+    "notifications": "Notifications",
+    "documents": "Documents",
+    "help": "Help",
+    "sales-reports": "Sales",
+    "markets-reports": "Markets",
+    "products-reports": "Products",
+    "customers-reports": "Customers"
+  },
+  "dashboard": {
+    "title": "Order Right!",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "orders": "Orders",
+      "inventory": "Inventory",
+      "deliveries": "Deliveries",
+      "analytics": "Analytics",
+      "reports": "Reports",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "stats": {
+      "totalOrders": "Total Orders",
+      "pendingOrders": "Pending Orders",
+      "totalRevenue": "Total Revenue",
+      "activeDeliveries": "Active Deliveries",
+      "lowStockItems": "Low Stock Items",
+      "completedDeliveries": "Completed Deliveries",
+      "averageDeliveryTime": "Average Delivery Time",
+      "customerSatisfaction": "Customer Satisfaction",
+      "returnRate": "Return Rate",
+      "monthlyGrowth": "Monthly Growth",
+      "fromLastMonth": "from last month",
+      "awaitingProcessing": "Awaiting processing",
+      "inTransit": "In transit",
+      "totalIncomingTickets": "Total Incoming Tickets",
+      "avgResponseTime": "Avg. First Response Time",
+      "agentSatisfaction": "Customer Satisfaction Score"
+    },
+    "views": {
+      "manager": {
+        "title": "Manager Panel",
+        "description": "Track orders, inventory and deliveries for your market.",
+        "cards": {
+          "pendingOrders": {
+            "title": "Pending Orders",
+            "description": "Track orders awaiting processing.",
+            "awaiting": "Awaiting processing"
+          },
+          "inventory": {
+            "title": "Inventory Control",
+            "description": "Monitor products with low stock and manage replenishment.",
+            "lowStock": "Items with low stock"
+          },
+          "deliveries": {
+            "title": "Active Deliveries",
+            "description": "Track ongoing deliveries and delivery time.",
+            "inTransit": "Deliveries in transit"
+          },
+          "activeCustomers": {
+            "title": "Active Customers",
+            "today": "Today",
+            "thisWeek": "This week",
+            "loyalty": "Loyalty"
+          },
+          "salesAnalysis": {
+            "title": "Sales Analysis",
+            "today": "Today",
+            "thisWeek": "This week",
+            "growth": "Growth"
+          }
+        },
+        "activities": {
+          "title": "Recent Activities",
+          "orderProcessed": "New order processed",
+          "deliveryStarted": "Delivery started",
+          "stockReplenished": "Stock replenished"
+        },
+        "notifications": {
+          "title": "Notifications",
+          "subtitle": "Manage your notifications and stay updated",
+          "filters": {
+            "title": "Filters",
+            "all": "All",
+            "archived": "Archived",
+            "favorite": "Favorite"
+          },
+          "empty": {
+            "all": "No notifications found",
+            "archived": "No archived notifications",
+            "favorite": "No favorite notifications"
+          }
+        },
+        "metrics": {
+          "title": "Market Metrics",
+          "completedDeliveries": "Completed deliveries",
+          "customerSatisfaction": "Customer satisfaction",
+          "averageDeliveryTime": "Average delivery time",
+          "returnRate": "Return rate"
+        }
+      }
+    },
+    "backoffice": {
+      "marketOverview": {
+        "title": "Market Overview",
+        "totalMarkets": "Total Markets",
+        "activeMarkets": "Active Markets",
+        "totalRevenue": "Total Revenue"
+      },
+      "managerPerformance": {
+        "title": "Manager Performance",
+        "topPerformers": "Top Performers",
+        "avgPerformance": "Average Performance",
+        "totalOrders": "Total Orders"
+      },
+      "aggregatedSales": {
+        "title": "Aggregated Sales",
+        "totalRevenue": "Total Revenue",
+        "totalOrders": "Total Orders",
+        "growth": "Growth"
+      }
+    },
+    "manager": {
+      "orderManagement": {
+        "title": "Order Management",
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed"
+      },
+      "inventoryControl": {
+        "title": "Inventory Control",
+        "totalItems": "Total Items",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock",
+        "subtitle": "Manage your inventory.",
+        "addItem": "Add Item",
+        "status": "Status",
+        "itemName": "Item Name",
+        "quantity": "Quantity",
+        "rowsSelected": "row(s) selected",
+        "previous": "Previous",
+        "next": "Next"
+      }
+    }
+  }
+}

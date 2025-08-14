@@ -14,10 +14,7 @@ const envSchema = z.object({
     .default('info'),
   JWT_SECRET: z.string().optional().default('your-jwt-secret'),
   JWT_EXPIRES_IN: z.string().default('7d'),
-  REFRESH_TOKEN_SECRET: z
-    .string()
-    .optional()
-    .default('your-refresh-token-secret'),
+  JWT_REFRESH_SECRET: z.string().optional().default('your-jwt-refresh-secret'),
   REFRESH_TOKEN_EXPIRES_IN: z.string().default('30d'),
   BCRYPT_SALT_ROUNDS: z.string().transform(Number).default('12'),
   RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'),

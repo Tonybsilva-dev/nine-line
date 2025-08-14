@@ -14,7 +14,7 @@ export default defineConfig({
         'test/setup.ts',
         '**/index.ts',
         '**/src/@types/**',
-        '**/esbuild.config.js',
+
         '**/vitest.config.ts',
         '**/src/index.ts',
         '**/config/**',

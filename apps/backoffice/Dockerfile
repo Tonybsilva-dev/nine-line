@@ -14,7 +14,11 @@ RUN npm install
 # Copiar código da aplicação
 COPY apps/backoffice/ ./apps/backoffice/
 
-# Build da aplicação
+# Construir o pacote UI primeiro
+WORKDIR /app/packages/ui
+RUN npm run build
+
+# Voltar para a aplicação backoffice e construir
 WORKDIR /app/apps/backoffice
 RUN npm run build
 
